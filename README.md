@@ -11,7 +11,7 @@ A simple new tab extension for Edge Chromium and Chrome.
 ## Use
 
 -   clone 或下载源代码
--   浏览器 -> 扩展页面 -> 打开开发人员模式 -> 加载解压缩的扩展 -> 选择 dist 目录
+-   浏览器 -> 扩展 -> 打开开发人员模式 -> 加载解压缩的扩展 -> 选择 dist 目录 -> 关闭开发人员模式
 -   重新打开一个浏览器标签页查看效果
 
 ## To do
