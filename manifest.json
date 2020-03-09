@@ -1,0 +1,20 @@
+{
+    "name": "Awestab",
+    "version": "1.0",
+    "description": "Awesome tab",
+    "permissions": ["storage", "declarativeContent", "activeTab", "tabs"],
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "icons": {
+        "16": "images/newtab16.png",
+        "32": "images/newtab32.png",
+        "48": "images/newtab48.png",
+        "128": "images/newtab128.png"
+    },
+    "manifest_version": 2
+}
