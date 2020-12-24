@@ -69,7 +69,8 @@ export default defineComponent({
     setup() {
         const searchValue = ref('')
         const searchEnine = ref('')
-        const baseUrl = ref('')
+        const baseUrl = ref('https://www.baidu.com/s?ie=UTF-8&wd=')
+
         onMounted(() => {})
 
         const handleChooseSearchEngine = engine => {
@@ -104,6 +105,18 @@ $sources-color: (
     Yuque: #28c46f,
 );
 
+.search-container {
+    width: 30vw;
+    margin: 20vh auto 0;
+}
+
+.search-engines {
+    margin-top: 18px;
+    button {
+        margin-bottom: 8px;
+    }
+}
+
 @each $key, $item in $sources-color {
     .#{$key} {
         &.el-button {
@@ -112,15 +125,15 @@ $sources-color: (
     }
 }
 
-.search-container {
-    width: 30vw;
-    margin: 20vh auto 0;
-}
+.el-button {
+    background-color: var(--color-btn-bg);
+    color: var(--color-btn-text);
 
-.search-engines {
-    margin-top: 10px;
-    button {
-        margin-bottom: 8px;
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: var(--color-btn-hover-bg);
+        color: var(--color-btn-text);
     }
 }
 
