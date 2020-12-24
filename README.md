@@ -1,24 +1,14 @@
-# test
+## 简介
 
-## Project setup
-```
-npm install
-```
+浏览器选项卡扩展。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 使用
 
-### Compiles and minifies for production
-```
-npm run build
-```
+-   clone 或下载源代码
+-   浏览器 -> 扩展 -> 打开开发人员模式 -> 加载解压缩的扩展 -> 选择 dist 目录
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Dev
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+-   `npm i`
+-   `npm start`
+-   `npm run build`
