@@ -1,24 +1,24 @@
-## That is this
+# test
 
-A simple new tab extension for Edge Chromium and Chrome.
+## Project setup
+```
+npm install
+```
 
-## Install
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
--   clone 或下载源代码
--   浏览器 -> 扩展 -> 打开开发人员模式 -> 加载解压缩的扩展 -> 选择 dist 目录
--   重新打开一个浏览器标签页查看效果
+### Compiles and minifies for production
+```
+npm run build
+```
 
-## Run the build
+### Lints and fixes files
+```
+npm run lint
+```
 
--   `npm i`
--   `npm start`
--   `npm run build`
-
-## To do
-
--   Icon √
--   Search bar √
--   Dark mode
--   Custom background
--   Select search engine
--   Baidu search filter keywords
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
