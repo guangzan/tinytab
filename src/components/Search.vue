@@ -1,139 +1,89 @@
 <template>
     <div class="search-container">
         <el-input
-            placeholder="请输入内容"
+            :placeholder="placeholder"
             v-model="searchValue"
             class="search-component"
             @keyup.enter="handleSubmit"
+            prefix-icon="el-icon-search"
+            clearable
         >
-            <template #append>
-                <el-button
-                    icon="el-icon-search"
-                    @click="handleSubmit"
-                ></el-button>
-            </template>
         </el-input>
-        <el-row class="search-engines">
-            <el-button
-                v-for="(item, index) in searchEngines"
-                :key="index"
-                size="mini"
-                @click="handleChooseSearchEngine(item.name)"
-                :class="item.name"
-                >{{ item.name }}</el-button
-            >
-        </el-row>
+        <Engines @change-engine="onEngineChange"></Engines>
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
+import Engines from '../components/Engines'
+import enginesData from '../constants/enginesData'
+import { ElMessage } from 'element-plus'
 
-const searchEngines = [
-    {
-        name: 'Baidu',
-        icon: '',
-    },
-    {
-        name: 'NPM',
-        icon: '',
-    },
-    {
-        name: 'Bing',
-        icon: '',
-    },
-    {
-        name: 'Google',
-        icon: '',
-    },
-    {
-        name: 'Sougou',
-        icon: '',
-    },
-    {
-        name: 'Yuque',
-        icon: '',
-    },
-]
-
-const searchUrls = {
-    Baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
-    NPM: 'https://www.npmjs.com/search?q=',
-    Bing: 'https://cn.bing.com/search?FORM=BESBTB&q=',
-    Google: 'https://www.google.com/search?q=',
-    Sougou: 'https://www.sogou.com/web?query=',
-    Yuque: 'https://yuque.com/search?related=true&q=',
+const getPlaceholderText = engine => {
+    for (const item of enginesData) {
+        if (item.name === engine) {
+            return item.placeholderText
+        }
+    }
 }
 
 export default defineComponent({
+    components: {
+        Engines,
+    },
     setup() {
         const searchValue = ref('')
-        const searchEnine = ref('')
-        const baseUrl = ref('https://www.baidu.com/s?ie=UTF-8&wd=')
+        const searchEngine = ref('')
+        const placeholder = ref(getPlaceholderText('Baidu'))
+        const searchBaseUrl = ref('https://www.baidu.com/s?ie=UTF-8&wd=')
 
-        onMounted(() => {})
+        const onEngineChange = engine => {
+            searchEngine.value = engine
 
-        const handleChooseSearchEngine = engine => {
-            baseUrl.value = searchUrls[engine]
-            searchEnine.value = engine
-            document.querySelector('.search-component input').focus()
+            for (const item of enginesData) {
+                if (item.name === engine) {
+                    searchBaseUrl.value = item.baseUrl
+                    placeholder.value = item.placeholderText
+                    return
+                }
+            }
         }
 
         const handleSubmit = () => {
-            const url = baseUrl.value + searchValue.value
-            window.open(url)
+            if (!searchValue.value.length) {
+                ElMessage.warning('请输入内容')
+                return
+            }
+            window.open(`${searchBaseUrl.value}${searchValue.value}`)
         }
 
         return {
             searchValue,
-            searchEngines,
-            searchEnine,
-            handleChooseSearchEngine,
+            searchEngine,
             handleSubmit,
+            onEngineChange,
+            placeholder,
         }
     },
 })
 </script>
 
-<style scoped lang="scss">
-$sources-color: (
-    Baidu: #2932e1,
-    Bing: #0c8484,
-    Sougou: #ff6f17,
-    Google: #4285f4,
-    NPM: #ea4335,
-    Yuque: #28c46f,
-);
-
+<style lang="scss">
 .search-container {
     width: 30vw;
     margin: 20vh auto 0;
 }
 
-.search-engines {
-    margin-top: 18px;
-    button {
-        margin-bottom: 8px;
-    }
-}
-
-@each $key, $item in $sources-color {
-    .#{$key} {
-        &.el-button {
-            border-color: map-get($sources-color, $key);
+.search-component {
+    input {
+        background-color: #161b22;
+        color: var(--color-input);
+        &::placeholder {
+            color: var(--color-placeholder);
         }
-    }
-}
-
-.el-button {
-    background-color: var(--color-btn-bg);
-    color: var(--color-btn-text);
-
-    &:active,
-    &:focus,
-    &:hover {
-        background-color: var(--color-btn-hover-bg);
-        color: var(--color-btn-text);
+        &:focus {
+            border-color: teal;
+        }
     }
 }
 
