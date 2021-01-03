@@ -22,6 +22,7 @@ if (env === 'production') {
 module.exports = {
     publicPath: env === 'production' ? './' : '/',
     lintOnSave: false,
+    productionSourceMap: false,
     configureWebpack,
     devServer,
 }

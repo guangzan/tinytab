@@ -2,22 +2,29 @@
 @import './element-variables.scss';
 
 body {
-    background-color: var(--color-body-bg);
+  background-color: var(--color-body-bg);
 }
 
 .el-button,
 .el-tag {
-    user-select: none;
+  user-select: none;
 }
 
-.el-button, .el-tag {
-    background-color: var(--color-btn-bg);
-    color: var(--color-btn-text);
+.el-button,
+.el-tag {
+  background-color: var(--color-btn-bg);
+  color: var(--color-btn-text);
 
-    &:active,
-    &:focus,
-    &:hover {
-        background-color: var(--color-btn-hover-bg);
-        color: var(--color-btn-text);
-    }
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: var(--color-btn-hover-bg);
+    color: var(--color-btn-text);
+  }
+}
+.el-button {
+  margin-right: 10px;
+}
+.el-button + .el-button {
+  margin-left: 0;
 }
