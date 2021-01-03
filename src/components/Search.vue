@@ -7,6 +7,8 @@
             @keyup.enter="handleSubmit"
             prefix-icon="el-icon-search"
             clearable
+            @focus="handleFocusInput"
+            @blur="handleBlurInput"
         >
         </el-input>
         <Engines @change-engine="onEngineChange"></Engines>
@@ -14,16 +16,19 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import Engines from '../components/Engines'
 import enginesData from '../constants/enginesData'
 import { ElMessage } from 'element-plus'
 
-const getPlaceholderText = engine => {
+/**
+ * @description get one engine info
+ * @param engine {String} engine name
+ * @param info {String} a engine info
+ */
+const getEngineInfo = (engine, info) => {
     for (const item of enginesData) {
-        if (item.name === engine) {
-            return item.placeholderText
-        }
+        if (item.name === engine) return item[info]
     }
 }
 
@@ -34,8 +39,9 @@ export default defineComponent({
     setup() {
         const searchValue = ref('')
         const searchEngine = ref('')
-        const placeholder = ref(getPlaceholderText('Baidu'))
+        const placeholder = ref(getEngineInfo('Baidu', 'placeholderText'))
         const searchBaseUrl = ref('https://www.baidu.com/s?ie=UTF-8&wd=')
+        const inputBorderColor = ref(getEngineInfo('Baidu', 'color'))
 
         const onEngineChange = engine => {
             searchEngine.value = engine
@@ -44,6 +50,7 @@ export default defineComponent({
                 if (item.name === engine) {
                     searchBaseUrl.value = item.baseUrl
                     placeholder.value = item.placeholderText
+                    inputBorderColor.value = item.color
                     return
                 }
             }
@@ -57,12 +64,29 @@ export default defineComponent({
             window.open(`${searchBaseUrl.value}${searchValue.value}`)
         }
 
+        const handleFocusInput = e => {
+            e.target.style.borderColor = inputBorderColor.value
+        }
+
+        const handleBlurInput = e => {
+            e.target.style.borderColor = ''
+        }
+
+        onMounted(() => {
+            setTimeout(() => {
+                document.querySelector('.search-component input').focus()
+            }, 300)
+        })
+
         return {
             searchValue,
             searchEngine,
             handleSubmit,
             onEngineChange,
             placeholder,
+            inputBorderColor,
+            handleFocusInput,
+            handleBlurInput,
         }
     },
 })
@@ -81,9 +105,9 @@ export default defineComponent({
         &::placeholder {
             color: var(--color-placeholder);
         }
-        &:focus {
-            border-color: teal;
-        }
+        // &:focus {
+        //     border-color: v-bind(inputBorderColor);
+        // }
     }
 }
 

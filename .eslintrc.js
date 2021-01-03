@@ -19,4 +19,7 @@ module.exports = {
             { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
         ],
     },
+    globals: {
+        chrome: true
+    }
 }
