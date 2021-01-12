@@ -1,8 +1,8 @@
 {
-    "name": "tinyTab",
+    "name": "__MSG_AppName__",
+    "description": "__MSG_Description__",
     "version": "0.0.1",
-    "description": "Tab focused on search.",
-    "default_locale": "zh",
+    "default_locale": "zh_CN",
     "permissions": [
         "storage",
         "declarativeContent",

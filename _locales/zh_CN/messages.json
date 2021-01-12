@@ -1,0 +1,10 @@
+{
+    "AppName": {
+        "message": "TinyTab",
+        "description": "应用名称"
+    },
+    "Description": {
+        "message": "专注于搜索的新标签页",
+        "description": "应用简介"
+    }
+}

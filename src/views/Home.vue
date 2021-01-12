@@ -1,15 +1,16 @@
 <template>
     <Search></Search>
-    <!-- <Settings></Settings> -->
+    <Settings></Settings>
 </template>
 
-<script>
-import Search from '../components/Search'
-// import Settings from '../components/Settings'
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+import Search from '../components/Search.vue'
+import Settings from '../components/settings/Settings.vue'
+export default defineComponent({
     components: {
         Search,
-        // Settings,
+        Settings,
     },
-}
+})
 </script>

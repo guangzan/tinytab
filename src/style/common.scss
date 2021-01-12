@@ -1,0 +1,24 @@
+@import './vars.scss';
+@import './element-variables.scss';
+
+body {
+    background-color: var(--color-body-bg);
+}
+
+.el-button,
+.el-tag {
+    user-select: none;
+}
+
+.el-button {
+    margin-right: 10px;
+}
+
+.el-button + .el-button {
+    margin-left: 0;
+}
+
+.el-tag {
+    margin-right: 8px;
+    margin-bottom: 8px;
+}

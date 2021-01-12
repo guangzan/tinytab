@@ -1,65 +1,85 @@
-export default [
+export interface EngineItem {
+    id: number
+    name: string
+    baseUrl: string
+    placeholderText: string
+    hotkeys?: string
+    color: string
+    category: number
+    isDefault: boolean
+}
+
+const enginesData: Array<EngineItem> = [
     {
+        id: 1,
         name: 'Baidu',
-        icon: '',
-        badge: '1',
         baseUrl: 'https://www.baidu.com/s?ie=UTF-8&wd=',
         placeholderText: '百度一下，你就知道',
         hotkeys: 'ctrl+a',
         color: '#4E6EF2',
+        category: 1,
+        isDefault: true,
     },
     {
+        id: 2,
         name: 'Bing',
-        icon: '',
-        badge: '2',
         baseUrl: 'https://cn.bing.com/search?FORM=BESBTB&q=',
         placeholderText: 'Microsoft Bing',
         hotkeys: 'ctrl+f2',
         color: '#0c8484',
+        category: 1,
+        isDefault: false,
     },
     {
+        id: 3,
         name: 'Google',
-        icon: '',
-        badge: '3',
         baseUrl: 'https://www.google.com/search?q=',
         placeholderText: 'Google Search',
         hotkeys: 'f3',
         color: '#FBBC05',
+        category: 1,
+        isDefault: false,
     },
-    // {
-    //     name: 'Sougou',
-    //     icon: '',
-    //     badge: '4',
-    //     baseUrl: 'https://www.sogou.com/web?query=',
-    //     placeholderText: '上网从搜狗开始',
-    //     hotkeys: 'f4',
-    //     color: '#ff6f17',
-    // },
     {
+        id: 4,
         name: 'NPM',
-        icon: '',
-        badge: '5',
         baseUrl: 'https://www.npmjs.com/search?q=',
         placeholderText: 'Build amazing things',
         hotkeys: 'f5',
         color: '#ea4335',
+        category: 1,
+        isDefault: false,
     },
     {
+        id: 5,
         name: 'Github',
-        icon: '',
-        badge: '7',
         baseUrl: 'https://github.com/search?q=',
         placeholderText: 'Where the world builds software',
         hotkeys: 'f6',
         color: '#95E9D9',
+        category: 1,
+        isDefault: false,
     },
     {
+        id: 6,
         name: 'Yuque',
-        icon: '',
-        badge: '6',
         baseUrl: 'https://yuque.com/search?related=true&q=',
         placeholderText: '专业的云端知识库',
         hotkeys: 'f6',
         color: '#28c46f',
+        category: 1,
+        isDefault: false,
+    },
+    {
+        id: 7,
+        name: 'Sougou',
+        baseUrl: 'https://www.sogou.com/web?query=',
+        placeholderText: '上网从搜狗开始',
+        hotkeys: 'f4',
+        color: '#ff6f17',
+        category: 1,
+        isDefault: false,
     },
 ]
+
+export default enginesData
