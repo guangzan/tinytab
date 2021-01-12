@@ -1,5 +1,12 @@
-// :root {
-// }
+:root {
+    --color-text-primary: rgb(201, 209, 217);
+    --color-body-bg: #0d1117;
+    --color-btn-bg: #21262d;
+    --color-btn-hover-bg: #30363d;
+    --color-btn-text: rgb(201, 209, 217);
+    --color-input: rgb(201, 209, 217);
+    --color-placeholder: #666;
+}
 
 :root[theme='dark'] {
     --color-text-primary: rgb(201, 209, 217);

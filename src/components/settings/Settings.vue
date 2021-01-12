@@ -20,7 +20,7 @@
                     effect="plain"
                     :style="{ borderColor: item.color }"
                     class="engines-tag"
-                    @close="handleDelEngine(item.id)"
+                    @close="handleDelEngine(item.id, item.isDefault)"
                 >
                     {{ item.name }}
                 </el-tag>
@@ -63,6 +63,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import EnginesForm from './EnginesForm.vue'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
     name: 'Setting',
@@ -101,7 +102,11 @@ export default defineComponent({
         /**
          * 处理删除一个搜索引擎
          */
-        function handleDelEngine(id: any): void {
+        function handleDelEngine(id: any, isDefault: boolean): void {
+            if (isDefault) {
+                ElMessage.error('不可删除默认搜索引擎')
+                return
+            }
             delEngineTipVisible.value = true
             willDeletedEngineId.value = id
         }

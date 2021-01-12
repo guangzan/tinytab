@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { EngineItem } from '../data/enginesData'
 import initApp from '@/utils/initApp'
+import { ElMessage } from 'element-plus'
 initApp()
 
 let enginesData: Array<EngineItem> = JSON.parse(localStorage['enginesData'])
