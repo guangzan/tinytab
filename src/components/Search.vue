@@ -18,9 +18,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
-import Engines from '../components/Engines'
+import Engines from '../components/Engines.vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
+// eslint-disable-next-line no-unused-vars
 import { EngineItem } from '../data/enginesData'
 
 export default defineComponent({
@@ -29,15 +30,15 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const enginesData: Aray<EngineItem> = store.state.enginesData
+        const enginesData = store.state.enginesData
         const defaultEngineData: EngineItem = store.state.defaultEngineData
-        const searchValue = ref('') as string
-        const searchEngine = ref('') as string
-        const placeholder = ref(defaultEngineData.placeholderText) as string
-        const searchBaseUrl = ref(defaultEngineData.baseUrl) as string
-        const inputBorderColor = ref(defaultEngineData.color) as string
+        const searchValue = ref<string>('')
+        const searchEngine = ref<string>('')
+        const placeholder = ref<string>(defaultEngineData.placeholderText)
+        const searchBaseUrl = ref<string>(defaultEngineData.baseUrl)
+        const inputBorderColor = ref<string>(defaultEngineData.color)
 
-        function handleEngineChange(engine) {
+        function handleEngineChange(engine: string): void {
             searchEngine.value = engine
             for (const item of enginesData) {
                 if (item.name === engine) {
@@ -49,7 +50,7 @@ export default defineComponent({
             }
         }
 
-        function handleSubmit() {
+        function handleSubmit(): void {
             if (!searchValue.value.length) {
                 ElMessage.warning('请输入内容')
                 return
@@ -57,17 +58,20 @@ export default defineComponent({
             window.open(`${searchBaseUrl.value}${searchValue.value}`)
         }
 
-        function handleFocusInput(e) {
+        function handleFocusInput(e: any) {
             e.target.style.borderColor = inputBorderColor.value
         }
 
-        function handleBlurInput(e) {
+        function handleBlurInput(e: any) {
             e.target.style.borderColor = ''
         }
 
         onMounted(() => {
             setTimeout(() => {
-                document.querySelector('.search-component input').focus()
+                const input = document.querySelector(
+                    '.search-component input'
+                ) as HTMLElement
+                input.focus()
             }, 300)
         })
 
@@ -98,9 +102,6 @@ export default defineComponent({
         &::placeholder {
             color: var(--color-placeholder);
         }
-        // &:focus {
-        //     border-color: v-bind(inputBorderColor);
-        // }
     }
 }
 

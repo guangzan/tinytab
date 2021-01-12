@@ -1,14 +1,14 @@
 <template>
     <el-dialog
         custom-class="dialog"
-        title="新增搜索引擎"
+        :title="formTitle"
         width="30%"
         v-model="enginesFormVisible"
-        @close="handleFormCancel"
+        @close="handleFormClose"
     >
         <el-form
             ref="form"
-            :model="engines"
+            :model="enginesFormData"
             :rules="rules"
             label-position="right"
             label-width="80px"
@@ -18,28 +18,30 @@
                 <el-input
                     size="small"
                     placeholder="Baidu"
-                    v-model="engines.name"
+                    v-model="enginesFormData.name"
                 ></el-input>
             </el-form-item>
             <el-form-item label="基础路径" prop="baseUrl">
                 <el-input
                     size="small"
                     placeholder="例如：https://www.baidu.com/s?ie=UTF-8&wd="
-                    v-model="engines.baseUrl"
+                    v-model="enginesFormData.baseUrl"
                 ></el-input>
             </el-form-item>
             <el-form-item label="提示文本">
                 <el-input
                     size="small"
                     placeholder="例如：百度一下，你就知道"
-                    v-model="engines.placeholderText"
+                    v-model="enginesFormData.placeholderText"
                 ></el-input>
             </el-form-item>
             <el-form-item label="设为默认">
-                <el-switch v-model="engines.isDefault"></el-switch>
+                <el-switch v-model="enginesFormData.isDefault"></el-switch>
             </el-form-item>
             <el-form-item label="显示颜色">
-                <el-color-picker v-model="engines.color"></el-color-picker>
+                <el-color-picker
+                    v-model="enginesFormData.color"
+                ></el-color-picker>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -54,8 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from 'vue'
-import { EngineItem } from '@/data/enginesData'
+import { defineComponent, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -63,20 +64,22 @@ export default defineComponent({
     emits: {
         'submit-model': null,
         'cancel-model': null,
+        'close-model': null,
+    },
+    props: {
+        formTitle: {
+            type: String,
+            required: false,
+        },
+        enginesData: {
+            type: Object,
+            required: true,
+        },
     },
     setup(props, context) {
         const store = useStore()
         const enginesFormVisible = ref(true)
-        const engines = reactive({
-            name: '',
-            baseUrl: '',
-            placeholderText: '',
-            hotkeys: '',
-            color: '#4E6EF2',
-            category: 1,
-            isDefault: false,
-        }) as EngineItem
-
+        const enginesFormData = reactive(props.enginesData)
         const rules = reactive({
             name: [
                 {
@@ -104,19 +107,27 @@ export default defineComponent({
             context.emit('cancel-model')
         }
 
-        function handleFormSubmit() {
-            context.emit('submit-model')
-            store.commit('addEngine', engines)
+        function handleFormClose() {
+            context.emit('close-model')
         }
 
-        onMounted(() => {})
+        function handleFormSubmit() {
+            context.emit('submit-model')
+            if (props.formTitle === '新增搜索引擎') {
+                store.commit('addEngine', enginesFormData)
+            }
+            if (props.formTitle === '修改搜索引擎') {
+                store.commit('updateEngine', enginesFormData)
+            }
+        }
 
         return {
             enginesFormVisible,
-            engines,
+            enginesFormData,
             handleFormCancel,
             handleFormSubmit,
             rules,
+            handleFormClose,
         }
     },
 })

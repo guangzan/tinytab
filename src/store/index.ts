@@ -1,7 +1,8 @@
 import { createStore } from 'vuex'
+// eslint-disable-next-line no-unused-vars
 import { EngineItem } from '../data/enginesData'
 import initApp from '@/utils/initApp'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 initApp()
 
 let enginesData: Array<EngineItem> = JSON.parse(localStorage['enginesData'])
@@ -18,7 +19,7 @@ function getDefaultEngineData() {
     }
 }
 
-export default createStore({
+const store = createStore({
     state: {
         enginesData,
         defaultEngineData: getDefaultEngineData(),
@@ -33,6 +34,9 @@ export default createStore({
             const data = state.enginesData
             data.push(info)
             localStorage['enginesData'] = JSON.stringify(data)
+            if (info.isDefault) {
+                store.commit('changeDefaultEngine', info.id)
+            }
         },
         /**
          * Delete an engine by id.
@@ -61,7 +65,9 @@ export default createStore({
                 if (item.id === id) {
                     Object.assign(item, newData)
                     localStorage['enginesData'] = JSON.stringify(data)
-                    return
+                    if (item.isDefault) {
+                        store.commit('changeDefaultEngine', item.id)
+                    }
                 }
             })
         },
@@ -72,15 +78,23 @@ export default createStore({
          */
         changeDefaultEngine(state, id) {
             const data = state.enginesData
+            const currentDefaultEngineId = state.defaultEngineData!.id
             data.forEach((item: EngineItem) => {
+                if (item.id === currentDefaultEngineId) {
+                    // Cancel the current default search engine.
+                    item.isDefault = false
+                }
                 if (item.id === id) {
                     item.isDefault = true
                     state.defaultEngineData = item
                     return
                 }
             })
+            localStorage['enginesData'] = JSON.stringify(data)
         },
     },
     actions: {},
     modules: {},
 })
+
+export default store

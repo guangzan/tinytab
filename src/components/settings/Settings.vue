@@ -21,6 +21,7 @@
                     :style="{ borderColor: item.color }"
                     class="engines-tag"
                     @close="handleDelEngine(item.id, item.isDefault)"
+                    @click="handleEditEngine(item)"
                 >
                     {{ item.name }}
                 </el-tag>
@@ -53,6 +54,8 @@
 
     <EnginesForm
         v-if="editorVisible"
+        :enginesData="editedEngineData"
+        :formTitle="engineFormTitle"
         @close-model="handleCancelModel"
         @submit-model="handleSubmitModel"
         @cancel-model="handleCancelModel"
@@ -60,10 +63,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import EnginesForm from './EnginesForm.vue'
 import { ElMessage } from 'element-plus'
+// eslint-disable-next-line no-unused-vars
+import { EngineItem } from '../../data/enginesData'
 
 export default defineComponent({
     name: 'Setting',
@@ -72,23 +77,51 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const enginesData = computed(() => store.state.enginesData)
+        const enginesData = store.state.enginesData
         const settinsFormVisible = ref(false)
         const editorVisible = ref(false)
         const delEngineTipVisible = ref(false)
-        const willDeletedEngineId = ref(Number)
+        const willDelEngineId = ref(Number)
+        const engineFormTitle = ref('')
+        let editedEngineData = ref({})
+
+        /**
+         * Edit engine data.
+         * @param engineData {EngineItem}
+         */
+        function handleEditEngine(engineData: any): void {
+            editorVisible.value = true
+            engineFormTitle.value = '修改搜索引擎'
+            editedEngineData.value = engineData
+        }
 
         /**
          * 新增搜索引擎点击事件
          */
         function handleEnginePlus() {
             editorVisible.value = true
+            engineFormTitle.value = '新增搜索引擎'
+            editedEngineData.value = {
+                name: 'add',
+                baseUrl: '',
+                placeholderText: '',
+                hotkeys: '',
+                color: '#4E6EF2',
+                category: 1,
+                isDefault: false,
+            }
         }
 
         /**
          * 取消或者关闭提交表单
          */
         function handleCancelModel() {
+            editorVisible.value = false
+        }
+        /**
+         * 取消或者关闭提交表单
+         */
+        function handleCloseModel() {
             editorVisible.value = false
         }
 
@@ -104,32 +137,36 @@ export default defineComponent({
          */
         function handleDelEngine(id: any, isDefault: boolean): void {
             if (isDefault) {
-                ElMessage.error('不可删除默认搜索引擎')
+                ElMessage.error('不可以删除默认搜索引擎哦~')
                 return
             }
             delEngineTipVisible.value = true
-            willDeletedEngineId.value = id
+            willDelEngineId.value = id
         }
 
         /**
          * 删除搜索引擎提示点击确认
          */
         function handleSubmitEngineTip() {
-            const id = willDeletedEngineId.value
+            const id = willDelEngineId.value
             delEngineTipVisible.value = false
             store.commit('delEngine', id)
         }
 
         return {
+            engineFormTitle,
             enginesData,
+            editedEngineData,
+            delEngineTipVisible,
             settinsFormVisible,
             editorVisible,
             handleDelEngine,
             handleEnginePlus,
             handleSubmitModel,
-            delEngineTipVisible,
             handleCancelModel,
             handleSubmitEngineTip,
+            handleEditEngine,
+            handleCloseModel,
         }
     },
 })
