@@ -102,7 +102,7 @@ export default defineComponent({
             editorVisible.value = true
             engineFormTitle.value = '新增搜索引擎'
             editedEngineData.value = {
-                name: 'add',
+                name: '',
                 baseUrl: '',
                 placeholderText: '',
                 hotkeys: '',
@@ -230,13 +230,5 @@ export default defineComponent({
 
 .engines-form {
     margin-top: 20px;
-}
-
-.el-dialog.dialog {
-    background-color: #fff;
-}
-
-.el-overlay .el-dialog {
-    background-color: #fff;
 }
 </style>

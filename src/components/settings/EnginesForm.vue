@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-        custom-class="dialog"
+        custom-class="engine-form"
         :title="formTitle"
         width="30%"
         v-model="enginesFormVisible"
@@ -17,7 +17,7 @@
             <el-form-item label="引擎名称" prop="name">
                 <el-input
                     size="small"
-                    placeholder="Baidu"
+                    placeholder="例如：Baidu"
                     v-model="enginesFormData.name"
                 ></el-input>
             </el-form-item>
@@ -132,3 +132,25 @@ export default defineComponent({
     },
 })
 </script>
+
+<style lang="scss">
+.el-dialog.engine-form {
+    background-color: #21262d;
+    .el-dialog__header .el-dialog__title {
+        color: var(--color-text-title);
+    }
+    .el-input .el-input__inner {
+        background-color: #0d1117;
+        color: var(--color-input);
+        &::placeholder {
+            color: var(--color-placeholder);
+        }
+    }
+    .el-form-item__label {
+        color: var(--color-text-primary);
+    }
+    .el-dialog__body {
+        padding: 0 30px;
+    }
+}
+</style>
