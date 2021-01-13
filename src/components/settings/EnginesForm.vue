@@ -58,6 +58,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { ElNotification, ElMessage } from 'element-plus'
 
 export default defineComponent({
     name: 'EnginesForm',
@@ -80,6 +81,7 @@ export default defineComponent({
         const store = useStore()
         const enginesFormVisible = ref(true)
         const enginesFormData = reactive(props.enginesData)
+        const form = ref()
         const rules = reactive({
             name: [
                 {
@@ -112,13 +114,26 @@ export default defineComponent({
         }
 
         function handleFormSubmit() {
-            context.emit('submit-model')
-            if (props.formTitle === '新增搜索引擎') {
-                store.commit('addEngine', enginesFormData)
-            }
-            if (props.formTitle === '修改搜索引擎') {
-                store.commit('updateEngine', enginesFormData)
-            }
+            form.value.validate((valid: boolean) => {
+                if (valid) {
+                    context.emit('submit-model')
+                    if (props.formTitle === '添加搜索引擎') {
+                        store.commit('addEngine', enginesFormData.value)
+                        ElMessage.success('添加成功😎')
+                    }
+                    if (props.formTitle === '修改搜索引擎') {
+                        store.commit('updateEngine', enginesFormData.value)
+                        ElMessage.success('修改成功😎')
+                    }
+                } else {
+                    ElNotification({
+                        type: 'error',
+                        title: '验证失败',
+                        message: '请仔细检查填写的内容哦~',
+                        position: 'top-left',
+                    })
+                }
+            })
         }
 
         return {
@@ -128,6 +143,7 @@ export default defineComponent({
             handleFormSubmit,
             rules,
             handleFormClose,
+            form,
         }
     },
 })

@@ -64,16 +64,4 @@ export default defineComponent({
         margin-bottom: 8px;
     }
 }
-
-.el-button {
-    background-color: var(--color-btn-bg);
-    color: var(--color-btn-text);
-
-    &:active,
-    &:focus,
-    &:hover {
-        background-color: var(--color-btn-hover-bg);
-        color: var(--color-btn-text);
-    }
-}
 </style>
