@@ -59,6 +59,7 @@
 import { defineComponent, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { ElNotification, ElMessage } from 'element-plus'
+import { ActionTypes } from '@/store/actions'
 
 export default defineComponent({
     name: 'EnginesForm',
@@ -117,12 +118,18 @@ export default defineComponent({
             form.value.validate((valid: boolean) => {
                 if (valid) {
                     context.emit('submit-model')
-                    if (props.formTitle === '添加搜索引擎') {
-                        store.commit('addEngine', enginesFormData.value)
+                    if (props.formTitle === '新增搜索引擎') {
+                        store.dispatch(
+                            ActionTypes.CreateEngine,
+                            enginesFormData
+                        )
                         ElMessage.success('添加成功😎')
                     }
                     if (props.formTitle === '修改搜索引擎') {
-                        store.commit('updateEngine', enginesFormData.value)
+                        store.dispatch(
+                            ActionTypes.UpdateEngine,
+                            enginesFormData
+                        )
                         ElMessage.success('修改成功😎')
                     }
                 } else {

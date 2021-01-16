@@ -38,8 +38,8 @@
         </div>
     </transition>
 
-    <el-dialog title="提示" v-model="delEngineTipVisible" width="30%">
-        <span>🤔要删除该搜索引擎吗？</span>
+    <el-dialog title="🔔 提示" v-model="delEngineTipVisible" width="30%">
+        <span>要删除该搜索引擎吗？</span>
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="delEngineTipVisible = false"
@@ -63,12 +63,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, reactive } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
+import { MutationType } from '@/store/mutations'
 import EnginesForm from './EnginesForm.vue'
 import { ElMessage } from 'element-plus'
-// eslint-disable-next-line no-unused-vars
-import { EngineItem } from '../../data/enginesData'
 
 export default defineComponent({
     name: 'Setting',
@@ -77,7 +76,8 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const enginesData = store.state.enginesData
+        const enginesData = reactive(store.state.enginesData)
+        // const enginesData = computed(() => store.state.engineData)
         const settinsFormVisible = ref(false)
         const editorVisible = ref(false)
         const delEngineTipVisible = ref(false)
@@ -150,7 +150,7 @@ export default defineComponent({
         function handleSubmitEngineTip() {
             const id = willDelEngineId.value
             delEngineTipVisible.value = false
-            store.commit('delEngine', id)
+            store.commit(MutationType.DeleteEngine, id)
         }
 
         return {

@@ -21,7 +21,6 @@ import { defineComponent, ref, onMounted } from 'vue'
 import Engines from '../components/Engines.vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-// eslint-disable-next-line no-unused-vars
 import { EngineItem } from '../data/enginesData'
 
 export default defineComponent({

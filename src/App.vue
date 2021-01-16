@@ -22,4 +22,34 @@ export default defineComponent({
         color: var(--color-btn-text);
     }
 }
+
+.el-dialog {
+    background-color: #21262d;
+    .el-dialog__title {
+        color: var(--color-text-title);
+    }
+    .el-dialog__body {
+        color: var(--color-text-primary);
+    }
+}
+
+.el-color-picker__trigger {
+    border: none;
+}
+
+.el-notification {
+    background-color: #21262d;
+    border-color: var(--color-border-priamry);
+    .el-notification__title {
+        color: var(--color-text-title);
+    }
+    .el-notification__content {
+        color: var(--color-text-primary);
+    }
+}
+
+.el-switch__core {
+    background-color: #21262d;
+    border-color: var(--color-border-primary);
+}
 </style>

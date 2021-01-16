@@ -1,33 +1,25 @@
 module.exports = {
     root: true,
-
     env: {
         node: true,
     },
-
     extends: [
         'plugin:vue/vue3-essential',
         'eslint:recommended',
         '@vue/prettier',
     ],
-
     parserOptions: {
         parser: '@typescript-eslint/parser',
     },
-
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-        'no-unused-vars': [
-            'warn',
-            { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
-        ],
+        'no-unused-vars':
+            process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     },
-
     globals: {
         chrome: true,
     },
-
     extends: [
         'plugin:vue/vue3-essential',
         'eslint:recommended',

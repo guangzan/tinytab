@@ -1,4 +1,4 @@
-export interface EngineItem {
+export type EngineItem = {
     id: number
     name: string
     baseUrl: string
