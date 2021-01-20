@@ -22,6 +22,7 @@ import Engines from '../components/Engines.vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
 import { EngineItem } from '../data/enginesData'
+import { hexToRgba } from '../utils/tools'
 
 export default defineComponent({
     components: {
@@ -31,11 +32,11 @@ export default defineComponent({
         const store = useStore()
         const enginesData = store.state.enginesData
         const defaultEngineData: EngineItem = store.state.defaultEngineData
-        const searchValue = ref<string>('')
-        const searchEngine = ref<string>('')
-        const placeholder = ref<string>(defaultEngineData.placeholderText)
-        const searchBaseUrl = ref<string>(defaultEngineData.baseUrl)
-        const inputBorderColor = ref<string>(defaultEngineData.color)
+        const searchValue = ref('')
+        const searchEngine = ref('')
+        const placeholder = ref(defaultEngineData.placeholderText)
+        const searchBaseUrl = ref(defaultEngineData.baseUrl)
+        const inputBorderColor = ref(defaultEngineData.color)
 
         function handleEngineChange(engine: string): void {
             searchEngine.value = engine
@@ -59,10 +60,13 @@ export default defineComponent({
 
         function handleFocusInput(e: any) {
             e.target.style.borderColor = inputBorderColor.value
+            const color = hexToRgba(inputBorderColor.value, 0.2)
+            e.target.style.boxShadow = `0 0 0 4px ${color}`
         }
 
         function handleBlurInput(e: any) {
             e.target.style.borderColor = ''
+            e.target.style.boxShadow = ''
         }
 
         onMounted(() => {

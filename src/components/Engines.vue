@@ -60,8 +60,5 @@ export default defineComponent({
 <style scoped lang="scss">
 .search-engines {
     margin-top: 18px;
-    button {
-        margin-bottom: 8px;
-    }
 }
 </style>
