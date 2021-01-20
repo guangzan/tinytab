@@ -28,10 +28,10 @@ A simple browser extension to replace the original tab. It will be my pleasure i
 ## Todos
 
 1. [x] Use vuex actions.
-2. [] Change engine by typing keywords.
-3. [] Cancel address bar auto focus. 
-4. [] settings > hide engines at home.
-5. [] Drag engine tag to sort.
+2. [ ] Change engine by typing keywords.
+3. [ ] Cancel address bar auto focus. 
+4. [ ] settings > hide engines at home.
+5. [ ] Drag engine tag to sort.
 
 ## Material
 
