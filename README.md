@@ -1,6 +1,6 @@
 ## Instruction
 
-A simple browser extension to replace the original tab. It will be my pleasure if it can help you.
+A simple browser extension to replace the original tab.
 
 * 🔍 Set default search engine.
 * 📦 Out of the box several common search engines.
@@ -30,9 +30,12 @@ A simple browser extension to replace the original tab. It will be my pleasure i
 1. [x] Use vuex actions.
 2. [ ] Change engine by typing keywords.
 3. [ ] Cancel address bar auto focus. 
-4. [ ] settings > hide engines at home.
+4. [ ] settings > Hide engines at home.
 5. [ ] Drag engine tag to sort.
+6. [ ] Settings > Mode change, default & auto. 
 
+<!--
 ## Material
 
 location = 'start-focused.html'; [3]
+-->
