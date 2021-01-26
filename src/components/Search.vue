@@ -60,8 +60,8 @@ export default defineComponent({
 
         function handleFocusInput(e: any) {
             e.target.style.borderColor = inputBorderColor.value
-            const color = hexToRgba(inputBorderColor.value, 0.2)
-            e.target.style.boxShadow = `0 0 0 4px ${color}`
+            const color = hexToRgba(inputBorderColor.value, 0.3)
+            e.target.style.boxShadow = `0 0 0 3px ${color}`
         }
 
         function handleBlurInput(e: any) {

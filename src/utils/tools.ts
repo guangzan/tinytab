@@ -11,8 +11,7 @@ export function sleep(ms: number) {
  * @param {string} hex
  * @param {number} opacity
  */
-export function hexToRgba(hex: string, opacity: number) {
-    if (!hex) return
+export function hexToRgba(hex: string, opacity: number): string {
     const rgbReg = /^rgb\(/
     if (rgbReg.test(hex)) return hex
     const hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/

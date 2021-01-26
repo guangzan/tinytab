@@ -119,6 +119,7 @@ export default defineComponent({
                 if (valid) {
                     context.emit('submit-model')
                     if (props.formTitle === '新增搜索引擎') {
+                        enginesFormData.id = new Date().getTime()
                         store.dispatch(
                             ActionTypes.CreateEngine,
                             enginesFormData

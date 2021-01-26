@@ -126,8 +126,6 @@ export default defineComponent({
          * 处理删除一个搜索引擎
          */
         function handleDelEngine(item: EngineItem): void {
-            console.log(123)
-
             const { id, isDefault } = item
             if (isDefault) {
                 ElMessage.error('不可以删除默认搜索引擎哦~')
@@ -202,6 +200,11 @@ export default defineComponent({
 .icon-del-engine {
     &:hover {
         color: #f00;
+    }
+}
+@media screen and (max-width: 768px) {
+    .settings-container {
+        width: 88vw;
     }
 }
 </style>
