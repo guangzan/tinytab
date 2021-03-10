@@ -15,7 +15,7 @@ if (env === 'production') {
         new CopyWebpackPlugin([
             { from: './background.js' },
             { from: './manifest.json' },
-            { from: '_locales', to: '_locales' },
+            // { from: '_locales', to: '_locales' },
         ]),
     ]
 }
