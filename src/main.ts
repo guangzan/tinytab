@@ -6,7 +6,6 @@ import './style/common.scss'
 import App from './App.vue'
 
 const app = createApp(App)
-
 const ElementPlusOptions = {
     size: 'small',
 }

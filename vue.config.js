@@ -12,11 +12,11 @@ const devServer = {
 
 if (env === 'production') {
     configureWebpack.plugins = [
-        new CopyWebpackPlugin([
-            { from: './background.js' },
-            { from: './manifest.json' },
-            // { from: '_locales', to: '_locales' },
-        ]),
+        // new CopyWebpackPlugin([
+        //     { from: './background.js' },
+        //     { from: './manifest.json' },
+        //     // { from: '_locales', to: '_locales' },
+        // ]),
     ]
 }
 
