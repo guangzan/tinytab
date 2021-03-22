@@ -17,7 +17,7 @@ A simple browser extension to replace the original tab.
 5. Load unpacked.
 6. Select dist directory.
 
-> You can also You can install it in Microsoft Store. [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)!
+> You can also install it in Microsoft Store. [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)!
 
 ## Run and build
 
