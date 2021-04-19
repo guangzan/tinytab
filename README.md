@@ -2,11 +2,10 @@
 
 A simple browser extension to replace the original tab.
 
-* 🔍 Set default search engine.
-* 📦 Out of the box several common search engines.
-* 🌌 Customize any search that supports OpenSearch.
-* 🔇 There are no advertisements forever.
-* 🌊 Permanently free.
+-   🔍 Set default search engine.
+-   📦 Out of the box several common search engines.
+-   🌌 Customize any search that supports OpenSearch.
+-   🌗 Dark mode.
 
 ## Install
 
@@ -21,21 +20,15 @@ A simple browser extension to replace the original tab.
 
 ## Run and build
 
-* `npm install`
-* `npm start`
-* `npm run build`
+-   `npm install`
+-   `npm start`
+-   `npm run build`
 
 ## Todos
 
 1. [x] Use vuex actions.
 2. [ ] Change engine by typing keywords.
-3. [ ] Cancel address bar auto focus. 
+3. [ ] Cancel address bar auto focus.
 4. [ ] settings > Hide engines at home.
 5. [ ] Drag engine tag to sort.
-6. [ ] Settings > Mode change, default & auto. 
-
-<!--
-## Material
-
-location = 'start-focused.html'; [3]
--->
+6. [x] Settings > Mode change.
