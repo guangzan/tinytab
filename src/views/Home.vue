@@ -1,8 +1,3 @@
-<template>
-    <Search></Search>
-    <Settings></Settings>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Search from '../components/Search.vue'
@@ -14,3 +9,8 @@ export default defineComponent({
     },
 })
 </script>
+
+<template>
+    <Search></Search>
+    <Settings></Settings>
+</template>

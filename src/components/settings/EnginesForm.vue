@@ -1,55 +1,26 @@
 <template>
-    <el-dialog
-        custom-class="engine-form"
-        :title="formTitle"
-        width="30%"
-        v-model="enginesFormVisible"
-        @close="handleFormClose"
-    >
-        <el-form
-            ref="form"
-            :model="enginesFormData"
-            :rules="rules"
-            label-position="right"
-            label-width="80px"
-            class="engines-form"
-        >
+    <el-dialog custom-class="engine-form" :title="formTitle" v-model="enginesFormVisible" @close="handleFormClose">
+        <el-form ref="form" :model="enginesFormData" :rules="rules" label-position="right" label-width="80px" class="engines-form">
             <el-form-item label="引擎名称" prop="name">
-                <el-input
-                    size="small"
-                    placeholder="例如：Baidu"
-                    v-model="enginesFormData.name"
-                ></el-input>
+                <el-input size="small" placeholder="例如：Baidu" v-model="enginesFormData.name"></el-input>
             </el-form-item>
             <el-form-item label="基础路径" prop="baseUrl">
-                <el-input
-                    size="small"
-                    placeholder="例如：https://www.baidu.com/s?ie=UTF-8&wd="
-                    v-model="enginesFormData.baseUrl"
-                ></el-input>
+                <el-input size="small" placeholder="例如：https://www.baidu.com/s?ie=UTF-8&wd=" v-model="enginesFormData.baseUrl"></el-input>
             </el-form-item>
             <el-form-item label="提示文本">
-                <el-input
-                    size="small"
-                    placeholder="例如：百度一下，你就知道"
-                    v-model="enginesFormData.placeholderText"
-                ></el-input>
+                <el-input size="small" placeholder="例如：百度一下，你就知道" v-model="enginesFormData.placeholderText"></el-input>
             </el-form-item>
             <el-form-item label="设为默认">
                 <el-switch v-model="enginesFormData.isDefault"></el-switch>
             </el-form-item>
             <el-form-item label="显示颜色">
-                <el-color-picker
-                    v-model="enginesFormData.color"
-                ></el-color-picker>
+                <el-color-picker v-model="enginesFormData.color"></el-color-picker>
             </el-form-item>
         </el-form>
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="handleFormCancel">取 消</el-button>
-                <el-button type="primary" @click="handleFormSubmit"
-                    >确 定</el-button
-                >
+                <el-button type="primary" @click="handleFormSubmit">确 定</el-button>
             </span>
         </template>
     </el-dialog>
@@ -58,8 +29,9 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { ElNotification, ElMessage } from 'element-plus'
-import { ActionTypes } from '@/store/actions'
+import { ElNotification } from 'element-plus'
+import { ActionTypes } from '../../store/actions'
+import { EngineItem } from '../../data/enginesData'
 
 export default defineComponent({
     name: 'EnginesForm',
@@ -71,17 +43,21 @@ export default defineComponent({
     props: {
         formTitle: {
             type: String,
-            required: false,
-        },
-        enginesData: {
-            type: Object,
             required: true,
+        },
+        engineId: {
+            type: Number,
+            required: false,
         },
     },
     setup(props, context) {
         const store = useStore()
         const enginesFormVisible = ref(true)
-        const enginesFormData = reactive(props.enginesData)
+
+        const localEngineData = JSON.parse(localStorage['enginesData']) as EngineItem[]
+        const currentEngineData = localEngineData.filter(item => item.id === props.engineId)[0]
+        const enginesFormData = reactive(currentEngineData)
+
         const form = ref()
         const rules = reactive({
             name: [
@@ -120,18 +96,15 @@ export default defineComponent({
                     context.emit('submit-model')
                     if (props.formTitle === '新增搜索引擎') {
                         enginesFormData.id = new Date().getTime()
-                        store.dispatch(
-                            ActionTypes.CreateEngine,
-                            enginesFormData
-                        )
-                        ElMessage.success('添加成功😎')
+                        store.dispatch(ActionTypes.CreateEngine, enginesFormData)
+                        ElNotification({
+                            type: 'success',
+                            message: '添加成功',
+                            position: 'top-left',
+                        })
                     }
                     if (props.formTitle === '修改搜索引擎') {
-                        store.dispatch(
-                            ActionTypes.UpdateEngine,
-                            enginesFormData
-                        )
-                        ElMessage.success('修改成功😎')
+                        store.dispatch(ActionTypes.UpdateEngine, enginesFormData)
                     }
                 } else {
                     ElNotification({
@@ -159,13 +132,13 @@ export default defineComponent({
 
 <style lang="scss">
 .el-dialog.engine-form {
-    background-color: #21262d;
+    width: 30% !important;
     .el-dialog__header .el-dialog__title {
         color: var(--color-text-title);
     }
     .el-input .el-input__inner {
-        background-color: #0d1117;
-        color: var(--color-input);
+        background-color: var(--color-input-bg);
+        color: var(--color-text-input);
         &::placeholder {
             color: var(--color-placeholder);
         }
@@ -175,6 +148,18 @@ export default defineComponent({
     }
     .el-dialog__body {
         padding: 0 30px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .el-dialog.engine-form {
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 443px) {
+    .el-dialog.engine-form {
+        width: 95% !important;
     }
 }
 </style>

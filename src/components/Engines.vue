@@ -11,42 +11,31 @@
     </el-row>
 </template>
 
-<script>
-import { defineComponent, ref, onMounted } from 'vue'
-import hotkeys from 'hotkeys-js'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
+import { EngineItem } from '../data/enginesData'
 
 export default defineComponent({
     emits: {
         'change-engine': null,
     },
     setup(props, context) {
+        console.log(props)
+
         const store = useStore()
-        const enginesData = store.state.enginesData
-        const searchEngine = ref('')
-        const baseUrl = ref('https://www.baidu.com/s?ie=UTF-8&wd=')
+        const enginesData: EngineItem[] = store.state.enginesData
+        const searchEngine = ref<string>('')
 
-        const handleChooseSearchEngine = engine => {
-            baseUrl.value = enginesData.map(item => {
-                if (item.name === engine) return item.baseUrl
-            })
-            searchEngine.value = engine
+        const handleChooseSearchEngine = (engineName: string): void => {
+            searchEngine.value = engineName
             context.emit('change-engine', searchEngine.value)
-            document.querySelector('.search-component input').focus()
-        }
 
-        const listenHotkeys = () => {
-            for (const item of enginesData) {
-                hotkeys(item.hotkeys, e => {
-                    e.preventDefault()
-                    handleChooseSearchEngine(item.name)
-                })
-            }
+            const ele = document.querySelector(
+                '.search-component input'
+            ) as HTMLElement
+            ele.focus()
         }
-
-        onMounted(() => {
-            listenHotkeys()
-        })
 
         return {
             enginesData,
@@ -56,9 +45,3 @@ export default defineComponent({
     },
 })
 </script>
-
-<style scoped lang="scss">
-.search-engines {
-    margin-top: 18px;
-}
-</style>

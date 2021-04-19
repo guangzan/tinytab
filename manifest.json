@@ -1,7 +1,7 @@
 {
     "name": "TinyTab",
     "description": "简洁的新标签页",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "manifest_version": 2,
     "permissions": [
         "activeTab",

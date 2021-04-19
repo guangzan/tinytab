@@ -4,12 +4,12 @@
             :placeholder="placeholder"
             v-model="searchValue"
             class="search-component"
-            @keyup.enter="handleSubmit"
             prefix-icon="el-icon-search"
             clearable
+            size="medium"
+            @keyup.enter="handleSubmit"
             @focus="handleFocusInput"
             @blur="handleBlurInput"
-            size="medium"
         >
         </el-input>
         <Engines @change-engine="handleEngineChange"></Engines>
@@ -19,7 +19,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import Engines from '../components/Engines.vue'
-import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
 import { EngineItem } from '../data/enginesData'
 import { hexToRgba } from '../utils/tools'
@@ -51,10 +50,6 @@ export default defineComponent({
         }
 
         function handleSubmit(): void {
-            if (!searchValue.value.length) {
-                ElMessage.warning('请输入内容')
-                return
-            }
             window.open(`${searchBaseUrl.value}${searchValue.value}`)
         }
 
@@ -71,9 +66,7 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                const input = document.querySelector(
-                    '.search-component input'
-                ) as HTMLElement
+                const input = document.querySelector('.search-component input') as HTMLElement
                 input.focus()
             }, 300)
         })
@@ -100,8 +93,9 @@ export default defineComponent({
 
 .search-component {
     input {
-        background-color: #161b22;
-        color: var(--color-input);
+        background-color: var(--color-input-bg);
+        color: var(--color-text-input);
+        font-size: 15px;
         &::placeholder {
             color: var(--color-placeholder);
         }
@@ -109,6 +103,12 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 1024px) {
+    .search-container {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 375px) {
     .search-container {
         width: 90%;
     }
