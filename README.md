@@ -26,9 +26,8 @@ A simple browser extension to replace the original tab.
 
 ## Todos
 
-1. [x] Use vuex actions.
-2. [ ] Change engine by typing keywords.
-3. [ ] Cancel address bar auto focus.
-4. [ ] settings > Hide engines at home.
-5. [ ] Drag engine tag to sort.
-6. [x] Settings > Mode change.
+-   [x] Settings > Toggle mode.
+-   [ ] Change engine by typing keywords.
+-   [ ] Cancel address bar auto focus.
+-   [ ] settings > Hide engines at home.
+-   [ ] Drag engine tag to sort.
