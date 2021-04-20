@@ -21,8 +21,6 @@ export default defineComponent({
         'change-engine': null,
     },
     setup(props, context) {
-        console.log(props)
-
         const store = useStore()
         const enginesData: EngineItem[] = store.state.enginesData
         const searchEngine = ref<string>('')

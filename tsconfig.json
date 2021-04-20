@@ -13,7 +13,7 @@
         "sourceMap": true,
         "baseUrl": ".",
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "types": ["webpack-env"],
         "paths": {
             "@/*": ["src/*"]

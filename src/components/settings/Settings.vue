@@ -20,60 +20,22 @@ export default defineComponent({
         const engineFormTitle = ref('')
         const darkMode = ref(false)
         let editedEngineData = ref({})
-        let editedEngineId = ref()
+        let editedEngineId = ref(0)
 
-        /**
-         * Edit engine data.
-         * @param engineData {EngineItem}
-         */
-        function handleEditEngine(engineData: EngineItem): void {
+        const handleEngineEdit = (engineData: EngineItem): void => {
             editorVisible.value = true
             engineFormTitle.value = '修改搜索引擎'
             editedEngineData.value = engineData
             editedEngineId.value = engineData.id
         }
 
-        /**
-         * 新增搜索引擎点击事件
-         */
-        function handleEnginePlus() {
+        const handleEngineAdd = () => {
             editorVisible.value = true
             engineFormTitle.value = '新增搜索引擎'
-            editedEngineData.value = {
-                name: '',
-                baseUrl: '',
-                placeholderText: '',
-                hotkeys: '',
-                color: '#4E6EF2',
-                category: 1,
-                isDefault: false,
-            }
+            editedEngineId.value = 0
         }
 
-        /**
-         * 取消或者关闭提交表单
-         */
-        function handleCancelModel() {
-            editorVisible.value = false
-        }
-        /**
-         * 取消或者关闭提交表单
-         */
-        function handleCloseModel() {
-            editorVisible.value = false
-        }
-
-        /**
-         * 确认提交搜索引擎表单
-         */
-        function handleSubmitModel() {
-            editorVisible.value = false
-        }
-
-        /**
-         * 处理删除一个搜索引擎
-         */
-        function handleDelEngine(item: EngineItem): void {
+        const handleEngineDel = (item: EngineItem): void => {
             const { id, isDefault } = item
             if (isDefault) {
                 ElNotification({
@@ -84,6 +46,18 @@ export default defineComponent({
                 return
             }
             store.commit(MutationType.DeleteEngine, id)
+        }
+
+        const handleCancelModel = () => {
+            editorVisible.value = false
+        }
+
+        const handleCloseModel = () => {
+            editorVisible.value = false
+        }
+
+        const handleSubmitModel = () => {
+            editorVisible.value = false
         }
 
         const modeChange = () => {
@@ -98,11 +72,11 @@ export default defineComponent({
             editorVisible,
             editedEngineId,
             darkMode,
-            handleDelEngine,
-            handleEnginePlus,
+            handleEngineDel,
+            handleEngineAdd,
             handleSubmitModel,
             handleCancelModel,
-            handleEditEngine,
+            handleEngineEdit,
             handleCloseModel,
             modeChange,
         }
@@ -111,27 +85,54 @@ export default defineComponent({
 </script>
 
 <template>
-    <i class="el-icon-setting icon-settins" @click="settinsFormVisible = true"></i>
+    <i
+        class="el-icon-setting icon-settins"
+        @click="settinsFormVisible = true"
+    ></i>
     <transition name="el-zoom-in-top">
         <div class="settings-container" v-show="settinsFormVisible">
-            <i class="el-icon-close icon-close" @click="settinsFormVisible = false"></i>
+            <i
+                class="el-icon-close icon-close"
+                @click="settinsFormVisible = false"
+            ></i>
             <h3 class="settings-item-title">搜索引擎</h3>
             <el-row justify="space-between">
-                <el-button size="mini" :style="{ borderColor: item.color }" v-for="(item, index) in enginesData" :key="index" @click="handleEditEngine(item)">
+                <el-button
+                    size="mini"
+                    :style="{ borderColor: item.color }"
+                    v-for="(item, index) in enginesData"
+                    :key="index"
+                    @click="handleEngineEdit(item)"
+                >
                     {{ item.name }}
-                    <el-popconfirm confirmButtonText="确认" cancelButtonText="取消" icon="el-icon-info" iconColor="red" title="要删除该搜索引擎吗？" @confirm="handleDelEngine(item)">
+                    <el-popconfirm
+                        confirmButtonText="确认"
+                        cancelButtonText="取消"
+                        icon="el-icon-info"
+                        iconColor="red"
+                        title="要删除该搜索引擎吗？"
+                        @confirm="handleEngineDel(item)"
+                    >
                         <template #reference>
-                            <i class="el-icon-close el-icon--right icon-del-engine"></i>
+                            <i
+                                class="el-icon-close el-icon--right icon-del-engine"
+                            ></i>
                         </template>
                     </el-popconfirm>
                 </el-button>
-                <el-button class="engines-tag engine-plus" size="mini" icon="el-icon-plus" @click="handleEnginePlus"></el-button>
+                <el-button
+                    class="engines-tag engine-plus"
+                    size="mini"
+                    icon="el-icon-plus"
+                    @click="handleEngineAdd"
+                ></el-button>
             </el-row>
             <h3 class="settings-item-title">颜色模式</h3>
             <el-col>
                 <el-row class="settings-item-dark">
                     <div>深色模式</div>
-                    <el-switch v-model="darkMode" @change="modeChange"> </el-switch>
+                    <el-switch v-model="darkMode" @change="modeChange">
+                    </el-switch>
                 </el-row>
             </el-col>
         </div>
