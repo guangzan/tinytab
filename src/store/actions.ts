@@ -11,7 +11,10 @@ export enum ActionTypes {
 }
 
 type ActionArgs = Omit<ActionContext<State, State>, 'commit'> & {
-    commit<k extends keyof Mutations>(key: k, payload: Parameters<Mutations[k]>[1]): ReturnType<Mutations[k]>
+    commit<k extends keyof Mutations>(
+        key: k,
+        payload: Parameters<Mutations[k]>[1]
+    ): ReturnType<Mutations[k]>
 }
 
 export type Actions = {
@@ -37,16 +40,17 @@ export const actions: ActionTree<State, State> & Actions = {
             if (item.id === id) {
                 Object.assign(item, newItem)
                 localStorage['enginesData'] = JSON.stringify(data)
-                // if (item.isDefault) {
-                commit(MutationType.SetDefaultEngine, item.id)
-                // }
+                if (newItem.isDefault) {
+                    commit(MutationType.SetDefaultEngine, item.id)
+                }
             }
         })
     },
     [ActionTypes.InitTheme]({ commit }) {
         const cachedTheme = localStorage.theme ? localStorage.theme : false
-        //  `true` if the user has set theme to `dark` on browser/OS
-        const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const userPrefersDark = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches
 
         if (cachedTheme) commit(MutationType.SetTheme, cachedTheme)
         else if (userPrefersDark) commit(MutationType.SetTheme, 'dark')

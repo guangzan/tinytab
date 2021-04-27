@@ -135,7 +135,7 @@ export default defineComponent({
             :model="enginesFormData"
             :rules="rules"
             label-position="right"
-            label-width="80px"
+            label-width="auto"
             class="engines-form"
         >
             <el-form-item label="引擎名称" prop="name">

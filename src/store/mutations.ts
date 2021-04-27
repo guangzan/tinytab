@@ -37,7 +37,7 @@ export const mutations: MutationTree<State> & Mutations = {
                 onClose() {
                     ElNotification({
                         type: 'success',
-                        message: '其他信息以经修改成功',
+                        message: '其他信息已经修改成功',
                         position: 'top-left',
                     })
                 },

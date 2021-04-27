@@ -5,7 +5,8 @@
   "scripts": {
     "build": "vue-cli-service build && cp background.js manifest.json dist",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve",
+    "dev": "npm start"
   },
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
