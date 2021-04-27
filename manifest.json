@@ -1,19 +1,14 @@
 {
     "name": "TinyTab",
-    "description": "简洁的新标签页",
+    "description": "简洁高效的新标签页",
     "version": "1.0.1",
     "manifest_version": 2,
-    "permissions": [
-        "activeTab",
-        "tabs"
-    ],
+    "permissions": ["activeTab", "tabs"],
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
     "background": {
-        "scripts": [
-            "background.js"
-        ],
+        "scripts": ["background.js"],
         "persistent": false
     },
     "icons": {

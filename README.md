@@ -1,13 +1,13 @@
-## Instruction
+### Instruction
 
-A simple browser extension to replace the original tab.
+A browser extension to replace the original tab.
 
 -   🔍 Set default search engine.
 -   📦 Out of the box several common search engines.
 -   🌌 Customize any search that supports OpenSearch.
 -   🌗 Dark mode.
 
-## Install
+### Install
 
 1. Clone source code.
 2. Open your Edge or Chrome.
@@ -18,13 +18,13 @@ A simple browser extension to replace the original tab.
 
 > You can also install it in Microsoft Store. [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)!
 
-## Run and build
+### Run and build
 
 -   `npm install`
 -   `npm start`
 -   `npm run build`
 
-## Todos
+### Todos
 
 -   [x] Settings > Toggle mode.
 -   [ ] Change engine by typing keywords.
