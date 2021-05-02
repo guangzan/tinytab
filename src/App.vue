@@ -23,7 +23,7 @@ export default defineComponent({
     <router-view />
 </template>
 
-<style>
+<style lang="scss">
 .el-button + .el-button {
     margin-left: 0 !important;
 }

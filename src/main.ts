@@ -1,13 +1,14 @@
 import { createApp } from 'vue'
 import router from './router'
 import { store } from './store'
-import ElementPlus from 'element-plus'
 import App from './App.vue'
+import element from './plugins/element'
 import './style/index.scss'
 
-const app = createApp(App)
+export const app = createApp(App)
 
-app.use(ElementPlus, { size: 'small' })
-    .use(store)
+element()
+
+app.use(store)
     .use(router)
-    .mount('body')
+    .mount('#app')

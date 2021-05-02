@@ -1,15 +1,11 @@
 {
     "name": "TinyTab",
     "description": "简洁高效的新标签页",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "manifest_version": 2,
     "permissions": ["activeTab", "tabs"],
     "chrome_url_overrides": {
         "newtab": "index.html"
-    },
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
     },
     "icons": {
         "16": "images/logo16.png",

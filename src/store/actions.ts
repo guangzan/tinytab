@@ -57,6 +57,8 @@ export const actions: ActionTree<State, State> & Actions = {
         else commit(MutationType.SetTheme, 'light')
     },
     [ActionTypes.ToggleTheme]({ commit }) {
+        console.log(localStorage.theme);
+        
         switch (localStorage.theme) {
             case 'light':
                 commit(MutationType.SetTheme, 'dark')
