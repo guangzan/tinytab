@@ -6,6 +6,7 @@ import { ElNotification } from 'element-plus'
 import { MutationType } from '../../store/mutations'
 import { EngineItem } from '../../data/enginesData'
 import { ActionTypes } from '../../store/actions'
+import { saveAs } from 'file-saver'
 
 export default defineComponent({
     name: 'Setting',
@@ -64,6 +65,25 @@ export default defineComponent({
             store.dispatch(ActionTypes.ToggleTheme)
         }
 
+        function handleExportSettings() {
+            interface Settings {
+                enginesData: EngineItem
+                defaultEngineData: EngineItem[]
+            }
+            let settings = {} as Settings
+            const enginesData = store.state.enginesData
+            const defaultEngineData = store.state.defaultEngineData
+            settings['enginesData'] = JSON.parse(JSON.stringify(enginesData))
+            settings['defaultEngineData'] = JSON.parse(
+                JSON.stringify(defaultEngineData)
+            )
+
+            const blob = new Blob([JSON.stringify(settings)], { type: '' })
+            saveAs(blob, 'tinytab.settings.json')
+        }
+
+        function handleImportSettings() {}
+
         return {
             engineFormTitle,
             enginesData,
@@ -79,6 +99,8 @@ export default defineComponent({
             handleEngineEdit,
             handleCloseModel,
             modeChange,
+            handleExportSettings,
+            handleImportSettings,
         }
     },
 })
@@ -95,6 +117,7 @@ export default defineComponent({
                 class="el-icon-close icon-close"
                 @click="settinsFormVisible = false"
             ></i>
+
             <h3 class="settings-item-title">搜索引擎</h3>
             <el-row justify="space-between">
                 <el-button
@@ -127,14 +150,29 @@ export default defineComponent({
                     @click="handleEngineAdd"
                 ></el-button>
             </el-row>
+
             <h3 class="settings-item-title">颜色模式</h3>
-            <el-col>
-                <el-row class="settings-item-dark">
-                    <div>深色模式</div>
-                    <el-switch v-model="darkMode" @change="modeChange">
-                    </el-switch>
-                </el-row>
-            </el-col>
+            <el-row class="settings-item-dark">
+                <div>深色模式</div>
+                <el-switch v-model="darkMode" @change="modeChange"> </el-switch>
+            </el-row>
+
+            <h3 class="settings-item-title">导入导出</h3>
+            <el-row>
+                <el-button
+                    size="small"
+                    icon="el-icon-download"
+                    @click="handleImportSettings"
+                    >导入配置</el-button
+                >
+                <el-button
+                    size="small"
+                    icon="el-icon-upload2"
+                    type="primary"
+                    @click="handleExportSettings"
+                    >导出配置</el-button
+                >
+            </el-row>
         </div>
     </transition>
 
@@ -158,6 +196,7 @@ export default defineComponent({
 }
 
 .settings-item-title {
+    margin: 24px 0 16px;
     font-size: 12px;
     color: var(--color-text-secondary);
     font-weight: normal;
@@ -166,7 +205,7 @@ export default defineComponent({
 
 .settings-container {
     position: absolute;
-    top: 10px;
+    top: 0;
     right: 0;
     background-color: #f8f8f8;
     filter: drop-shadow(0px 12px 6px rgba(0, 0, 0, 0.2));

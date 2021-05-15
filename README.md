@@ -31,3 +31,4 @@ A browser extension to replace the original tab.
 -   [ ] Cancel address bar auto focus.
 -   [ ] settings > Hide engines at home.
 -   [ ] Drag engine tag to sort.
+-   [ ] export settings.json

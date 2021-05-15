@@ -1,21 +1,3 @@
-<template>
-    <div class="search-container">
-        <el-input
-            :placeholder="placeholder"
-            v-model="searchValue"
-            class="search-component"
-            prefix-icon="el-icon-search"
-            clearable
-            size="medium"
-            @keyup.enter="handleSubmit"
-            @focus="handleFocusInput"
-            @blur="handleBlurInput"
-        >
-        </el-input>
-        <Engines @change-engine="handleEngineChange"></Engines>
-    </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import Engines from '../components/Engines.vue'
@@ -66,7 +48,9 @@ export default defineComponent({
 
         onMounted(() => {
             setTimeout(() => {
-                const input = document.querySelector('.search-component input') as HTMLElement
+                const input = document.querySelector(
+                    '.search-component input'
+                ) as HTMLElement
                 input.focus()
             }, 300)
         })
@@ -85,17 +69,50 @@ export default defineComponent({
 })
 </script>
 
+<template>
+    <div class="search-container">
+        <el-input
+            :placeholder="placeholder"
+            v-model="searchValue"
+            class="search-component"
+            prefix-icon="el-icon-search"
+            clearable
+            size="medium"
+            @keyup.enter="handleSubmit"
+            @focus="handleFocusInput"
+            @blur="handleBlurInput"
+        >
+        </el-input>
+        <Engines @change-engine="handleEngineChange"></Engines>
+    </div>
+</template>
+
 <style lang="scss">
 .search-container {
-    width: 30vw;
+    width: 38vw;
     margin: 20vh auto 0;
+
+    .el-input--medium .el-input__inner {
+        height: 40px;
+    }
+
+    .el-input--medium .el-input__icon {
+        line-height: 40px;
+        color: #888;
+    }
+
+    .el-input__inner {
+        border-width: 2px;
+        border-color: #999;
+        border-radius: 8px;
+    }
 }
 
 .search-component {
     input {
         background-color: var(--color-input-bg);
         color: var(--color-text-input);
-        font-size: 15px;
+        font-size: 16px;
         &::placeholder {
             color: var(--color-placeholder);
         }

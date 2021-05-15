@@ -1,6 +1,6 @@
 {
     "name": "home",
-    "version": "0.1.0",
+    "version": "1.0.4",
     "private": true,
     "types": "types/index.d.ts",
     "scripts": {
@@ -11,8 +11,10 @@
     },
     "dependencies": {
         "@fortawesome/vue-fontawesome": "^3.0.0-3",
+        "@types/file-saver": "^2.0.2",
         "core-js": "^3.8.2",
         "element-plus": "^1.0.1-beta.20",
+        "file-saver": "^2.0.5",
         "hotkeys-js": "^3.8.1",
         "vue": "^3.0.5",
         "vue-router": "^4.0.2",

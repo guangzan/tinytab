@@ -41,6 +41,7 @@ export const actions: ActionTree<State, State> & Actions = {
                 Object.assign(item, newItem)
                 localStorage['enginesData'] = JSON.stringify(data)
                 if (newItem.isDefault) {
+                    if (newItem.id === state.defaultEngineData.id) return
                     commit(MutationType.SetDefaultEngine, item.id)
                 }
             }
@@ -57,8 +58,6 @@ export const actions: ActionTree<State, State> & Actions = {
         else commit(MutationType.SetTheme, 'light')
     },
     [ActionTypes.ToggleTheme]({ commit }) {
-        console.log(localStorage.theme);
-        
         switch (localStorage.theme) {
             case 'light':
                 commit(MutationType.SetTheme, 'dark')

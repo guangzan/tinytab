@@ -111,13 +111,13 @@ export default defineComponent({
         }
 
         return {
+            rules,
+            form,
             enginesFormVisible,
             enginesFormData,
             handleFormCancel,
             handleFormSubmit,
-            rules,
             handleFormClose,
-            form,
         }
     },
 })
@@ -125,6 +125,7 @@ export default defineComponent({
 
 <template>
     <el-dialog
+        :close-on-click-modal="false"
         custom-class="engine-form"
         :title="formTitle"
         v-model="enginesFormVisible"
@@ -181,7 +182,7 @@ export default defineComponent({
 
 <style lang="scss">
 .el-dialog.engine-form {
-    width: 30% !important;
+    width: 35% !important;
     .el-dialog__header .el-dialog__title {
         color: var(--color-text-title);
     }
@@ -203,6 +204,12 @@ export default defineComponent({
 @media screen and (max-width: 1024px) {
     .el-dialog.engine-form {
         width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .el-dialog.engine-form {
+        width: 70% !important;
     }
 }
 

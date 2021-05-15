@@ -1,16 +1,3 @@
-<template>
-    <el-row class="search-engines">
-        <el-button
-            size="mini"
-            @click="handleChooseSearchEngine(item.name)"
-            :style="{ borderColor: item.color }"
-            v-for="(item, index) in enginesData"
-            :key="index"
-            >{{ item.name }}</el-button
-        >
-    </el-row>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -43,3 +30,22 @@ export default defineComponent({
     },
 })
 </script>
+
+<template>
+    <el-row class="search-engines">
+        <el-button
+            size="mini"
+            @click="handleChooseSearchEngine(item.name)"
+            :style="{ borderColor: item.color }"
+            v-for="(item, index) in enginesData"
+            :key="index"
+            >{{ item.name }}</el-button
+        >
+    </el-row>
+</template>
+
+<style>
+.search-engines {
+    margin-top: 4px;
+}
+</style>
