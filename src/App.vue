@@ -1,34 +1,44 @@
-<script lang="ts">
-import { defineComponent, watch } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { ActionTypes } from './store/actions'
+import { darkTheme, NConfigProvider } from 'naive-ui'
+import type { GlobalThemeOverrides } from 'naive-ui'
 
-export default defineComponent({
-    setup() {
-        const store = useStore()
-        store.dispatch(ActionTypes.InitTheme)
+const themeOverrides: GlobalThemeOverrides = {
+	// common: {
+	//     primaryColor: store.state.primaryColor,
+	//     primaryColorHover: 'red',
+	//     primaryColorPressed: 'green',
+	// },
+}
 
-        watch(
-            () => store.getters.getTheme,
-            newTheme => {
-                const html = document.querySelector('html') as HTMLElement
-                html.setAttribute('theme', newTheme)
-            }
-        )
-    },
-})
+const store = useStore()
+
+const theme = computed(() => (store.state.theme === 'dark' ? darkTheme : undefined))
+
+store.dispatch(ActionTypes.InitTheme)
 </script>
 
 <template>
-    <router-view />
+	<n-config-provider :theme="theme" :theme-overrides="themeOverrides">
+		<n-notification-provider>
+			<n-message-provider>
+				<router-view />
+			</n-message-provider>
+		</n-notification-provider>
+	</n-config-provider>
 </template>
 
 <style lang="scss">
-.el-button + .el-button {
-    margin-left: 0 !important;
+html,
+body,
+#app {
+	width: 100%;
+	height: 100%;
 }
-.el-button {
-    margin-top: 8px !important;
-    margin-right: 10px !important;
+
+#app {
+	overflow: hidden;
 }
 </style>

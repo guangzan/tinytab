@@ -1,6 +1,6 @@
 ### Instruction
 
-**English** | [中文](./README.zh-CN.md)
+**[English](./README.md)** | 中文
 
 A browser extension to replace the original tab.
 
@@ -28,9 +28,18 @@ A browser extension to replace the original tab.
 
 ### Todos
 
--   [x] Settings > Toggle mode
--   [x] Drag engine tag to sort
--   [x] export and import settings
--   [ ] Change engine by typing keywords
--   [ ] settings > Hide engines at home
--   [ ] types
+-   [x] 深色模式
+-   [x] 拖动排序搜索引擎
+-   [x] 导入导出配置文件
+-   [x] 从 types/index 导入类型
+-   [x] 编辑引擎的 bug
+-   [x] 通过关键字切换搜索引擎
+-   [x] 通过关键字切换搜索引擎 bug 更新和新建唯一性
+-   [x] 测试生产构建
+-   [ ] 自定义搜索规则（进行中...）
+-   [ ] 调整 Pannal 组件提示图标位置，垂直剧中
+-   [ ] 主题色切换
+-   [ ] 自定义背景图片
+-   [ ] 深色模式多种程度可选
+-   [ ] 首页可隐藏引擎
+-   [ ] 多语言

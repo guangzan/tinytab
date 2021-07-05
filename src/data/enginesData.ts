@@ -1,13 +1,4 @@
-export type EngineItem = {
-    id: number
-    name: string
-    baseUrl: string
-    placeholderText: string
-    hotkeys?: string
-    color: string
-    category: number
-    isDefault: boolean
-}
+import type { EngineItem } from '@/types'
 
 const enginesData: Array<EngineItem> = [
     {
@@ -19,6 +10,8 @@ const enginesData: Array<EngineItem> = [
         color: '#4E6EF2',
         category: 1,
         isDefault: true,
+        prefix: 'bd',
+        suffix: [],
     },
     {
         id: 2,
@@ -29,6 +22,8 @@ const enginesData: Array<EngineItem> = [
         color: '#0c8484',
         category: 1,
         isDefault: false,
+        prefix: 'bing',
+        suffix: [],
     },
     {
         id: 3,
@@ -39,6 +34,8 @@ const enginesData: Array<EngineItem> = [
         color: '#FBBC05',
         category: 1,
         isDefault: false,
+        prefix: 'gg',
+        suffix: [],
     },
     {
         id: 4,
@@ -49,6 +46,8 @@ const enginesData: Array<EngineItem> = [
         color: '#ea4335',
         category: 1,
         isDefault: false,
+        prefix: 'npm',
+        suffix: [],
     },
     {
         id: 5,
@@ -59,6 +58,8 @@ const enginesData: Array<EngineItem> = [
         color: '#95E9D9',
         category: 1,
         isDefault: false,
+        prefix: 'gh',
+        suffix: [],
     },
     {
         id: 6,
@@ -69,6 +70,8 @@ const enginesData: Array<EngineItem> = [
         color: '#28c46f',
         category: 1,
         isDefault: false,
+        prefix: 'yq',
+        suffix: [],
     },
     {
         id: 7,
@@ -79,6 +82,8 @@ const enginesData: Array<EngineItem> = [
         color: '#ff6f17',
         category: 1,
         isDefault: false,
+        prefix: 'sg',
+        suffix: [],
     },
 ]
 

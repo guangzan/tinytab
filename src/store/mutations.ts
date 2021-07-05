@@ -1,20 +1,69 @@
 import { State } from './state'
 import { MutationTree } from 'vuex'
-import { ElNotification } from 'element-plus'
+import type { EngineItem } from '@/types'
 
 export enum MutationType {
+    UpdateTheme = 'UPDATE_THEME',
+    UpdatePrimaryColor = 'UPDATE_PRIMARY_COLOR',
+    CreateEngine = 'CREATE_ENGINE',
     DeleteEngine = 'DELETE_ENGINE',
-    SetDefaultEngine = 'SET_DEFAULT_ENGINE',
-    SetTheme = 'SET_THEME',
+    UpdateEnginesData = 'UPDATE_ENGINES_DATA',
 }
 
 export type Mutations = {
+    [MutationType.UpdateTheme](state: State, theme: 'dark' | 'light'): void
+    [MutationType.UpdatePrimaryColor](state: State, color: string): void
+    [MutationType.CreateEngine](state: State, engineItem: EngineItem): void
     [MutationType.DeleteEngine](state: State, id: number): void
-    [MutationType.SetDefaultEngine](state: State, id: number): void
-    [MutationType.SetTheme](state: State, theme: 'dark' | 'light'): void
+    [MutationType.UpdateEnginesData](state: State, enginesData: Array<EngineItem>): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
+    /**
+     * 更新主题
+     * @param state
+     * @param theme
+     */
+    [MutationType.UpdateTheme](state, theme) {
+        /* naive ui computed */
+        state.theme = theme
+        localStorage.theme = theme
+        /* windcss class */
+        const { classList } = document.documentElement
+        classList.remove(theme === 'dark' ? 'light' : 'dark')
+        classList.add(theme)
+    },
+
+    /**
+     * 更新主题强调色
+     * @param state
+     * @param color
+     */
+    [MutationType.UpdatePrimaryColor](state, color) {
+        state.primaryColor = color
+    },
+
+    /**
+     * 创建一个引擎
+     * @param state
+     * @param engineItem
+     */
+    [MutationType.CreateEngine](state, engineItem) {
+        const enginesData = state.enginesData
+        if (engineItem.isDefault === true) {
+            enginesData.map((item) => (item.isDefault = false))
+        }
+
+        enginesData.push(engineItem)
+        state.enginesData = enginesData
+        localStorage.setItem('enginesData', JSON.stringify(enginesData))
+    },
+
+    /**
+     * 删除一个引擎
+     * @param state
+     * @param id
+     */
     [MutationType.DeleteEngine](state, id) {
         const data = state.enginesData
         data.forEach((item: any, index: any) => {
@@ -25,49 +74,14 @@ export const mutations: MutationTree<State> & Mutations = {
             }
         })
     },
-    [MutationType.SetDefaultEngine](state, id) {
-        const data = state.enginesData
-        const currentDefaultEngineId = state.defaultEngineData.id
-        if (id === currentDefaultEngineId) {
-            const currentDefaultEngineId = state.defaultEngineData.id
-            ElNotification({
-                type: 'error',
-                message: '必须保留一个默认搜索引擎',
-                position: 'top-left',
-                onClose() {
-                    ElNotification({
-                        type: 'success',
-                        message: '其他信息已经修改成功',
-                        position: 'top-left',
-                    })
-                },
-            })
-            for (const item of data) {
-                if (item.id === currentDefaultEngineId) {
-                    item.isDefault = true
-                    break
-                }
-            }
-        } else {
-            for (const item of data) {
-                if (item.id === currentDefaultEngineId) {
-                    item.isDefault = false
-                }
-                if (item.id === id) {
-                    item.isDefault = true
-                    state.defaultEngineData = item
-                }
-            }
-            ElNotification({
-                type: 'success',
-                message: '修改成功',
-                position: 'top-left',
-            })
-        }
-        localStorage['enginesData'] = JSON.stringify(data)
-    },
-    [MutationType.SetTheme](state, theme) {
-        state.theme = theme
-        localStorage.theme = theme
+
+    /**
+     * 更新引擎列表数据
+     * @param state
+     * @param enginesData
+     */
+    [MutationType.UpdateEnginesData](state, enginesData) {
+        state.enginesData = enginesData
+        localStorage.setItem('enginesData', JSON.stringify(enginesData))
     },
 }

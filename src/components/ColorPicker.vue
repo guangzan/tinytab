@@ -1,18 +1,5 @@
-<template>
-    <div class="cus-color-picker">
-        <div class="cus-color-picker-primary"></div>
-        <div
-            v-for="(item, index) in color"
-            :key="index"
-            :style="{ background: item.value }"
-            :class="{ active: index === current }"
-            @click="pickerColor(index, item)"
-        ></div>
-    </div>
-</template>
-
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
 interface ColorItem {
     name: string
@@ -48,22 +35,24 @@ const color: ColorItem[] = [
     },
 ]
 
-export default defineComponent({
-    name: 'ColorPicker',
-    setup() {
-        const current = ref(0)
-        const pickerColor = (index: number, item: ColorItem): void => {
-            current.value = index
-        }
-
-        return {
-            current,
-            color,
-            pickerColor,
-        }
-    },
-})
+const current = ref(0)
+const pickerColor = (index: number, item: ColorItem): void => {
+    current.value = index
+}
 </script>
+
+<template>
+    <div class="cus-color-picker">
+        <div class="cus-color-picker-primary"></div>
+        <div
+            v-for="(item, index) in color"
+            :key="index"
+            :style="{ background: item.value }"
+            :class="{ active: index === current }"
+            @click="pickerColor(index, item)"
+        ></div>
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .cus-color-picker {
