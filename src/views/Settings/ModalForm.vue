@@ -6,6 +6,7 @@ import {
 	PencilOutline as Edit,
 	Add,
 	InformationCircleOutline as Info,
+	ReturnDownBackOutline,
 } from '@vicons/ionicons5'
 import { useStore } from 'vuex'
 import { ActionTypes } from '../../store/actions'
@@ -76,6 +77,30 @@ const rules = ref({
 		{
 			validator: validatePrefix,
 			message: '该前缀已经存在',
+			trigger: ['input', 'blur'],
+		},
+	],
+	suffix: [
+		{
+			validator(rule: any, value: string[]) {
+				if (value.length) {
+					if (value[value.length - 1].length > 10) {
+						return false
+					}
+					return true
+				}
+			},
+			message: '单个长度在 1 到 10 个字符',
+			trigger: ['input'],
+		},
+		{
+			validator(rule: any, value: string[]) {
+				if (value.length > 5) {
+					return false
+				}
+				return true
+			},
+			message: '最多五个',
 			trigger: ['input', 'blur'],
 		},
 	],

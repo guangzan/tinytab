@@ -1,45 +1,25 @@
-### Instruction
+## 介绍
 
 **[English](./README.md)** | 中文
 
-A browser extension to replace the original tab.
+一个专注于搜索的新标签页浏览器插件。
 
--   🔍 Set default search engine.
--   📦 Out of the box several common search engines.
--   🌌 Customize any search that supports OpenSearch.
--   🌗 Dark mode.
+## 特性
 
-### Install
+-   🌗 深色模式
+-   ⛔ 自定义搜索后缀
+-   🔍 设置默认搜索引擎
+-   📦 几个开箱即用的搜索引擎集成
+-   🎭 通过自定义前缀快速切换搜索引擎
+-   🌌 自定义任何支持 OpenSearch 的搜索引擎
 
-1. Clone source code.
-2. Open your Edge or Chrome.
-3. Open extensions page.
-4. Open developer mode.
-5. Load unpacked.
-6. Select dist directory.
+## 安装
 
-> You can also install it in Microsoft Store. [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)!
+你可以在 Microsoft 应用商店中安装它，[点击这里](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)! 或者通过源码构建测试版本：
 
-### Run and build
-
--   `npm install`
--   `npm start`
--   `npm run build`
-
-### Todos
-
--   [x] 深色模式
--   [x] 拖动排序搜索引擎
--   [x] 导入导出配置文件
--   [x] 从 types/index 导入类型
--   [x] 编辑引擎的 bug
--   [x] 通过关键字切换搜索引擎
--   [x] 通过关键字切换搜索引擎 bug 更新和新建唯一性
--   [x] 测试生产构建
--   [ ] 自定义搜索规则（进行中...）
--   [ ] 调整 Pannal 组件提示图标位置，垂直剧中
--   [ ] 主题色切换
--   [ ] 自定义背景图片
--   [ ] 深色模式多种程度可选
--   [ ] 首页可隐藏引擎
--   [ ] 多语言
+1. 克隆源代码
+2. 打开 Edge 或 Chrome
+3. 打开扩展页
+4. 开启开发者模式
+5. 点击加载解压缩的扩展
+6. 选择 dist 目录

@@ -25,8 +25,13 @@ function handleChooseSearchEngine(id: string): void {
 				@click="handleChooseSearchEngine(item.id)"
 				ghost
 				size="small"
-				>{{ item.name }}</n-button
-			>
+				>{{ item.name }}
+				<!-- <template #default>
+					<span class="text-gray-700 dark:text-gray-300">{{
+						item.name
+					}}</span>
+				</template> -->
+			</n-button>
 		</n-space>
 	</div>
 </template>

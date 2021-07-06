@@ -6,7 +6,11 @@ import type { EngineItem } from '@/types'
 import { MutationType } from '../../store/mutations'
 import ModalForm from './ModalForm.vue'
 import Pannel from './Pannel.vue'
-import { CloseSharp as Close, TrashBinOutline as Trash, Add } from '@vicons/ionicons5'
+import {
+	CloseSharp as Close,
+	TrashBinOutline as Trash,
+	Add,
+} from '@vicons/ionicons5'
 
 const store = useStore()
 const message = useMessage()
@@ -61,7 +65,6 @@ function handleRemoveEngine(item: EngineItem): void {
 				<n-popconfirm
 					confirmButtonText="确认"
 					cancelButtonText="取消"
-					icon="el-icon-info"
 					iconColor="red"
 					title="要删除该搜索引擎吗？"
 					positive-text="确认"

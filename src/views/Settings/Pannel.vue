@@ -12,19 +12,21 @@ const props =
 <template>
 	<n-card :bordered="false" header-style="font-size:13px;">
 		<template #header>
-			{{ props.title }}
-			<n-popover
-				trigger="hover"
-				v-if="props.desc?.length"
-				:style="{ width: '200px' }"
-			>
-				<template #trigger>
-					<n-icon class="text-gray-400" size="20">
-						<Info></Info>
-					</n-icon>
-				</template>
-				<span>{{ props.desc }}</span>
-			</n-popover>
+			<div class="flex items-center">
+				<span>{{ props.title }}</span>
+				<n-popover
+					trigger="hover"
+					v-if="props.desc?.length"
+					:style="{ width: '200px' }"
+				>
+					<template #trigger>
+						<n-icon class="ml-1 text-gray-400" size="16">
+							<Info></Info>
+						</n-icon>
+					</template>
+					<span>{{ props.desc }}</span>
+				</n-popover>
+			</div>
 		</template>
 		<slot></slot>
 	</n-card>

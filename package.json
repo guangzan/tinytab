@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && cp manifest.json dist"
+        "build": "vite build && cp manifest.json dist",
+        "preview": "vite preview --port 8080"
     },
     "repository": {
         "type": "git",

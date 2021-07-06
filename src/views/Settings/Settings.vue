@@ -13,12 +13,11 @@ const drawerVisible = ref(false)
 	<n-icon
 		size="20"
 		color="red"
-		class="absolute top-8 right-8 cursor-pointer"
+		class="!absolute top-8 right-8 cursor-pointer"
 		@click="drawerVisible = true"
 	>
 		<settings-outline></settings-outline>
 	</n-icon>
-
 	<n-drawer v-model:show="drawerVisible" :width="400" placement="right">
 		<n-drawer-content body-content-style="padding:0;" closable>
 			<template #header>
