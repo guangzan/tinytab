@@ -1,27 +1,28 @@
-### Instruction
+## Introduction
 
-**English** | [中文](./README.zh-CN.md)
+**[中文](./README.zh-CN.md)** | English
 
-A browser extension to replace the original tab.
+A new tabbed browser plugin focused on search.
 
--   🔍 Set default search engine.
--   📦 Out of the box several common search engines.
--   🌌 Customize any search that supports OpenSearch.
--   🌗 Dark mode.
+## Features
 
-### Install
+-   🎨 Toggle theme style
+-   🍍 Customize background image
+-   🌗 Toggle between dark and light mode or follow system settings
+-   ⛔ Customize search suffixes (filter rules, etc.)
+-   🔍 Set any search engine you want as default
+-   📦 Several out-of-the-box engine integrations
+-   🎭 Quickly switch search engines with custom prefixes
+-   🌌 Customize any search engine that supports OpenSearch
+-   🍉 Export and import any configuration details
 
-1. Clone source code.
-2. Open your Edge or Chrome.
-3. Open extensions page.
-4. Open developer mode.
-5. Load unpacked.
-6. Select dist directory.
+## Install
 
-> You can also install it in Microsoft Store. [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)!
+You can install it in the Microsoft App Store, [click here](https://microsoftedge.microsoft.com/addons/detail/tinytab/apehhlijbbfgppmhjpmblkaocmekfmaf)! Or to build a test version from source code.
 
-### Run and build
-
--   `npm install`
--   `npm start`
--   `npm run build`
+1. Clone the source code
+2. Open Edge or Chrome
+3. open the extensions page
+4. turn on developer mode
+5. Click to load the unzipped extension
+6. Select the dist directory
