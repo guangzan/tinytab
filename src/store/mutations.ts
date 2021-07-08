@@ -1,6 +1,7 @@
 import { State } from './state'
 import { MutationTree } from 'vuex'
-import type { EngineItem } from '@/types'
+import type { EngineItem, VisibleList } from '@/types'
+import { removeArrItem } from '@/utils/tools'
 
 export enum MutationType {
     UpdateTheme = 'UPDATE_THEME',
@@ -8,6 +9,9 @@ export enum MutationType {
     CreateEngine = 'CREATE_ENGINE',
     DeleteEngine = 'DELETE_ENGINE',
     UpdateEnginesData = 'UPDATE_ENGINES_DATA',
+    ToggleVisible = 'TOGGLE_VISIBLE',
+    UpdateHomeBackground = 'UPDATE_HOME_BACKGROUND',
+    UpdateFollowTheme = 'UPDATE_FOLLOW_THEME',
 }
 
 export type Mutations = {
@@ -15,7 +19,16 @@ export type Mutations = {
     [MutationType.UpdatePrimaryColor](state: State, color: string): void
     [MutationType.CreateEngine](state: State, engineItem: EngineItem): void
     [MutationType.DeleteEngine](state: State, id: number): void
-    [MutationType.UpdateEnginesData](state: State, enginesData: Array<EngineItem>): void
+    [MutationType.UpdateEnginesData](
+        state: State,
+        enginesData: Array<EngineItem>
+    ): void
+    [MutationType.ToggleVisible](state: State, visibleItem: any): void
+    [MutationType.UpdateHomeBackground](
+        state: State,
+        homeBackground: string
+    ): void
+    [MutationType.UpdateFollowTheme](state: State, follow: boolean): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -25,13 +38,8 @@ export const mutations: MutationTree<State> & Mutations = {
      * @param theme
      */
     [MutationType.UpdateTheme](state, theme) {
-        /* naive ui computed */
         state.theme = theme
-        localStorage.theme = theme
-        /* windcss class */
-        const { classList } = document.documentElement
-        classList.remove(theme === 'dark' ? 'light' : 'dark')
-        classList.add(theme)
+        localStorage.setItem('theme', JSON.stringify(theme))
     },
 
     /**
@@ -39,8 +47,9 @@ export const mutations: MutationTree<State> & Mutations = {
      * @param state
      * @param color
      */
-    [MutationType.UpdatePrimaryColor](state, color) {
-        state.primaryColor = color
+    [MutationType.UpdatePrimaryColor](state, primaryColor) {
+        state.primaryColor = primaryColor
+        localStorage.setItem('primaryColor', JSON.stringify(primaryColor))
     },
 
     /**
@@ -83,5 +92,40 @@ export const mutations: MutationTree<State> & Mutations = {
     [MutationType.UpdateEnginesData](state, enginesData) {
         state.enginesData = enginesData
         localStorage.setItem('enginesData', JSON.stringify(enginesData))
+    },
+
+    /**
+     * 显示或隐藏 visibleList 中的一个元素
+     * @param state
+     * @param item
+     */
+    [MutationType.ToggleVisible](state, item) {
+        const visibleList = state.visibleList as VisibleList
+        if (visibleList.includes(item)) {
+            removeArrItem(visibleList, item)
+        } else {
+            visibleList.push(item)
+        }
+        localStorage.setItem('visibleList', JSON.stringify(visibleList))
+    },
+
+    /**
+     * 更新主题
+     * @param state
+     * @param theme
+     */
+    [MutationType.UpdateHomeBackground](state, homeBackground) {
+        state.homeBackground = homeBackground
+        localStorage.setItem('homeBackground', JSON.stringify(homeBackground))
+    },
+
+    /**
+     * 更新主题
+     * @param state
+     * @param theme
+     */
+    [MutationType.UpdateFollowTheme](state, followTheme) {
+        state.followTheme = followTheme
+        localStorage.setItem('followTheme', JSON.stringify(followTheme))
     },
 }

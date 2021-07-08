@@ -1,6 +1,6 @@
 import type { EngineItem } from '@/types'
 
-const enginesData: Array<EngineItem> = [
+export const enginesData: Array<EngineItem> = [
     {
         id: 1,
         name: 'Baidu',
@@ -98,5 +98,3 @@ const enginesData: Array<EngineItem> = [
         suffix: [],
     },
 ]
-
-export default enginesData

@@ -7,13 +7,14 @@ const props =
 		title: string
 		desc?: string
 	}>()
-</script>
+</script>	
 
 <template>
-	<n-card :bordered="false" header-style="font-size:13px;">
+	<n-card :bordered="false">
 		<template #header>
 			<div class="flex items-center">
-				<span>{{ props.title }}</span>
+				<slot name="icon"></slot>
+				<span class="ml-2 text-sm">{{ props.title }}</span>
 				<n-popover
 					trigger="hover"
 					v-if="props.desc?.length"
@@ -24,7 +25,7 @@ const props =
 							<Info></Info>
 						</n-icon>
 					</template>
-					<span>{{ props.desc }}</span>
+					<span v-if="desc">{{ props.desc }}</span>
 				</n-popover>
 			</div>
 		</template>

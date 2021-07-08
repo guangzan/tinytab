@@ -3,9 +3,13 @@ import { State } from './state'
 import type { EngineItem } from '@/types'
 
 export type Getters = {
-    getTheme(state: State): State['theme']
+    GetTheme(state: State): State['theme']
+    GetDefaultEngineData(state: State): EngineItem
     GetEngineById(state: State): (id: number) => EngineItem
     GetEngineByPrefix(state: State): (prefix: string) => EngineItem
+    GetVisibleList(state: State): State['visibleList']
+    GetHomeBackground(state: State): State['homeBackground']
+    GetFollowTheme(state: State): State['followTheme']
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -14,15 +18,17 @@ export const getters: GetterTree<State, State> & Getters = {
      * @param state
      * @returns
      */
-    getTheme(state) {
+    GetTheme(state) {
         return state.theme
     },
 
     /**
      * 获取默认引擎数据
      */
-    getDefaultEngineData(state) {
-        return state.enginesData.filter((engine) => engine.isDefault === true)[0]
+    GetDefaultEngineData(state) {
+        return state.enginesData.filter(
+            (engine) => engine.isDefault === true
+        )[0]
     },
 
     /**
@@ -43,5 +49,30 @@ export const getters: GetterTree<State, State> & Getters = {
      */
     GetEngineByPrefix: (state) => (prefix) => {
         return state.enginesData.filter((engine) => engine.prefix === prefix)[0]
+    },
+
+    /**
+     * 获取可见元素列表
+     */
+    GetVisibleList(state) {
+        return state.visibleList
+    },
+
+    /**
+     * 首页背景图
+     * @param state
+     * @returns
+     */
+    GetHomeBackground(state) {
+        return state.homeBackground
+    },
+
+    /**
+     * 是否跟随系统设置
+     * @param state
+     * @returns
+     */
+    GetFollowTheme(state) {
+        return state.followTheme
     },
 }

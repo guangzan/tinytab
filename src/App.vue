@@ -1,44 +1,90 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { ActionTypes } from './store/actions'
 import { darkTheme, NConfigProvider } from 'naive-ui'
 import type { GlobalThemeOverrides } from 'naive-ui'
-
-const themeOverrides: GlobalThemeOverrides = {
-	// common: {
-	//     primaryColor: store.state.primaryColor,
-	//     primaryColorHover: 'red',
-	//     primaryColorPressed: 'green',
-	// },
-}
+import { lightenDarkenColor } from '@/utils/tools'
+import { MutationType } from '@/store/mutations'
 
 const store = useStore()
+const theme = ref()
+const themeOverrides = ref<GlobalThemeOverrides>({})
 
-const theme = computed(() => (store.state.theme === 'dark' ? darkTheme : undefined))
+function changeTheme(v: 'light' | 'dark'): void {
+    const { classList } = document.documentElement
+    theme.value = v === 'dark' ? darkTheme : undefined
+    classList.remove(v === 'dark' ? 'light' : 'dark')
+    classList.add(v)
+}
 
-store.dispatch(ActionTypes.InitTheme)
+function changeColor(v: string): void {
+    themeOverrides.value = {
+        common: {
+            primaryColor: v,
+            primaryColorHover: lightenDarkenColor(v, 20),
+            primaryColorPressed: lightenDarkenColor(v, -20),
+        },
+        Switch: {
+            railColorActive: v,
+        },
+    }
+}
+
+function changeHomeBackground(v: string): void {
+    const rootElement = document.querySelector('#app') as HTMLElement
+    rootElement.style.backgroundImage = `url(${v})`
+}
+
+watch(
+    () => store.state.primaryColor,
+    (v: string) => changeColor(v)
+)
+watch(
+    () => store.state.theme,
+    (v: 'dark' | 'light') => changeTheme(v)
+)
+watch(
+    () => store.state.homeBackground,
+    (v: string) => changeHomeBackground(v)
+)
+
+onMounted(() => {
+    const userPrefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+    ).matches
+
+    if (userPrefersDark) {
+        changeTheme('dark')
+        return false
+    }
+
+    changeTheme(store.state.theme)
+    changeColor(store.state.primaryColor)
+    changeHomeBackground(store.state.homeBackground)
+})
 </script>
 
 <template>
-	<n-config-provider :theme="theme" :theme-overrides="themeOverrides">
-		<n-notification-provider>
-			<n-message-provider>
-				<router-view />
-			</n-message-provider>
-		</n-notification-provider>
-	</n-config-provider>
+    <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
+        <n-notification-provider>
+            <n-message-provider>
+                <router-view />
+            </n-message-provider>
+        </n-notification-provider>
+    </n-config-provider>
 </template>
 
 <style lang="scss">
 html,
 body,
 #app {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 #app {
-	overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()

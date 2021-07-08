@@ -24,7 +24,7 @@ export default ({ mode }) => {
             WindiCSS(),
         ],
         server: {
-            open: false,
+            open: true,
         },
         build: {
             /* 启用时，在异步 chunk 中导入的 CSS 将内联到异步 chunk 本身，并在其被加载时插入。 */

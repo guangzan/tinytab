@@ -4,7 +4,7 @@ import { useStore } from 'vuex'
 import { MutationType } from '../../store/mutations'
 import draggable from 'vuedraggable'
 import Pannel from './Pannel.vue'
-import { MenuOutline as move } from '@vicons/ionicons5'
+import { MenuOutline as move, ReorderFourOutline } from '@vicons/ionicons5'
 
 const store = useStore()
 const drag = ref(false)
@@ -28,6 +28,11 @@ const dragOptions = computed(() => ({
 
 <template>
     <Pannel title="排序" desc="上下拖动右侧按钮以排序">
+        <template #icon>
+            <NIcon>
+                <ReorderFourOutline></ReorderFourOutline>
+            </NIcon>
+        </template>
         <n-list class="my-0 min-w-full">
             <draggable
                 tag="transition-group"
@@ -48,7 +53,11 @@ const dragOptions = computed(() => ({
                         </n-button>
 
                         <template #suffix>
-                            <n-icon size="20" class="ml-1">
+                            <n-icon
+                                size="20"
+                                class="ml-1"
+                                :color="element.color"
+                            >
                                 <move></move>
                             </n-icon>
                         </template>

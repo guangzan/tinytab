@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, ref, defineEmits, watch } from 'vue'
+import { defineProps, ref, watch } from 'vue'
 import type { EngineItem, IMsgItem } from '@/types'
 import { useMessage } from 'naive-ui'
 import {
@@ -176,7 +176,7 @@ function handleSubmitModal() {
 			}
 		})
 		.catch((error: any) => {
-			console.log(error)
+			message.error(`未知错误 &{error}`)
 		})
 }
 
@@ -204,10 +204,7 @@ function handleCloseModal() {
  * 参数 e 恒为 false
  * @param {boolean} e -状态
  */
-function handleUpdate(e: boolean): void {
-	// console.log(e)
-	// emit('update:showModal', false)
-}
+function handleUpdate(e: boolean): void {}
 </script>
 
 <template>

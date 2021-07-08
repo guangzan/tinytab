@@ -5,8 +5,6 @@ import type { EngineItem, IMsgItem } from '@/types'
 
 export enum ActionTypes {
     UpdateEngine = 'UPDATE_ENGINE',
-    InitTheme = 'INIT_THEME',
-    ToggleTheme = 'TOGGLE_THEME',
 }
 
 type ActionArgs = Omit<ActionContext<State, State>, 'commit'> & {
@@ -17,9 +15,10 @@ type ActionArgs = Omit<ActionContext<State, State>, 'commit'> & {
 }
 
 export type Actions = {
-    [ActionTypes.UpdateEngine](context: ActionArgs, item: EngineItem): Promise<IMsgItem[]>
-    [ActionTypes.InitTheme](context: ActionArgs): void
-    [ActionTypes.ToggleTheme](context: ActionArgs): void
+    [ActionTypes.UpdateEngine](
+        context: ActionArgs,
+        item: EngineItem
+    ): Promise<IMsgItem[]>
 }
 
 export const actions: ActionTree<State, State> & Actions = {
@@ -38,7 +37,10 @@ export const actions: ActionTree<State, State> & Actions = {
             }
 
             enginesData.forEach((item: EngineItem) => {
-                const updateEnginesData = (item: EngineItem, newItem: EngineItem): void => {
+                const updateEnginesData = (
+                    item: EngineItem,
+                    newItem: EngineItem
+                ): void => {
                     Object.assign(item, newItem)
                     commit(MutationType.UpdateEnginesData, enginesData)
                 }
@@ -65,34 +67,5 @@ export const actions: ActionTree<State, State> & Actions = {
                 }
             })
         })
-    },
-
-    /**
-     * 初始化主题
-     * @param param0
-     * @param newItem
-     */
-    [ActionTypes.InitTheme]({ commit }) {
-        const cachedTheme = localStorage.theme ? localStorage.theme : false
-        const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-        if (cachedTheme) commit(MutationType.UpdateTheme, cachedTheme)
-        else if (userPrefersDark) commit(MutationType.UpdateTheme, 'dark')
-        else commit(MutationType.UpdateTheme, 'light')
-    },
-
-    /**
-     * 在深色和浅色之间切换
-     * @param param0
-     */
-    [ActionTypes.ToggleTheme]({ commit }) {
-        switch (localStorage.theme) {
-            case 'light':
-                commit(MutationType.UpdateTheme, 'dark')
-                break
-            default:
-                commit(MutationType.UpdateTheme, 'light')
-                break
-        }
     },
 }
