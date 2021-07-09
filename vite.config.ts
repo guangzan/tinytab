@@ -4,6 +4,9 @@ import vue from '@vitejs/plugin-vue'
 import ViteComponents, { NaiveUiResolver } from 'vite-plugin-components'
 import WindiCSS from 'vite-plugin-windicss'
 import placeholderColor from 'windicss/colors'
+import yaml from '@rollup/plugin-yaml'
+
+// const alias: Record<string, string> = {}
 
 export default ({ mode }) => {
     const __DEV__ = mode === 'development'
@@ -13,6 +16,8 @@ export default ({ mode }) => {
         resolve: {
             alias: {
                 '@/': `${resolve(__dirname, 'src')}/`,
+                //解决警告You are running the esm-bundler build of vue-i18n.
+                'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
             },
         },
         plugins: [
@@ -22,6 +27,7 @@ export default ({ mode }) => {
                 customComponentResolvers: [NaiveUiResolver()],
             }),
             WindiCSS(),
+            yaml(),
         ],
         server: {
             open: true,

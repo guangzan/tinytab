@@ -12,7 +12,9 @@ import {
     Add,
 } from '@vicons/ionicons5'
 import { EditOutlined } from '@vicons/antd'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useStore()
 const message = useMessage()
 const showModal = ref(false)
@@ -44,16 +46,19 @@ function handleEditEngine(id: number): void {
 function handleRemoveEngine(item: EngineItem): void {
     const { id, isDefault } = item
     if (isDefault) {
-        message.error('不可以删除默认搜索引擎')
+        message.error(t('message.noDelDefaultEngine'))
     } else {
         store.commit(MutationType.DeleteEngine, id)
-        message.success('删除成功')
+        message.success(t('message.delSuccess'))
     }
 }
 </script>
 
 <template>
-    <pannel title="编辑引擎" desc="点击 x 以删除，点击名称进入编辑">
+    <pannel
+        :title="t('editEngineSetting.title')"
+        :desc="t('editEngineSetting.desc')"
+    >
         <template #icon>
             <NIcon>
                 <EditOutlined></EditOutlined>
@@ -69,12 +74,11 @@ function handleRemoveEngine(item: EngineItem): void {
             >
                 <span @click="handleEditEngine(item.id)">{{ item.name }}</span>
                 <n-popconfirm
-                    confirmButtonText="确认"
-                    cancelButtonText="取消"
                     iconColor="red"
-                    title="要删除该搜索引擎吗？"
-                    positive-text="确认"
-                    negative-text="取消"
+                    :confirmButtonText="t('button.submit')"
+                    :cancelButtonText="t('button.cancel')"
+                    :positive-text="t('button.submit')"
+                    :negative-text="t('button.cancel')"
                     @positive-click.stop="handleRemoveEngine(item)"
                 >
                     <template #icon>
@@ -87,7 +91,7 @@ function handleRemoveEngine(item: EngineItem): void {
                             <close></close>
                         </n-icon>
                     </template>
-                    要删除这个搜索引擎吗
+                    {{ t('editEngineSetting.deleteTip') }}
                 </n-popconfirm>
             </n-button>
             <n-button size="small" @click="handleAddEngine">

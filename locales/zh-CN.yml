@@ -1,0 +1,76 @@
+title:
+    settings: 设置
+    tip: 提示
+    warn: 警告
+    add: 新增
+    edit: 修改
+button:
+    submit: 确定
+    cancel: 取消
+    continue: 继续
+switch:
+    defaultTheme: 设为默认
+colorPicker:
+    engineColorLabel: 显示颜色
+dialog:
+    settingActionsDesc: 导入的配置将会覆盖所有当前配置
+message:
+    addSuccess: 添加成功
+    delSuccess: 删除成功
+    updateSuccess: 修改成功
+    clear: 已清除
+    noDelDefaultEngine: 不可以删除默认搜索引擎
+    imgFormatError: 只能选择 png 或 jpg 格式的图片文件，请重新选择
+    sizeOverflow: 只能选择小于 2M 的图片，请重新选择
+    sortSuccess: 顺序已更新
+    unknownError: 未知错误
+    importSuccess: 导入配置成功
+    toggleLang: 切换到中文
+rules:
+    engineNameEmpty: 请输入搜索引擎名称
+    engineNameLength: 长度在 1 到 20 个字符
+    engineUrlEmpty: 请输入搜索路径前缀
+    enginePrefixLength: 长度在 1 到 20 个字符
+    enginePrefixExist: 该前缀已经存在
+    engineSuffixLength: 单个长度在 1 到 10 个字符
+    engineSuffixNum: 最多五个
+editEngineSetting:
+    title: 编辑引擎
+    desc: 点击 x 以删除，点击名称进入编辑
+    deleteTip: 要删除该搜索引擎吗？
+    nameInputLabel: 引擎名称
+    urlInputLabel: 基础路径
+    placeholderInputLabel: 提示文本
+    prefixInputLabel: 快捷前缀
+    suffixInputLabel: 规则后缀
+    example: 例如
+sortEngineSetting:
+    title: 排序
+    desc: 上下拖动右侧按钮以排序
+modeSetting:
+    title: 颜色模式
+    dark: 深色模式
+    follow: 跟随系统
+    color: 主题风格
+backgroundSetting:
+    title: 背景图片
+    desc: 限于浏览器存储能力，请选择小于 2M 的图片，格式为 png 或 jpg
+    choose: 选择图片
+visibilitySetting:
+    title: 显示与隐藏
+    desc: 你可以在这里设置一些元素的可见性
+    homeEngines: 首页搜索引擎按钮
+    homeSettingButton: 首页右上角设置按钮
+    homeLangButton: 首页语言切换按钮
+settingActions:
+    title: 导入与导出
+    desc: 为防止配置丢失，请务必妥善保存配置文件
+    importButton: 导入配置
+    exportButton: 导出配置
+    generating: 生成中...
+    generated: 配置文件已生成
+popover:
+    enginePrefix: 在搜索时，输入自定义前缀并按下空格，就能立即切换到当前引擎
+    engineSuffix: 在搜索时，自定义后缀将会添加到搜索路径最后面
+placeholder:
+    enginePrefix: 通过前缀快速切换引擎

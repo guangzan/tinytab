@@ -4,6 +4,7 @@ export type HomeBackground = string
 export type PrimaryColor = string
 export type VisibleList = string[]
 export type EnginesData = EngineItem[]
+export type Lang = 'zh-CN' | 'en'
 
 export type EngineItem = {
     id: number

@@ -11,7 +11,9 @@ import {
 import { useStore } from 'vuex'
 import { ActionTypes } from '../../store/actions'
 import { MutationType } from '@/store/mutations'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useStore()
 const message = useMessage()
 const formRef = ref() /* template ref */
@@ -48,20 +50,20 @@ const rules = ref({
     name: [
         {
             required: true,
-            message: '请输入搜索引擎名称',
+            message: t('rules.engineNameEmpty'),
             trigger: 'blur',
         },
         {
             min: 1,
             max: 20,
-            message: '长度在 1 到 20 个字符',
+            message: t('rules.engineNameLength'),
             trigger: 'blur',
         },
     ],
     baseUrl: [
         {
             required: true,
-            message: '请输入搜索路径前缀',
+            message: t('rules.engineUrlEmpty'),
             trigger: 'blur',
         },
     ],
@@ -69,12 +71,12 @@ const rules = ref({
         {
             min: 1,
             max: 20,
-            message: '长度在 1 到 20 个字符',
+            message: t('rules.enginePrefixLength'),
             trigger: 'blur',
         },
         {
             validator: validatePrefix,
-            message: '该前缀已经存在',
+            message: t('rules.enginePrefixExist'),
             trigger: ['input', 'blur'],
         },
     ],
@@ -88,7 +90,7 @@ const rules = ref({
                     return true
                 }
             },
-            message: '单个长度在 1 到 10 个字符',
+            message: t('rules.engineSuffixLength'),
             trigger: ['input'],
         },
         {
@@ -98,7 +100,7 @@ const rules = ref({
                 }
                 return true
             },
-            message: '最多五个',
+            message: t('rules.engineSuffixNum'),
             trigger: ['input', 'blur'],
         },
     ],
@@ -143,7 +145,7 @@ watch(
 function handleAddEngine(engineItem: EngineItem): void {
     engineItem.id = new Date().getTime()
     store.commit(MutationType.CreateEngine, engineItem)
-    message.success('添加成功')
+    message.success(t('message.addSuccess'))
     emit('update:showModal', false)
 }
 
@@ -174,7 +176,7 @@ function handleSubmitModal() {
             }
         })
         .catch((error: any) => {
-            message.error(`未知错误 &{error}`)
+            message.error(t('message.unknownError') + error)
         })
 }
 
@@ -208,11 +210,11 @@ function handleUpdate(e: boolean): void {}
 <template>
     <n-modal
         preset="dialog"
-        positive-text="确认"
-        negative-text="取消"
+        :positive-text="t('button.submit')"
+        :negative-text="t('button.cancel')"
         :closable="true"
         :show="showModal"
-        :title="operateType === 'add' ? '新增' : '修改'"
+        :title="operateType === 'add' ? t('title.add') : t('title.edit')"
         :mask-closable="true"
         display-directive="show"
         @positive-click="handleSubmitModal"
@@ -233,21 +235,35 @@ function handleUpdate(e: boolean): void {}
             label-placement="left"
             label-align="left"
         >
-            <n-form-item label="引擎名称" path="name">
+            <n-form-item
+                :label="t('editEngineSetting.nameInputLabel')"
+                path="name"
+            >
                 <n-input
-                    placeholder="例如：Baidu"
+                    :placeholder="t('editEngineSetting.example') + '：Baidu'"
                     v-model:value="formData.name"
                 ></n-input>
             </n-form-item>
-            <n-form-item label="基础路径" path="baseUrl">
+            <n-form-item
+                :label="t('editEngineSetting.urlInputLabel')"
+                path="baseUrl"
+            >
                 <n-input
-                    placeholder="例如：https://www.baidu.com/s?ie=UTF-8&wd="
+                    :placeholder="
+                        t('editEngineSetting.example') +
+                        '：https://www.baidu.com/s?ie=UTF-8&wd='
+                    "
                     v-model:value="formData.baseUrl"
                 ></n-input>
             </n-form-item>
-            <n-form-item label="提示文本" path="placeholderText">
+            <n-form-item
+                :label="t('editEngineSetting.placeholderInputLabel')"
+                path="placeholderText"
+            >
                 <n-input
-                    placeholder="例如：百度一下，你就知道"
+                    :placeholder="
+                        t('editEngineSetting.example') + '：百度一下，你就知道'
+                    "
                     v-model:value="formData.placeholderText"
                 ></n-input>
             </n-form-item>
@@ -256,7 +272,7 @@ function handleUpdate(e: boolean): void {}
                 path="prefix"
             >
                 <template #label>
-                    <span>快捷前缀</span>
+                    <span>{{ t('editEngineSetting.prefixInputLabel') }}</span>
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
                             <n-icon
@@ -266,13 +282,11 @@ function handleUpdate(e: boolean): void {}
                                 <Info></Info>
                             </n-icon>
                         </template>
-                        <span
-                            >在搜索时，输入自定义前缀并按下空格，就能立即切换到当前引擎。</span
-                        >
+                        <span>{{ t('popover.enginePrefix') }}</span>
                     </n-popover>
                 </template>
                 <n-input
-                    placeholder="通过前缀快速切换引擎"
+                    :placeholder="t('placeholder.enginePrefix')"
                     v-model:value="formData.prefix"
                 ></n-input>
             </n-form-item>
@@ -282,7 +296,7 @@ function handleUpdate(e: boolean): void {}
                 path="suffix"
             >
                 <template #label>
-                    <span>规则后缀</span>
+                    <span>{{ t('editEngineSetting.suffixInputLabel') }}</span>
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
                             <n-icon
@@ -292,18 +306,19 @@ function handleUpdate(e: boolean): void {}
                                 <Info></Info>
                             </n-icon>
                         </template>
-                        <span
-                            >在搜索时，自定义后缀将会添加到搜索路径最后面。</span
-                        >
+                        <span>{{ t('popover.engineSuffix') }}</span>
                     </n-popover>
                 </template>
                 <!-- <n-form-item label="规则后缀" path="suffix"> -->
                 <n-dynamic-tags v-model:value="formData.suffix" />
             </n-form-item>
-            <n-form-item label="设为默认" path="isDefault">
+            <n-form-item :label="t('switch.defaultTheme')" path="isDefault">
                 <n-switch v-model:value="formData.isDefault"></n-switch>
             </n-form-item>
-            <n-form-item label="显示颜色" path="color">
+            <n-form-item
+                :label="t('colorPicker.engineColorLabel')"
+                path="color"
+            >
                 <n-color-picker
                     v-model:value="formData.color"
                     :modes="['hex']"

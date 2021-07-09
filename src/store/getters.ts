@@ -10,6 +10,7 @@ export type Getters = {
     GetVisibleList(state: State): State['visibleList']
     GetHomeBackground(state: State): State['homeBackground']
     GetFollowTheme(state: State): State['followTheme']
+    GetLang(state: State): State['lang']
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -75,4 +76,11 @@ export const getters: GetterTree<State, State> & Getters = {
     GetFollowTheme(state) {
         return state.followTheme
     },
+
+    /**
+     * 获取当前语言
+     * @param state
+     * @returns {Lang} lang - 当前语言
+     */
+    GetLang: (state) => state.lang,
 }

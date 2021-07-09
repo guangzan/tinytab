@@ -22,7 +22,9 @@ import {
     followTheme as defaultFollowTheme,
     visibleList as defaultVisibleList,
 } from '@/data/index'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const dialog = useDialog()
 const store = useStore()
 const notification = useNotification()
@@ -61,10 +63,10 @@ function handleImportSettings() {
     const fileInput = document.getElementById('file-input')
 
     dialog.warning({
-        title: '警告',
-        content: '导入的配置将会覆盖所有当前配置',
-        positiveText: '继续',
-        negativeText: '取消',
+        title: t('title.warn'),
+        content: t('dialog.settingActionsDesc'),
+        positiveText: t('button.continue'),
+        negativeText: t('button.cancel'),
         onPositiveClick: () => fileInput?.click(),
     })
 }
@@ -110,15 +112,15 @@ onMounted(() => {
                     store.commit(MutationType.UpdateVisibleList, visibleList)
 
                     notification.success({
-                        content: '导入配置成功',
-                        meta: '提示',
+                        content: t('message.importSuccess'),
+                        meta: t('title.tip'),
                         duration: 3000,
                     })
                 })
                 .catch((err: any) => {
                     notification.error({
-                        content: '出现未知错误',
-                        meta: '提示',
+                        content: t('message.unknownError'),
+                        meta: t('title.tip'),
                         duration: 3000,
                     })
                 })
@@ -130,7 +132,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pannel title="导入与导出" desc="为防止配置丢失，请务必妥善保存配置文件">
+    <pannel :title="t('settingActions.title')" :desc="t('settingActions.desc')">
         <template #icon>
             <NIcon>
                 <FileTrayFullOutline></FileTrayFullOutline>
@@ -144,7 +146,7 @@ onMounted(() => {
                         <download />
                     </n-icon>
                 </template>
-                导入配置
+                {{ t('settingActions.importButton') }}
             </n-button>
             <n-button
                 type="primary"
@@ -156,7 +158,7 @@ onMounted(() => {
                         <arrow-up />
                     </n-icon>
                 </template>
-                导出配置
+                {{ t('settingActions.exportButton') }}
             </n-button>
         </div>
     </pannel>
@@ -179,7 +181,11 @@ onMounted(() => {
                 ></component>
             </n-icon>
             <div class="mt-8">
-                {{ downloading ? '配置生成中' : '配置文件生成成功' }}
+                {{
+                    downloading
+                        ? t('settingActions.generating')
+                        : t('settingActions.generated')
+                }}
             </div>
         </div>
     </n-modal>

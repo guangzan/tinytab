@@ -5,6 +5,7 @@ import {
     enginesData,
     homeBackground,
     followTheme,
+    lang,
 } from '../data/index'
 
 export function initStorage() {
@@ -15,6 +16,7 @@ export function initStorage() {
         enginesData,
         homeBackground,
         followTheme,
+        lang,
     }
 
     for (const [key, val] of Object.entries(state)) {

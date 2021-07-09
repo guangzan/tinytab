@@ -5,7 +5,11 @@ import { MutationType } from '../../store/mutations'
 import draggable from 'vuedraggable'
 import Pannel from './Pannel.vue'
 import { MenuOutline as move, ReorderFourOutline } from '@vicons/ionicons5'
+import { useMessage } from 'naive-ui'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
+const message = useMessage()
 const store = useStore()
 const drag = ref(false)
 
@@ -15,6 +19,7 @@ const engineList = computed({
     },
     set(value) {
         store.commit(MutationType.UpdateEnginesData, value)
+        message.success(t('message.sortSuccess'))
     },
 })
 
@@ -27,7 +32,10 @@ const dragOptions = computed(() => ({
 </script>
 
 <template>
-    <Pannel title="排序" desc="上下拖动右侧按钮以排序">
+    <Pannel
+        :title="t('sortEngineSetting.title')"
+        :desc="t('sortEngineSetting.desc')"
+    >
         <template #icon>
             <NIcon>
                 <ReorderFourOutline></ReorderFourOutline>

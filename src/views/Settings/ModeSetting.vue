@@ -5,7 +5,9 @@ import { MutationType } from '../../store/mutations'
 import Pannel from './Pannel.vue'
 import { ColorPaletteOutline } from '@vicons/ionicons5'
 import ColorPicker from './ColorPicker.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useStore()
 
 const color: ColorItem[] = [
@@ -51,7 +53,7 @@ function handleChangeFollowTheme(value: boolean) {
 </script>
 
 <template>
-    <pannel title="颜色模式">
+    <pannel :title="t('modeSetting.title')">
         <template #icon>
             <NIcon>
                 <ColorPaletteOutline></ColorPaletteOutline>
@@ -60,7 +62,7 @@ function handleChangeFollowTheme(value: boolean) {
         <n-list bordered>
             <n-list-item>
                 <div class="flex justify-between">
-                    <div>深色模式</div>
+                    <div>{{t('modeSetting.dark')}}</div>
                     <n-switch
                         :disabled="disableSwitchTheme"
                         :default-value="themeSwitchDefaultValue"
@@ -70,7 +72,7 @@ function handleChangeFollowTheme(value: boolean) {
             </n-list-item>
             <n-list-item>
                 <div class="flex justify-between">
-                    <div>跟随系统</div>
+                    <div>{{t('modeSetting.follow')}}</div>
                     <n-switch
                         :default-value="followThemeSwitchDefaultValue"
                         @update:value="handleChangeFollowTheme"
@@ -79,7 +81,7 @@ function handleChangeFollowTheme(value: boolean) {
             </n-list-item>
             <n-list-item>
                 <div class="flex justify-between items-center">
-                    <div>主题风格</div>
+                    <div>{{t('modeSetting.color')}}</div>
                     <ColorPicker
                         class="ml-auto"
                         :color="color"

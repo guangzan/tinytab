@@ -6,7 +6,9 @@ import Pannel from './Pannel.vue'
 import { ImageOutline, ArchiveOutline, Close } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
 import type { UploadFile } from 'naive-ui'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useStore()
 const message = useMessage()
 const previewImage = ref()
@@ -33,12 +35,12 @@ async function handleBeforeUpload({ file, fileList }) {
     type = type.substring(type.lastIndexOf('\/') + 1, type.length)
 
     if (!typeList.includes(type)) {
-        message.error(`只能选择 ${typeList.join()} 格式的图片文件，请重新选择`)
+        message.error(t('message.imgFormatError'))
         return false
     }
 
     if (size > 2048000) {
-        message.error(`只能选择小于 2M 的图片，请重新选择`)
+        message.error(t('message.sizeOverflow'))
         return false
     }
 
@@ -52,7 +54,7 @@ async function handleUploaderChange({ file, fileList }) {
     const base64 = (await getBase64(file.file)) as string
     changePreviewImage(base64)
     store.commit(MutationType.UpdateHomeBackground, base64)
-    message.success('修改成功')
+    message.success(t('message.updateSuccess'))
 
     // fileList.forEach(async (file: any) => {
     //     file.url = (await getBase64(file.file)) as string
@@ -63,7 +65,7 @@ async function handleUploaderChange({ file, fileList }) {
 function handleClearHomeBackground() {
     changePreviewImage('')
     store.commit(MutationType.UpdateHomeBackground, '')
-    message.success('已清除')
+    message.success(t('message.clear'))
 }
 
 function changePreviewImage(v: string): void {
@@ -82,8 +84,8 @@ onMounted(() => {
 
 <template>
     <Pannel
-        title="背景图片"
-        desc="限于浏览器存储能力，请选择小于 2M 的图片，格式为 png 或 jpg"
+        :title="t('backgroundSetting.title')"
+        :desc="t('backgroundSetting.desc')"
     >
         <template #icon>
             <NIcon>
@@ -116,7 +118,9 @@ onMounted(() => {
                     @change="handleUploaderChange"
                     @before-upload="handleBeforeUpload"
                 >
-                    <n-button class="!w-full" size="large"> 选择图片 </n-button>
+                    <n-button class="!w-full" size="large">{{
+                        t('backgroundSetting.choose')
+                    }}</n-button>
                 </n-upload>
             </n-list-item>
         </n-list>

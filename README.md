@@ -6,6 +6,7 @@ A new tabbed browser plugin focused on search. [DEMO](https://guangzan.github.io
 
 ## Features
 
+-   🌏 I18n
 -   🎨 Toggle theme style
 -   🍍 Customize background image
 -   🌗 Toggle between dark and light mode or follow system settings
