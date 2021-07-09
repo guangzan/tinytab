@@ -35,6 +35,30 @@ function changeHomeBackground(v: string): void {
     rootElement.style.backgroundImage = `url(${v})`
 }
 
+function handleFollowSystemTheme() {
+    const userPrefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+    ).matches
+    changeTheme(userPrefersDark ? 'dark' : 'light')
+}
+
+/**
+ * 监听浏览器主题设置切换
+ */
+function handleChangeSystemTheme() {
+    const darkMedia = window.matchMedia('(prefers-color-scheme: dark)')
+    if (typeof darkMedia.addEventListener === 'function') {
+        darkMedia.addEventListener('change', (e) => {
+            // 浏览器设置切换就会触发
+            if (store.getters.GetFollowTheme) {
+                changeTheme('dark')
+            } else {
+                changeTheme('light')
+            }
+        })
+    }
+}
+
 watch(
     () => store.state.primaryColor,
     (v: string) => changeColor(v)
@@ -47,14 +71,29 @@ watch(
     () => store.state.homeBackground,
     (v: string) => changeHomeBackground(v)
 )
+watch(
+    () => store.getters.GetFollowTheme,
+    (v: boolean) => {
+        if (v) {
+            handleFollowSystemTheme()
+            handleChangeSystemTheme()
+        } else {
+            // 如果关闭跟随系统主题
+            const storageTheme = store.state.theme as 'light' | 'dark'
+            changeTheme(storageTheme)
+        }
+    }
+)
+
+// 监听暗色、亮色切换Start
+
+// 监听暗色、亮色切换End
 
 onMounted(() => {
-    const userPrefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-    ).matches
+    handleChangeSystemTheme()
 
-    if (userPrefersDark) {
-        changeTheme('dark')
+    if (store.getters.GetFollowTheme) {
+        handleFollowSystemTheme()
         return false
     }
 
@@ -68,7 +107,9 @@ onMounted(() => {
     <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
         <n-notification-provider>
             <n-message-provider>
-                <router-view />
+                <n-dialog-provider>
+                    <router-view />
+                </n-dialog-provider>
             </n-message-provider>
         </n-notification-provider>
     </n-config-provider>

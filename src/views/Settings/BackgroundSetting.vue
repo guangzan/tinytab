@@ -9,8 +9,8 @@ import type { UploadFile } from 'naive-ui'
 
 const store = useStore()
 const message = useMessage()
-const fileListRef = ref([])
 const previewImage = ref()
+// const fileListRef = ref([])
 
 function getBase64(file: File) {
     return new Promise((resolve, reject) => {
@@ -81,7 +81,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <Pannel title="背景图片">
+    <Pannel
+        title="背景图片"
+        desc="限于浏览器存储能力，请选择小于 2M 的图片，格式为 png 或 jpg"
+    >
         <template #icon>
             <NIcon>
                 <ImageOutline></ImageOutline>
@@ -108,13 +111,12 @@ onMounted(() => {
                 <n-upload
                     class="setting-upload-button flex"
                     multiple
-                    ref="upload"
                     :default-upload="false"
                     :file-list-style="{ display: 'none' }"
                     @change="handleUploaderChange"
                     @before-upload="handleBeforeUpload"
                 >
-                    <n-button class="w-full" size="large">选择图片</n-button>
+                    <n-button class="!w-full" size="large"> 选择图片 </n-button>
                 </n-upload>
             </n-list-item>
         </n-list>

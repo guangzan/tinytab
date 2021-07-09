@@ -13,12 +13,20 @@ import {
 import { LoadingOutlined as Loading } from '@vicons/antd'
 import { MutationType } from '../../store/mutations'
 import type { ISettings } from '../../types'
-import { useNotification } from 'naive-ui'
+import { useNotification, useDialog } from 'naive-ui'
 import { FileTrayFullOutline } from '@vicons/ionicons5'
+import {
+    theme as defaultTheme,
+    primaryColor as defaultPrimaryColor,
+    homeBackground as defaultHomeBackground,
+    followTheme as defaultFollowTheme,
+    visibleList as defaultVisibleList,
+} from '@/data/index'
 
+const dialog = useDialog()
 const store = useStore()
 const notification = useNotification()
-const showModal = ref(false)
+const showExportModal = ref(false)
 const downloading = ref(true)
 
 function handleExportSettings() {
@@ -46,15 +54,22 @@ function handleExportSettings() {
         downloading.value = false
     }, 500)
 
-    showModal.value = true
+    showExportModal.value = true
 }
 
 function handleImportSettings() {
     const fileInput = document.getElementById('file-input')
-    fileInput?.click()
+
+    dialog.warning({
+        title: '警告',
+        content: '导入的配置将会覆盖所有当前配置',
+        positiveText: '继续',
+        negativeText: '取消',
+        onPositiveClick: () => fileInput?.click(),
+    })
 }
 
-function handleUpdateModal(e: boolean) {
+function handleUpdateExportModal(e: boolean) {
     if (e === false) {
         setTimeout(() => {
             downloading.value = true
@@ -65,7 +80,8 @@ function handleUpdateModal(e: boolean) {
 onMounted(() => {
     const fileInput = document.getElementById('file-input')
 
-    function handleFiles(e: Event) {
+    function handleSettings(e: Event) {
+        // function generateSettins() {
         const target = e.target as HTMLInputElement
         const fileMetaData: File = (target.files as FileList)[0]
 
@@ -73,12 +89,14 @@ onMounted(() => {
             readAsText(fileMetaData)
                 .then((res) => {
                     const data: ISettings = JSON.parse(res)
+                    // 新增配置需要设置默认值，防止导入旧版本配置文件报错
                     const {
                         enginesData,
-                        theme,
-                        primaryColor,
-                        homeBackground,
-                        followTheme,
+                        theme = defaultTheme,
+                        primaryColor = defaultPrimaryColor,
+                        homeBackground = defaultHomeBackground,
+                        followTheme = defaultFollowTheme,
+                        visibleList = defaultVisibleList,
                     } = data
 
                     store.commit(MutationType.UpdateEnginesData, enginesData)
@@ -89,6 +107,7 @@ onMounted(() => {
                         homeBackground
                     )
                     store.commit(MutationType.UpdateFollowTheme, followTheme)
+                    store.commit(MutationType.UpdateVisibleList, visibleList)
 
                     notification.success({
                         content: '导入配置成功',
@@ -106,7 +125,7 @@ onMounted(() => {
         }
     }
 
-    fileInput?.addEventListener('change', handleFiles, false)
+    fileInput?.addEventListener('change', handleSettings, false)
 })
 </script>
 
@@ -141,18 +160,16 @@ onMounted(() => {
             </n-button>
         </div>
     </pannel>
-
     <input type="file" id="file-input" class="hidden" />
-
     <n-modal
-        v-model:show="showModal"
         preset="card"
-        :style="{ width: '460px', marginTop: '100px' }"
         title="导出配置"
         size="huge"
+        v-model:show="showExportModal"
+        :style="{ width: '460px', marginTop: '100px' }"
         :bordered="false"
         :mask-closable="true"
-        @update:show="handleUpdateModal"
+        @update:show="handleUpdateExportModal"
     >
         <div class="flex flex-col justify-center items-center my-8 mx-auto">
             <n-icon size="30" color="#34AC69">
@@ -162,7 +179,7 @@ onMounted(() => {
                 ></component>
             </n-icon>
             <div class="mt-8">
-                {{ downloading ? '文件生成中' : '文件生成成功' }}
+                {{ downloading ? '配置生成中' : '配置文件生成成功' }}
             </div>
         </div>
     </n-modal>

@@ -10,6 +10,7 @@ export enum MutationType {
     DeleteEngine = 'DELETE_ENGINE',
     UpdateEnginesData = 'UPDATE_ENGINES_DATA',
     ToggleVisible = 'TOGGLE_VISIBLE',
+    UpdateVisibleList = 'UPDATE_VISIBLE_LIST',
     UpdateHomeBackground = 'UPDATE_HOME_BACKGROUND',
     UpdateFollowTheme = 'UPDATE_FOLLOW_THEME',
 }
@@ -23,7 +24,11 @@ export type Mutations = {
         state: State,
         enginesData: Array<EngineItem>
     ): void
-    [MutationType.ToggleVisible](state: State, visibleItem: any): void
+    [MutationType.ToggleVisible](state: State, visibleItem: string): void
+    [MutationType.UpdateVisibleList](
+        state: State,
+        visibleList: VisibleList
+    ): void
     [MutationType.UpdateHomeBackground](
         state: State,
         homeBackground: string
@@ -106,6 +111,16 @@ export const mutations: MutationTree<State> & Mutations = {
         } else {
             visibleList.push(item)
         }
+        localStorage.setItem('visibleList', JSON.stringify(visibleList))
+    },
+
+    /**
+     * 更新可见元素列表
+     * @param state
+     * @param theme
+     */
+    [MutationType.UpdateVisibleList](state, visibleList) {
+        state.visibleList = visibleList
         localStorage.setItem('visibleList', JSON.stringify(visibleList))
     },
 
