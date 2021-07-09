@@ -2,7 +2,7 @@
 
 **[English](./README.md)** | 中文
 
-一个专注于搜索的新标签页浏览器插件。
+一个专注于搜索的新标签页浏览器插件。[在线预览](https://guangzan.github.io/tinytab/#/)
 
 ## 特性
 

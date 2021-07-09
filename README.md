@@ -2,7 +2,7 @@
 
 **[中文](./README.zh-CN.md)** | English
 
-A new tabbed browser plugin focused on search.
+A new tabbed browser plugin focused on search. [DEMO](https://guangzan.github.io/tinytab/#/)
 
 ## Features
 
