@@ -41,7 +41,12 @@ const homeSettingButtonVisible = computed(() =>
         </div>
     </div>
 
-    <n-drawer v-model:show="drawerVisible" :width="400" placement="right">
+    <n-drawer
+        placement="right"
+        class="cus-drawer"
+        v-model:show="drawerVisible"
+        :width="400"
+    >
         <n-drawer-content body-content-style="padding:0;" closable>
             <template #header>
                 <div class="flex items-center">
@@ -60,3 +65,11 @@ const homeSettingButtonVisible = computed(() =>
         </n-drawer-content>
     </n-drawer>
 </template>
+
+<style>
+@media (max-width: 767.9px) {
+    .cus-drawer {
+        width: 100% !important;
+    }
+}
+</style>
