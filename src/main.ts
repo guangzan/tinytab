@@ -3,7 +3,6 @@ import { store } from './store'
 import router from './router'
 import App from './App.vue'
 import { createI18n } from 'vue-i18n'
-import './style/index.scss'
 import 'virtual:windi.css'
 
 const messages = Object.fromEntries(
@@ -14,11 +13,7 @@ const messages = Object.fromEntries(
         }
     )
 )
-// const { t, locale } = useI18n()
 
-// const toggleLocales = () => {
-//   locale.value = locale.value === 'en' ? 'zh-CN' : 'en'
-// }
 const i18n = createI18n({
     legacy: false,
     locale: 'zh-CN',

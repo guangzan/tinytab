@@ -11,15 +11,18 @@ import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { MutationType } from '@/store/mutations'
 import { useMessage } from 'naive-ui'
+import type { VisibleList } from '@/types'
 
 const message = useMessage()
 const { t, locale } = useI18n()
 const store = useStore()
 const drawerVisible = ref(false)
+
 const homeSettingButtonVisible = computed(() =>
     store.getters.GetVisibleList.includes('homeSettingButton')
 )
-const LangButtonVisible = computed(() =>
+
+const homeLangButtonVisible = computed(() =>
     store.getters.GetVisibleList.includes('homeLangButton')
 )
 
@@ -37,22 +40,17 @@ watch(
 )
 
 onMounted(() => {
-    const currentLang = store.getters.GetLang
-    locale.value = currentLang
+    locale.value = store.getters.GetLang
 })
 </script>
 
 <template>
-    <!-- 封装一个可见性列表 -->
     <div class="!absolute top-6 right-6 flex">
         <div
-            class="group mr-2 text-center w-8 h-8 leading-10 cursor-pointer"
+            class="mr-2 text-center w-8 h-8 leading-10 cursor-pointer"
             @click="changeLang"
         >
-            <div
-                class="group-hover:block transition"
-                :class="{ hidden: !LangButtonVisible }"
-            >
+            <div :class="{ hidden: !homeLangButtonVisible }">
                 <n-icon size="20" class="text-bg-dark-100 dark:text-gray-500">
                     <LanguageOutline></LanguageOutline>
                 </n-icon>
@@ -63,7 +61,7 @@ onMounted(() => {
             @click="drawerVisible = true"
         >
             <div
-                class="group-hover:block transition"
+                class="group-hover:block"
                 :class="{ hidden: !homeSettingButtonVisible }"
             >
                 <n-icon size="20" class="text-bg-dark-100 dark:text-gray-500">

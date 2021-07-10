@@ -12,7 +12,7 @@ export enum MutationType {
     ToggleVisible = 'TOGGLE_VISIBLE',
     UpdateVisibleList = 'UPDATE_VISIBLE_LIST',
     UpdateHomeBackground = 'UPDATE_HOME_BACKGROUND',
-    UpdateFollowTheme = 'UPDATE_FOLLOW_THEME',
+    UpdateFollowSystemTheme = 'UPDATE_FOLLOW_THEME',
     UpdateLang = 'UPDATE_LANG',
 }
 
@@ -34,7 +34,7 @@ export type Mutations = {
         state: State,
         homeBackground: string
     ): void
-    [MutationType.UpdateFollowTheme](state: State, follow: boolean): void
+    [MutationType.UpdateFollowSystemTheme](state: State, follow: boolean): void
     [MutationType.UpdateLang](state: State, lang: Lang): void
 }
 
@@ -141,9 +141,12 @@ export const mutations: MutationTree<State> & Mutations = {
      * @param state
      * @param theme
      */
-    [MutationType.UpdateFollowTheme](state, followTheme) {
-        state.followTheme = followTheme
-        localStorage.setItem('followTheme', JSON.stringify(followTheme))
+    [MutationType.UpdateFollowSystemTheme](state, followSystemTheme) {
+        state.followSystemTheme = followSystemTheme
+        localStorage.setItem(
+            'followSystemTheme',
+            JSON.stringify(followSystemTheme)
+        )
     },
 
     /**

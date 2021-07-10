@@ -1,14 +1,19 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { MutationType } from '../../store/mutations'
 import Pannel from './Pannel.vue'
 import { ColorPaletteOutline } from '@vicons/ionicons5'
 import ColorPicker from './ColorPicker.vue'
 import { useI18n } from 'vue-i18n'
+import type { Theme } from '@/types'
 
 const { t } = useI18n()
 const store = useStore()
+
+const disableSwitchTheme = ref(store.state.followSystemTheme)
+const themeSwitchDefaultValue = ref(false)
+const followSystemThemeSwitchDefaultValue = ref(false)
 
 const color: ColorItem[] = [
     {
@@ -32,23 +37,59 @@ const color: ColorItem[] = [
         label: '',
     },
 ]
+
+/**
+ * 更新模式切换按钮状态
+ */
+function updateThemeSwitchDefaultValue(v: Theme) {
+    themeSwitchDefaultValue.value = v === 'dark'
+}
+
+/**
+ * 更新跟随系统设置按钮状态
+ */
+function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
+    followSystemThemeSwitchDefaultValue.value = v
+}
+
+watch(
+    () => store.getters.GetTheme,
+    (v) => updateThemeSwitchDefaultValue(v)
+)
+
+watch(
+    () => store.getters.GetFollowSystemTheme,
+    (v) => updateFollowSystemThemeSwitchDefaultValue(v)
+)
+
+onMounted(() => {
+    updateThemeSwitchDefaultValue(store.getters.GetTheme)
+    updateFollowSystemThemeSwitchDefaultValue(
+        store.getters.GetFollowSystemTheme
+    )
+})
+
+/**
+ * 更新主题强调色
+ */
 function handleChangeColor(data) {
     const { value } = data
     store.commit(MutationType.UpdatePrimaryColor, value)
 }
 
-const themeSwitchDefaultValue = store.state.theme === 'dark'
-
+/**
+ * 更新模式
+ */
 function handleChangeTheme(value: boolean) {
     store.commit(MutationType.UpdateTheme, value ? 'dark' : 'light')
 }
 
-const disableSwitchTheme = ref(store.state.followTheme)
-const followThemeSwitchDefaultValue = store.state.followTheme
-
-function handleChangeFollowTheme(value: boolean) {
+/**
+ * 更新是否跟随系统设置
+ */
+function handleChangeFollowSystemTheme(value: boolean) {
     disableSwitchTheme.value = value
-    store.commit(MutationType.UpdateFollowTheme, value)
+    store.commit(MutationType.UpdateFollowSystemTheme, value)
 }
 </script>
 
@@ -62,26 +103,26 @@ function handleChangeFollowTheme(value: boolean) {
         <n-list bordered>
             <n-list-item>
                 <div class="flex justify-between">
-                    <div>{{t('modeSetting.dark')}}</div>
+                    <div>{{ t('modeSetting.dark') }}</div>
                     <n-switch
+                        v-model:value="themeSwitchDefaultValue"
                         :disabled="disableSwitchTheme"
-                        :default-value="themeSwitchDefaultValue"
                         @update:value="handleChangeTheme"
                     ></n-switch>
                 </div>
             </n-list-item>
             <n-list-item>
                 <div class="flex justify-between">
-                    <div>{{t('modeSetting.follow')}}</div>
+                    <div>{{ t('modeSetting.follow') }}</div>
                     <n-switch
-                        :default-value="followThemeSwitchDefaultValue"
-                        @update:value="handleChangeFollowTheme"
+                        v-model:value="followSystemThemeSwitchDefaultValue"
+                        @update:value="handleChangeFollowSystemTheme"
                     ></n-switch>
                 </div>
             </n-list-item>
             <n-list-item>
                 <div class="flex justify-between items-center">
-                    <div>{{t('modeSetting.color')}}</div>
+                    <div>{{ t('modeSetting.color') }}</div>
                     <ColorPicker
                         class="ml-auto"
                         :color="color"

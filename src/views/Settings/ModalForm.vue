@@ -29,6 +29,10 @@ const emit = defineEmits<{
     (event: 'update:showModal', showModal: boolean): void
 }>()
 
+
+/**
+ * 验证前缀
+ */
 function validatePrefix(rule: any, value: string) {
     const prefix = value.trim()
     const enginesData = store.state.enginesData
@@ -276,7 +280,7 @@ function handleUpdate(e: boolean): void {}
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
                             <n-icon
-                                class="text-gray-400 cursor-pointer"
+                                class="ml-1 text-gray-400 cursor-pointer"
                                 size="20"
                             >
                                 <Info></Info>
@@ -300,7 +304,7 @@ function handleUpdate(e: boolean): void {}
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
                             <n-icon
-                                class="text-gray-400 cursor-pointer"
+                                class="ml-1 text-gray-400 cursor-pointer"
                                 size="20"
                             >
                                 <Info></Info>

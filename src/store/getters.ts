@@ -1,16 +1,18 @@
 import { GetterTree } from 'vuex'
 import { State } from './state'
-import type { EngineItem } from '@/types'
+import type { EngineItem, PrimaryColor } from '@/types'
 
 export type Getters = {
     GetTheme(state: State): State['theme']
+    GetEnginesData(state: State): State['enginesData']
     GetDefaultEngineData(state: State): EngineItem
     GetEngineById(state: State): (id: number) => EngineItem
     GetEngineByPrefix(state: State): (prefix: string) => EngineItem
     GetVisibleList(state: State): State['visibleList']
     GetHomeBackground(state: State): State['homeBackground']
-    GetFollowTheme(state: State): State['followTheme']
+    GetFollowSystemTheme(state: State): State['followSystemTheme']
     GetLang(state: State): State['lang']
+    GetPrimaryColor(state: State): State['primaryColor']
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -21,6 +23,15 @@ export const getters: GetterTree<State, State> & Getters = {
      */
     GetTheme(state) {
         return state.theme
+    },
+
+    /**
+     * 获取引擎列表
+     * @param state
+     * @returns
+     */
+    GetEnginesData(state) {
+        return state.enginesData
     },
 
     /**
@@ -73,8 +84,8 @@ export const getters: GetterTree<State, State> & Getters = {
      * @param state
      * @returns
      */
-    GetFollowTheme(state) {
-        return state.followTheme
+    GetFollowSystemTheme(state) {
+        return state.followSystemTheme
     },
 
     /**
@@ -83,4 +94,11 @@ export const getters: GetterTree<State, State> & Getters = {
      * @returns {Lang} lang - 当前语言
      */
     GetLang: (state) => state.lang,
+
+    /**
+     * 获取主题强调色
+     * @param state
+     * @returns {PrimaryColor} primaryColor - 主题强调色
+     */
+    GetPrimaryColor: (state) => state.primaryColor,
 }

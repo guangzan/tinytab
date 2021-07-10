@@ -5,6 +5,7 @@ import { MutationType } from '../../store/mutations'
 import Pannel from './Pannel.vue'
 import { EyeOutline } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
+import type { VisibleList } from '@/types'
 
 const { t } = useI18n()
 const store = useStore()
@@ -12,49 +13,22 @@ const homeEngineSwitchDefaultValue = ref(false)
 const homeSettingButtonSwitchDefaultValue = ref(false)
 const homeLangButtonSwitchDefaultValue = ref(false)
 
-function changeHomeEngineSwitchDefaultValue(v: boolean): void {
-    homeEngineSwitchDefaultValue.value = v
-}
-
-function changeHomeSettingButtonSwitchDefaultValue(v: boolean): void {
-    homeSettingButtonSwitchDefaultValue.value = v
-}
-function changehomeLangButtonSwitchDefaultValue(v: boolean): void {
-    homeSettingButtonSwitchDefaultValue.value = v
-}
-
 function handleChangeItemVisible(item: string): void {
     store.commit(MutationType.ToggleVisible, item)
 }
 
+function changeVisibility(v: VisibleList) {
+    homeEngineSwitchDefaultValue.value = v.includes('homeEngines')
+    homeSettingButtonSwitchDefaultValue.value = v.includes('homeSettingButton')
+    homeLangButtonSwitchDefaultValue.value = v.includes('homeLangButton')
+}
+
 watch(
     () => store.getters.GetVisibleList,
-    (v: any) => {
-        v.includes('homeEngines')
-            ? changeHomeEngineSwitchDefaultValue(true)
-            : changeHomeEngineSwitchDefaultValue(false)
-
-        v.includes('homeSettingButton')
-            ? changeHomeSettingButtonSwitchDefaultValue(true)
-            : changeHomeSettingButtonSwitchDefaultValue(false)
-
-        v.includes('homeLangButton')
-            ? changehomeLangButtonSwitchDefaultValue(true)
-            : changehomeLangButtonSwitchDefaultValue(false)
-    }
+    (v) => changeVisibility(v)
 )
 
-onMounted(() => {
-    changeHomeEngineSwitchDefaultValue(
-        store.getters.GetVisibleList.includes('homeEngines')
-    )
-    changeHomeSettingButtonSwitchDefaultValue(
-        store.getters.GetVisibleList.includes('homeSettingButton')
-    )
-    changehomeLangButtonSwitchDefaultValue(
-        store.getters.GetVisibleList.includes('homeLangButton')
-    )
-})
+onMounted(() => changeVisibility(store.getters.GetVisibleList))
 </script>
 
 <template>

@@ -2,26 +2,28 @@
 import { ref, onMounted } from 'vue'
 import { saveAs } from 'file-saver'
 import { useStore } from 'vuex'
-import type { EngineItem } from '@/types'
+import type { EngineItem, VisibleList } from '@/types'
 import Pannel from './Pannel.vue'
 import { readAsText } from 'promise-file-reader'
-import {
-    DownloadOutline as Download,
-    ArrowUpOutline as ArrowUp,
-    CheckmarkCircleSharp as Success,
-} from '@vicons/ionicons5'
+
 import { LoadingOutlined as Loading } from '@vicons/antd'
 import { MutationType } from '../../store/mutations'
 import type { ISettings } from '../../types'
 import { useNotification, useDialog } from 'naive-ui'
 import { FileTrayFullOutline } from '@vicons/ionicons5'
 import {
+    DownloadOutline as Download,
+    ArrowUpOutline as ArrowUp,
+    CheckmarkCircleSharp as Success,
+} from '@vicons/ionicons5'
+import {
     theme as defaultTheme,
     primaryColor as defaultPrimaryColor,
     homeBackground as defaultHomeBackground,
-    followTheme as defaultFollowTheme,
+    followSystemTheme as defaultFollowSystemTheme,
     visibleList as defaultVisibleList,
-} from '@/data/index'
+    lang as defaultLang,
+} from '@/data'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -31,23 +33,20 @@ const notification = useNotification()
 const showExportModal = ref(false)
 const downloading = ref(true)
 
+/**
+ * 处理导出配置
+ */
 function handleExportSettings() {
-    const settings = {} as ISettings
-    const {
-        enginesData,
-        theme,
-        primaryColor,
-        visibleList,
-        homeBackground,
-        followTheme,
-    } = store.state
-
-    settings['theme'] = JSON.parse(JSON.stringify(theme))
-    settings['primaryColor'] = JSON.parse(JSON.stringify(primaryColor))
-    settings['visibleList'] = JSON.parse(JSON.stringify(visibleList))
-    settings['homeBackground'] = JSON.parse(JSON.stringify(homeBackground))
-    settings['enginesData'] = JSON.parse(JSON.stringify(enginesData))
-    settings['followTheme'] = JSON.parse(JSON.stringify(followTheme))
+    const { getters } = store
+    const settings: ISettings = {
+        theme: getters.GetTheme,
+        primaryColor: getters.GetPrimaryColor,
+        visibleList: getters.GetVisibleList,
+        followSystemTheme: getters.GetFollowSystemTheme,
+        lang: getters.GetLang,
+        homeBackground: getters.GetHomeBackground,
+        enginesData: getters.GetEnginesData,
+    }
 
     const blob = new Blob([JSON.stringify(settings)], { type: '' })
     saveAs(blob, `tinytab.settings.${new Date().getTime()}.json`)
@@ -59,6 +58,9 @@ function handleExportSettings() {
     showExportModal.value = true
 }
 
+/**
+ * 处理导入配置
+ */
 function handleImportSettings() {
     const fileInput = document.getElementById('file-input')
 
@@ -71,6 +73,9 @@ function handleImportSettings() {
     })
 }
 
+/**
+ * 更新导出提示 modal 框状态
+ */
 function handleUpdateExportModal(e: boolean) {
     if (e === false) {
         setTimeout(() => {
@@ -79,55 +84,75 @@ function handleUpdateExportModal(e: boolean) {
     }
 }
 
+/**
+ * 导入配置回调
+ */
+function generateSettins(e: Event) {
+    const target = e.target as HTMLInputElement
+    const fileMetaData: File = (target.files as FileList)[0]
+
+    if (fileMetaData) {
+        readAsText(fileMetaData)
+            .then((res) => {
+                const data = JSON.parse(res) as ISettings
+
+                // 新增配置需要设置默认值，防止导入旧版本配置文件报错
+                // 强制导入的配置对象实现接口 ISettings
+                // 与导出的配置项保持一致
+                const settings: ISettings = {
+                    enginesData: data.enginesData || [],
+                    theme: data.theme || defaultTheme,
+                    primaryColor: data.primaryColor || defaultPrimaryColor,
+                    homeBackground:
+                        data.homeBackground || defaultHomeBackground,
+                    followSystemTheme:
+                        data.followSystemTheme || defaultFollowSystemTheme,
+                    visibleList: data.visibleList || defaultVisibleList,
+                    lang: data.lang || defaultLang,
+                }
+
+                store.commit(
+                    MutationType.UpdateEnginesData,
+                    settings.enginesData
+                )
+                store.commit(MutationType.UpdateTheme, settings.theme)
+                store.commit(
+                    MutationType.UpdatePrimaryColor,
+                    settings.primaryColor
+                )
+                store.commit(
+                    MutationType.UpdateHomeBackground,
+                    settings.homeBackground
+                )
+                store.commit(
+                    MutationType.UpdateFollowSystemTheme,
+                    settings.followSystemTheme
+                )
+                store.commit(
+                    MutationType.UpdateVisibleList,
+                    settings.visibleList
+                )
+                store.commit(MutationType.UpdateLang, settings.lang)
+
+                notification.success({
+                    content: t('message.importSuccess'),
+                    meta: t('title.tip'),
+                    duration: 3000,
+                })
+            })
+            .catch((err: any) => {
+                notification.error({
+                    content: t('message.unknownError'),
+                    meta: t('title.tip'),
+                    duration: 3000,
+                })
+            })
+    }
+}
+
 onMounted(() => {
     const fileInput = document.getElementById('file-input')
-
-    function handleSettings(e: Event) {
-        // function generateSettins() {
-        const target = e.target as HTMLInputElement
-        const fileMetaData: File = (target.files as FileList)[0]
-
-        if (fileMetaData) {
-            readAsText(fileMetaData)
-                .then((res) => {
-                    const data: ISettings = JSON.parse(res)
-                    // 新增配置需要设置默认值，防止导入旧版本配置文件报错
-                    const {
-                        enginesData,
-                        theme = defaultTheme,
-                        primaryColor = defaultPrimaryColor,
-                        homeBackground = defaultHomeBackground,
-                        followTheme = defaultFollowTheme,
-                        visibleList = defaultVisibleList,
-                    } = data
-
-                    store.commit(MutationType.UpdateEnginesData, enginesData)
-                    store.commit(MutationType.UpdateTheme, theme)
-                    store.commit(MutationType.UpdatePrimaryColor, primaryColor)
-                    store.commit(
-                        MutationType.UpdateHomeBackground,
-                        homeBackground
-                    )
-                    store.commit(MutationType.UpdateFollowTheme, followTheme)
-                    store.commit(MutationType.UpdateVisibleList, visibleList)
-
-                    notification.success({
-                        content: t('message.importSuccess'),
-                        meta: t('title.tip'),
-                        duration: 3000,
-                    })
-                })
-                .catch((err: any) => {
-                    notification.error({
-                        content: t('message.unknownError'),
-                        meta: t('title.tip'),
-                        duration: 3000,
-                    })
-                })
-        }
-    }
-
-    fileInput?.addEventListener('change', handleSettings, false)
+    fileInput?.addEventListener('change', generateSettins, false)
 })
 </script>
 

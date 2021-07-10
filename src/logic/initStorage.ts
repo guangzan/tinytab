@@ -4,7 +4,7 @@ import {
     visibleList,
     enginesData,
     homeBackground,
-    followTheme,
+    followSystemTheme,
     lang,
 } from '../data/index'
 
@@ -15,7 +15,7 @@ export function initStorage() {
         visibleList,
         enginesData,
         homeBackground,
-        followTheme,
+        followSystemTheme,
         lang,
     }
 

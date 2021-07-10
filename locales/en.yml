@@ -1,44 +1,44 @@
 backgroundSetting:
-    choose: select img
+    choose: Select
     desc: >-
         Limited to the storage capacity of the browser, please select a picture
         smaller than 2M in the format of png or jpg
     title: Background picture
 button:
-    cancel: cancel
-    continue: carry on
-    submit: submit
+    cancel: Cancel
+    continue: Carry on
+    submit: Submit
 colorPicker:
-    engineColorLabel: color
+    engineColorLabel: Color
 dialog:
     settingActionsDesc: The imported configuration will overwrite all current configurations
 editEngineSetting:
     deleteTip: Do you want to delete this search engine?
     desc: Click x to delete, click the name to enter editing
-    example: eg
-    nameInputLabel: name
-    placeholderInputLabel: tip
-    prefixInputLabel: prefix
-    suffixInputLabel: suffix
+    example: Eg
+    nameInputLabel: Name
+    placeholderInputLabel: Prompt
+    prefixInputLabel: Prefix
+    suffixInputLabel: Suffix
     title: Edit engine
-    urlInputLabel: base url
+    urlInputLabel: Base URL
 message:
     addSuccess: Added successfully
     clear: Cleared
-    delSuccess: successfully deleted
+    delSuccess: Successfully deleted
     imgFormatError: Only picture files in png or jpg format can be selected, please select again
     importSuccess: Successfully imported configuration
     noDelDefaultEngine: Can not delete the default search engine
     sizeOverflow: Can only select pictures smaller than 2M, please select again
     sortSuccess: Order has been updated
-    unknownError: unknown mistake
+    unknownError: Unknown mistake
     updateSuccess: Successfully modified
     toggleLang: Switch to English
 modeSetting:
-    color: theme
-    dark: dark
-    follow: follow system
-    title: color
+    color: Theme
+    dark: Dark
+    follow: Follow system
+    title: Color
 placeholder:
     enginePrefix: Quickly switch engines by prefix
 popover:
@@ -67,13 +67,13 @@ sortEngineSetting:
     desc: Drag the right button up and down to sort
     title: Sort
 switch:
-    defaultTheme: default
+    defaultTheme: Default
 title:
     add: Add
     edit: modify
     settings: Set up
-    tip: prompt
-    warn: caveat
+    tip: Prompt
+    warn: Warn
 visibilitySetting:
     desc: You can set the visibility of some elements here
     homeEngines: Homepage search engine button

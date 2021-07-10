@@ -50,7 +50,7 @@ function handleChangeSystemTheme() {
     if (typeof darkMedia.addEventListener === 'function') {
         darkMedia.addEventListener('change', (e) => {
             // 浏览器设置切换就会触发
-            if (store.getters.GetFollowTheme) {
+            if (store.getters.GetFollowSystemTheme) {
                 changeTheme('dark')
             } else {
                 changeTheme('light')
@@ -72,7 +72,7 @@ watch(
     (v: string) => changeHomeBackground(v)
 )
 watch(
-    () => store.getters.GetFollowTheme,
+    () => store.getters.GetFollowSystemTheme,
     (v: boolean) => {
         if (v) {
             handleFollowSystemTheme()
@@ -85,14 +85,10 @@ watch(
     }
 )
 
-// 监听暗色、亮色切换Start
-
-// 监听暗色、亮色切换End
-
 onMounted(() => {
     handleChangeSystemTheme()
 
-    if (store.getters.GetFollowTheme) {
+    if (store.getters.GetFollowSystemTheme) {
         handleFollowSystemTheme()
         return false
     }

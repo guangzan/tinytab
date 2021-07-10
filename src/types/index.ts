@@ -1,5 +1,5 @@
 export type Theme = 'light' | 'dark'
-export type FollowTheme = boolean
+export type FollowSystemTheme = boolean
 export type HomeBackground = string
 export type PrimaryColor = string
 export type VisibleList = string[]
@@ -25,7 +25,8 @@ export interface ISettings {
     visibleList: VisibleList
     primaryColor: PrimaryColor
     homeBackground: HomeBackground
-    followTheme: FollowTheme
+    followSystemTheme: FollowSystemTheme
+    lang: Lang
 }
 
 export interface IMsgItem {

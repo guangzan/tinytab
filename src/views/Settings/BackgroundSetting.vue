@@ -62,12 +62,18 @@ async function handleUploaderChange({ file, fileList }) {
     // fileListRef.value = fileList
 }
 
+/**
+ * 清空背景
+ */
 function handleClearHomeBackground() {
     changePreviewImage('')
     store.commit(MutationType.UpdateHomeBackground, '')
     message.success(t('message.clear'))
 }
 
+/**
+ * 更新预览图片
+ */
 function changePreviewImage(v: string): void {
     previewImage.value = v
 }

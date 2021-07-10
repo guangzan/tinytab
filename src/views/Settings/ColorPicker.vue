@@ -14,6 +14,9 @@ const emit = defineEmits<{
     (event: 'change-color', colorItem: IColorItem): void
 }>()
 
+/**
+ * 选择颜色
+ */
 function pickerColor(colorItem: IColorItem): void {
     emit('change-color', colorItem)
 }
