@@ -20,6 +20,4 @@ const i18n = createI18n({
     messages,
 })
 
-export const app = createApp(App)
-
-app.use(store).use(router).use(i18n).mount('#app')
+createApp(App).use(store).use(router).use(i18n).mount('#app')

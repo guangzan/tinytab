@@ -25,7 +25,7 @@ specifiers:
   vue-i18n: ^9.1.6
   vue-router: '4'
   vuedraggable: ^4.0.3
-  vuex: ^4.0.2
+  vuex: 4.0.2
   windicss: ^3.1.4
 
 dependencies:
