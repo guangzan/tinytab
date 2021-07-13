@@ -1,6 +1,6 @@
 {
     "name": "tinytab",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A browser extension to replace the original tab.",
     "main": "index.js",
     "scripts": {
@@ -13,10 +13,9 @@
         "url": "https://gitee.com/guangzan/tinytab.git"
     },
     "keywords": [],
-    "author": "",
+    "author": "guangzan",
     "license": "MIT",
     "dependencies": {
-        "@rollup/plugin-yaml": "^3.0.0",
         "@vicons/ionicons5": "^0.10.0",
         "@vueuse/core": "^5.0.3",
         "element-plus": "^1.0.2-beta.54",
@@ -31,6 +30,7 @@
         "vuex": "4.0.2"
     },
     "devDependencies": {
+        "@intlify/vite-plugin-vue-i18n": "^2.3.1",
         "@types/file-saver": "^2.0.2",
         "@types/node": "^15.14.0",
         "@types/nprogress": "^0.2.0",

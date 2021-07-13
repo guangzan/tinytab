@@ -4,12 +4,15 @@ import { useStore } from 'vuex'
 import { darkTheme, NConfigProvider } from 'naive-ui'
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { lightenDarkenColor } from '@/utils/tools'
-import { MutationType } from '@/store/mutations'
+import Wallpaper from '@/views/Common/Wallpaper.vue'
 
 const store = useStore()
 const theme = ref()
 const themeOverrides = ref<GlobalThemeOverrides>({})
 
+/**
+ * 更新深色-浅色模式
+ */
 function changeTheme(v: 'light' | 'dark'): void {
     const { classList } = document.documentElement
     theme.value = v === 'dark' ? darkTheme : undefined
@@ -17,24 +20,32 @@ function changeTheme(v: 'light' | 'dark'): void {
     classList.add(v)
 }
 
-function changeColor(v: string): void {
+/**
+ * 更新主题强调色
+ */
+function changePrimaryColor(v: string): void {
+    const lv = lightenDarkenColor(v, 20)
+    const dv = lightenDarkenColor(v, -20)
+
     themeOverrides.value = {
         common: {
             primaryColor: v,
-            primaryColorHover: lightenDarkenColor(v, 20),
-            primaryColorPressed: lightenDarkenColor(v, -20),
+            primaryColorHover: lv,
+            primaryColorPressed: dv,
         },
         Switch: {
             railColorActive: v,
         },
+        Slider: {
+            fillColorHover: v,
+            fillColor: v,
+        },
     }
 }
 
-function changeHomeBackground(v: string): void {
-    const rootElement = document.querySelector('#app') as HTMLElement
-    rootElement.style.backgroundImage = `url(${v})`
-}
-
+/**
+ * 处理跟随系统设置按钮状态切换
+ */
 function handleFollowSystemTheme() {
     const userPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
@@ -43,17 +54,19 @@ function handleFollowSystemTheme() {
 }
 
 /**
- * 监听浏览器主题设置切换
+ * 处理浏览器深色-浅色模式设置切换
  */
 function handleChangeSystemTheme() {
-    const darkMedia = window.matchMedia('(prefers-color-scheme: dark)')
+    const darkMedia: MediaQueryList = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+    )
     if (typeof darkMedia.addEventListener === 'function') {
-        darkMedia.addEventListener('change', (e) => {
+        darkMedia.addEventListener('change', (e: MediaQueryListEvent) => {
             // 浏览器设置切换就会触发
             if (store.getters.GetFollowSystemTheme) {
-                changeTheme('dark')
-            } else {
-                changeTheme('light')
+                const prefersDarkMode = e.matches
+                if (prefersDarkMode) changeTheme('dark')
+                else changeTheme('light')
             }
         })
     }
@@ -61,15 +74,11 @@ function handleChangeSystemTheme() {
 
 watch(
     () => store.state.primaryColor,
-    (v: string) => changeColor(v)
+    (v: string) => changePrimaryColor(v)
 )
 watch(
     () => store.state.theme,
     (v: 'dark' | 'light') => changeTheme(v)
-)
-watch(
-    () => store.state.homeBackground,
-    (v: string) => changeHomeBackground(v)
 )
 watch(
     () => store.getters.GetFollowSystemTheme,
@@ -87,20 +96,22 @@ watch(
 
 onMounted(() => {
     handleChangeSystemTheme()
+    changePrimaryColor(store.getters.GetPrimaryColor)
 
     if (store.getters.GetFollowSystemTheme) {
         handleFollowSystemTheme()
-        return false
+    } else {
+        changeTheme(store.state.theme)
     }
-
-    changeTheme(store.state.theme)
-    changeColor(store.state.primaryColor)
-    changeHomeBackground(store.state.homeBackground)
 })
 </script>
 
 <template>
-    <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
+    <n-config-provider
+        :theme="theme"
+        :theme-overrides="themeOverrides"
+        class="absolute top-0 right-0 bottom-0 left-0 z-1"
+    >
         <n-notification-provider>
             <n-message-provider>
                 <n-dialog-provider>
@@ -109,19 +120,15 @@ onMounted(() => {
             </n-message-provider>
         </n-notification-provider>
     </n-config-provider>
+    <Wallpaper></Wallpaper>
 </template>
 
-<style lang="scss">
+<style>
 html,
 body,
 #app {
     width: 100%;
     height: 100%;
-}
-
-#app {
-    background-size: cover;
-    background-repeat: no-repeat;
     overflow: hidden;
 }
 </style>

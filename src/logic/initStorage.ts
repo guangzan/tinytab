@@ -6,6 +6,8 @@ import {
     homeBackground,
     followSystemTheme,
     lang,
+    homeBackgroundBlur,
+    homeBackgroundMask,
 } from '../data/index'
 
 export function initStorage() {
@@ -17,6 +19,8 @@ export function initStorage() {
         homeBackground,
         followSystemTheme,
         lang,
+        homeBackgroundBlur,
+        homeBackgroundMask,
     }
 
     for (const [key, val] of Object.entries(state)) {

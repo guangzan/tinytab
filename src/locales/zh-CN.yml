@@ -22,7 +22,6 @@ message:
     noDelDefaultEngine: 不可以删除默认搜索引擎
     imgFormatError: 只能选择 png 或 jpg 格式的图片文件，请重新选择
     sizeOverflow: 只能选择小于 2M 的图片，请重新选择
-    sortSuccess: 顺序已更新
     unknownError: 未知错误
     importSuccess: 导入配置成功
     toggleLang: 切换到中文
@@ -53,7 +52,7 @@ modeSetting:
     follow: 跟随系统
     color: 主题风格
 backgroundSetting:
-    title: 背景图片
+    title: 背景
     desc: 限于浏览器存储能力，请选择小于 2M 的图片，格式为 png 或 jpg
     choose: 选择图片
 visibilitySetting:

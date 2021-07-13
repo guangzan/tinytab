@@ -30,7 +30,6 @@ message:
     importSuccess: Successfully imported configuration
     noDelDefaultEngine: Can not delete the default search engine
     sizeOverflow: Can only select pictures smaller than 2M, please select again
-    sortSuccess: Order has been updated
     unknownError: Unknown mistake
     updateSuccess: Successfully modified
     toggleLang: Switch to English

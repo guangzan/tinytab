@@ -12,6 +12,8 @@ const { t } = useI18n()
 const store = useStore()
 const message = useMessage()
 const previewImage = ref()
+const homeBackgroundBlur = ref(0)
+const homeBackgroundMask = ref(0)
 // const fileListRef = ref([])
 
 function getBase64(file: File) {
@@ -52,7 +54,7 @@ async function handleBeforeUpload({ file, fileList }) {
  */
 async function handleUploaderChange({ file, fileList }) {
     const base64 = (await getBase64(file.file)) as string
-    changePreviewImage(base64)
+    updatePreviewImage(base64)
     store.commit(MutationType.UpdateHomeBackground, base64)
     message.success(t('message.updateSuccess'))
 
@@ -66,7 +68,7 @@ async function handleUploaderChange({ file, fileList }) {
  * 清空背景
  */
 function handleClearHomeBackground() {
-    changePreviewImage('')
+    updatePreviewImage('')
     store.commit(MutationType.UpdateHomeBackground, '')
     message.success(t('message.clear'))
 }
@@ -74,17 +76,52 @@ function handleClearHomeBackground() {
 /**
  * 更新预览图片
  */
-function changePreviewImage(v: string): void {
+function updatePreviewImage(v: string): void {
     previewImage.value = v
 }
 
 watch(
     () => store.getters.GetHomeBackground,
-    (v: string) => changePreviewImage(v)
+    (v) => updatePreviewImage(v)
+)
+
+/**
+ * 更新首页图片模糊度
+ */
+function updateHomeBackgroundBlur(v: number) {
+    homeBackgroundBlur.value = v
+}
+
+function handleUpdateHomeBackgroundBlur(v: number) {
+    store.commit(MutationType.UpdateHomeBackgroundBlur, v)
+}
+
+watch(
+    () => store.getters.GetHomeBackgroundBlur,
+    (v) => updateHomeBackgroundBlur(v)
+)
+
+/**
+ * 更新首页图片模糊度
+ */
+function updateHomeBackgroundMask(v: number) {
+    console.log(v)
+    homeBackgroundMask.value = v
+}
+
+function handleUpdateHomeBackgroundMask(v: number) {
+    store.commit(MutationType.UpdateHomeBackgroundMask, v)
+}
+
+watch(
+    () => store.getters.GetHomeBackgroundMask,
+    (v) => updateHomeBackgroundMask(v)
 )
 
 onMounted(() => {
-    changePreviewImage(store.getters.GetHomeBackground)
+    updatePreviewImage(store.getters.GetHomeBackground)
+    updateHomeBackgroundBlur(store.getters.GetHomeBackgroundBlur)
+    updateHomeBackgroundMask(store.getters.GetHomeBackgroundMask)
 })
 </script>
 
@@ -99,23 +136,31 @@ onMounted(() => {
             </NIcon>
         </template>
         <n-list class="my-0 min-w-full">
-            <n-list-item class="relative !border-0" v-if="previewImage">
-                <!-- <n-image width="335.2" height="200" :src="previewImage" /> -->
+            <n-list-item class="group relative !border-0" v-if="previewImage">
                 <img
                     width="335.2"
-                    height="200"
+                    height="160"
                     class="rounded"
                     :src="previewImage"
                 />
                 <NIcon
                     size="30"
-                    class="!absolute top-4 right-2 cursor-pointer text-red-500"
+                    class="
+                        !absolute
+                        top-4
+                        right-2
+                        cursor-pointer
+                        text-white
+                        transition-opacity
+                        opacity-0
+                        group-hover:opacity-80
+                    "
                     @click="handleClearHomeBackground"
                 >
                     <Close></Close>
                 </NIcon>
             </n-list-item>
-            <n-list-item>
+            <n-list-item class="!border-0">
                 <n-upload
                     class="setting-upload-button flex"
                     multiple
@@ -128,6 +173,46 @@ onMounted(() => {
                         t('backgroundSetting.choose')
                     }}</n-button>
                 </n-upload>
+            </n-list-item>
+            <n-list-item>
+                <div class="flex flex-col">
+                    <div>模糊程度</div>
+                    <div class="flex items-center mt-2">
+                        <n-slider
+                            v-model:value="homeBackgroundBlur"
+                            :step="0.01"
+                            :max="20"
+                            :min="1"
+                            :tooltip="false"
+                            @update:value="handleUpdateHomeBackgroundBlur"
+                        />
+                        <div class="ml-2 select-none">
+                            {{
+                                parseInt(
+                                    ((homeBackgroundBlur / 2) * 10).toString()
+                                )
+                            }}%
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col mt-4">
+                    <div>遮罩浓度</div>
+                    <div class="flex items-center mt-2">
+                        <n-slider
+                            v-model:value="homeBackgroundMask"
+                            :step="0.01"
+                            :max="1"
+                            :min="0"
+                            :tooltip="false"
+                            @update:value="handleUpdateHomeBackgroundMask"
+                        />
+                        <div class="ml-2 select-none">
+                            {{
+                                parseInt((homeBackgroundMask * 100).toString())
+                            }}%
+                        </div>
+                    </div>
+                </div>
             </n-list-item>
         </n-list>
     </Pannel>

@@ -19,7 +19,6 @@ const engineList = computed({
     },
     set(value) {
         store.commit(MutationType.UpdateEnginesData, value)
-        message.success(t('message.sortSuccess'))
     },
 })
 

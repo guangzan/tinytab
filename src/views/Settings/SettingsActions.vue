@@ -1,30 +1,30 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { saveAs } from 'file-saver'
-import { useStore } from 'vuex'
-import type { EngineItem, VisibleList } from '@/types'
-import Pannel from './Pannel.vue'
 import { readAsText } from 'promise-file-reader'
-
+import { useStore } from 'vuex'
+import type { EngineItem, VisibleList, ISettings } from '@/types'
+import Pannel from './Pannel.vue'
 import { LoadingOutlined as Loading } from '@vicons/antd'
 import { MutationType } from '../../store/mutations'
-import type { ISettings } from '../../types'
 import { useNotification, useDialog } from 'naive-ui'
 import { FileTrayFullOutline } from '@vicons/ionicons5'
+import { useI18n } from 'vue-i18n'
 import {
     DownloadOutline as Download,
     ArrowUpOutline as ArrowUp,
     CheckmarkCircleSharp as Success,
 } from '@vicons/ionicons5'
 import {
-    theme as defaultTheme,
-    primaryColor as defaultPrimaryColor,
-    homeBackground as defaultHomeBackground,
-    followSystemTheme as defaultFollowSystemTheme,
-    visibleList as defaultVisibleList,
-    lang as defaultLang,
+    theme as _theme,
+    primaryColor as _primaryColor,
+    homeBackground as _homeBackground,
+    followSystemTheme as _followSystemTheme,
+    visibleList as _visibleList,
+    lang as _lang,
+    homeBackgroundMask as _homeBackgroundMask,
+    homeBackgroundBlur as _homeBackgroundBlur,
 } from '@/data'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const dialog = useDialog()
@@ -46,6 +46,8 @@ function handleExportSettings() {
         lang: getters.GetLang,
         homeBackground: getters.GetHomeBackground,
         enginesData: getters.GetEnginesData,
+        homeBackgroundMask: getters.GetHomeBackgroundMask,
+        homeBackgroundBlur: getters.GetHomeBackgroundBlur,
     }
 
     const blob = new Blob([JSON.stringify(settings)], { type: '' })
@@ -56,6 +58,17 @@ function handleExportSettings() {
     }, 500)
 
     showExportModal.value = true
+}
+
+/**
+ * 更新导出提示 modal 框状态
+ */
+function handleUpdateExportModal(e: boolean) {
+    if (e === false) {
+        setTimeout(() => {
+            downloading.value = true
+        }, 500)
+    }
 }
 
 /**
@@ -71,17 +84,6 @@ function handleImportSettings() {
         negativeText: t('button.cancel'),
         onPositiveClick: () => fileInput?.click(),
     })
-}
-
-/**
- * 更新导出提示 modal 框状态
- */
-function handleUpdateExportModal(e: boolean) {
-    if (e === false) {
-        setTimeout(() => {
-            downloading.value = true
-        }, 500)
-    }
 }
 
 /**
@@ -101,14 +103,17 @@ function generateSettins(e: Event) {
                 // 与导出的配置项保持一致
                 const settings: ISettings = {
                     enginesData: data.enginesData || [],
-                    theme: data.theme || defaultTheme,
-                    primaryColor: data.primaryColor || defaultPrimaryColor,
-                    homeBackground:
-                        data.homeBackground || defaultHomeBackground,
+                    theme: data.theme || _theme,
+                    primaryColor: data.primaryColor || _primaryColor,
+                    homeBackground: data.homeBackground || _homeBackground,
                     followSystemTheme:
-                        data.followSystemTheme || defaultFollowSystemTheme,
-                    visibleList: data.visibleList || defaultVisibleList,
-                    lang: data.lang || defaultLang,
+                        data.followSystemTheme || _followSystemTheme,
+                    visibleList: data.visibleList || _visibleList,
+                    lang: data.lang || _lang,
+                    homeBackgroundMask:
+                        data.homeBackgroundMask || _homeBackgroundMask,
+                    homeBackgroundBlur:
+                        data.homeBackgroundBlur || _homeBackgroundBlur,
                 }
 
                 store.commit(
@@ -133,6 +138,14 @@ function generateSettins(e: Event) {
                     settings.visibleList
                 )
                 store.commit(MutationType.UpdateLang, settings.lang)
+                store.commit(
+                    MutationType.UpdateHomeBackgroundMask,
+                    settings.homeBackgroundMask
+                )
+                store.commit(
+                    MutationType.UpdateHomeBackgroundBlur,
+                    settings.homeBackgroundBlur
+                )
 
                 notification.success({
                     content: t('message.importSuccess'),

@@ -11,7 +11,7 @@ import type { Theme } from '@/types'
 const { t } = useI18n()
 const store = useStore()
 
-const disableSwitchTheme = ref(store.state.followSystemTheme)
+const disableThemeSwitch = ref(store.state.followSystemTheme)
 const themeSwitchDefaultValue = ref(false)
 const followSystemThemeSwitchDefaultValue = ref(false)
 
@@ -72,7 +72,7 @@ onMounted(() => {
 /**
  * 更新主题强调色
  */
-function handleChangeColor(data) {
+function handleChangeColor(data: any) {
     const { value } = data
     store.commit(MutationType.UpdatePrimaryColor, value)
 }
@@ -88,7 +88,7 @@ function handleChangeTheme(value: boolean) {
  * 更新是否跟随系统设置
  */
 function handleChangeFollowSystemTheme(value: boolean) {
-    disableSwitchTheme.value = value
+    disableThemeSwitch.value = value
     store.commit(MutationType.UpdateFollowSystemTheme, value)
 }
 </script>
@@ -106,7 +106,7 @@ function handleChangeFollowSystemTheme(value: boolean) {
                     <div>{{ t('modeSetting.dark') }}</div>
                     <n-switch
                         v-model:value="themeSwitchDefaultValue"
-                        :disabled="disableSwitchTheme"
+                        :disabled="disableThemeSwitch"
                         @update:value="handleChangeTheme"
                     ></n-switch>
                 </div>

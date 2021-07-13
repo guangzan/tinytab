@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import ViteComponents, { NaiveUiResolver } from 'vite-plugin-components'
 import WindiCSS from 'vite-plugin-windicss'
 import placeholderColor from 'windicss/colors'
-import yaml from '@rollup/plugin-yaml'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 
 export default ({ mode }) => {
     const __DEV__ = mode === 'development'
@@ -30,7 +30,10 @@ export default ({ mode }) => {
                 customComponentResolvers: [NaiveUiResolver()],
             }),
             WindiCSS(),
-            yaml(),
+            vueI18n({
+                include: resolve(__dirname, 'src/locales/**'),
+            }),
+            // yaml(),
         ],
         server: {
             open: true,
@@ -41,6 +44,7 @@ export default ({ mode }) => {
             cssCodeSplit: true,
             emptyOutDir: true,
             chunkSizeWarningLimit: 1024,
+            sourcemap: false,
         },
     })
 }

@@ -1,14 +1,14 @@
 {
     "name": "TinyTab",
     "description": "简洁高效的新标签页",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "manifest_version": 2,
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
     "browser_action": {
-        "default_icon": "images/logo19.png",
-        "default_title": "tinytab"
+        "default_icon": "images/logo16.png",
+        "default_title": "TinyTab"
     },
     "icons": {
         "16": "images/logo16.png",

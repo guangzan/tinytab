@@ -14,6 +14,8 @@ export enum MutationType {
     UpdateHomeBackground = 'UPDATE_HOME_BACKGROUND',
     UpdateFollowSystemTheme = 'UPDATE_FOLLOW_THEME',
     UpdateLang = 'UPDATE_LANG',
+    UpdateHomeBackgroundBlur = 'UPDATE_HOME_BACKGROUND_BLUR',
+    UpdateHomeBackgroundMask = 'UPDATE_HOME_BACKGROUND_MASK',
 }
 
 export type Mutations = {
@@ -157,5 +159,25 @@ export const mutations: MutationTree<State> & Mutations = {
     [MutationType.UpdateLang](state, lang) {
         state.lang = lang
         localStorage.setItem('lang', JSON.stringify(lang))
+    },
+
+    /**
+     * 更新首页背景模糊度
+     * @param state
+     * @param lang
+     */
+    [MutationType.UpdateHomeBackgroundBlur](state, v) {
+        state.homeBackgroundBlur = v
+        localStorage.setItem('homeBackgroundBlur', JSON.stringify(v))
+    },
+
+    /**
+     * 更新首页背景遮罩透明度
+     * @param state
+     * @param lang
+     */
+    [MutationType.UpdateHomeBackgroundMask](state, v) {
+        state.homeBackgroundMask = v
+        localStorage.setItem('homeBackgroundMask', JSON.stringify(v))
     },
 }

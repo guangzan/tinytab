@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import { State } from './state'
-import type { EngineItem, PrimaryColor } from '@/types'
+import type { EngineItem } from '@/types'
 
 export type Getters = {
     GetTheme(state: State): State['theme']
@@ -13,6 +13,8 @@ export type Getters = {
     GetFollowSystemTheme(state: State): State['followSystemTheme']
     GetLang(state: State): State['lang']
     GetPrimaryColor(state: State): State['primaryColor']
+    GetHomeBackgroundBlur(state: State): State['homeBackgroundBlur']
+    GetHomeBackgroundMask(state: State): State['homeBackgroundMask']
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -101,4 +103,18 @@ export const getters: GetterTree<State, State> & Getters = {
      * @returns {PrimaryColor} primaryColor - 主题强调色
      */
     GetPrimaryColor: (state) => state.primaryColor,
+
+    /**
+     * 获取首页背景模糊度
+     * @param state
+     * @returns {HomeBackgroundBlur} homeBackgroundBlur - 首页背景模糊度
+     */
+    GetHomeBackgroundBlur: (state) => state.homeBackgroundBlur,
+
+    /**
+     * 获取首页背景遮罩透明度
+     * @param state
+     * @returns {HomeBackgroundBlur} homeBackgroundBlur - 首页背景模糊度
+     */
+    GetHomeBackgroundMask: (state) => state.homeBackgroundMask,
 }

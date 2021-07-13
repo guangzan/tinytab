@@ -126,7 +126,7 @@ function handleCloseSuffix(suffixItem: string) {
 </script>
 
 <template>
-    <div class="mx-auto mt-40 w-2/5 rounded-lg <md:w-4/5">
+    <div class="mx-auto pt-40 w-2/5 rounded-lg <md:w-4/5">
         <div
             class="relative w-full flex items-center transform transition"
             :class="{
