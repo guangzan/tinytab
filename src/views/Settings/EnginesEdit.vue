@@ -5,7 +5,7 @@ import { useMessage } from 'naive-ui'
 import type { EngineItem } from '@/types'
 import { MutationType } from '../../store/mutations'
 import ModalForm from './ModalForm.vue'
-import Pannel from './Pannel.vue'
+import Pannel from '../../components/Pannel.vue'
 import {
     CloseSharp as Close,
     TrashBinOutline as Trash,
@@ -23,7 +23,7 @@ const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
 
 /**
- * 点击添加按钮以添加引擎
+ * Click the Add button to add an engine
  */
 function handleAddEngine() {
     operateType.value = 'add'
@@ -32,7 +32,7 @@ function handleAddEngine() {
 }
 
 /**
- * 点击引擎名称以修改引擎
+ * Click on the engine name to modify the engine
  */
 function handleEditEngine(id: number): void {
     operateType.value = 'edit'
@@ -41,7 +41,7 @@ function handleEditEngine(id: number): void {
 }
 
 /**
- * 点击 x 以删除引擎
+ * Click x to delete the engine
  */
 function handleRemoveEngine(item: EngineItem): void {
     const { id, isDefault } = item

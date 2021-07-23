@@ -4,14 +4,14 @@ import { useStore } from 'vuex'
 import { darkTheme, NConfigProvider } from 'naive-ui'
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { lightenDarkenColor } from '@/utils/tools'
-import Wallpaper from '@/views/Common/Wallpaper.vue'
+import Wallpaper from '@/components/Wallpaper.vue'
 
 const store = useStore()
 const theme = ref()
 const themeOverrides = ref<GlobalThemeOverrides>({})
 
 /**
- * 更新深色-浅色模式
+ * Update dark-light mode
  */
 function changeTheme(v: 'light' | 'dark'): void {
     const { classList } = document.documentElement
@@ -21,7 +21,7 @@ function changeTheme(v: 'light' | 'dark'): void {
 }
 
 /**
- * 更新主题强调色
+ * Update theme accent color
  */
 function changePrimaryColor(v: string): void {
     const lv = lightenDarkenColor(v, 20)
@@ -44,7 +44,7 @@ function changePrimaryColor(v: string): void {
 }
 
 /**
- * 处理跟随系统设置按钮状态切换
+ * Process the state switch following the system setting button
  */
 function handleFollowSystemTheme() {
     const userPrefersDark = window.matchMedia(
@@ -54,7 +54,7 @@ function handleFollowSystemTheme() {
 }
 
 /**
- * 处理浏览器深色-浅色模式设置切换
+ * Handle the browser dark-light mode setting switch
  */
 function handleChangeSystemTheme() {
     const darkMedia: MediaQueryList = window.matchMedia(
@@ -62,7 +62,7 @@ function handleChangeSystemTheme() {
     )
     if (typeof darkMedia.addEventListener === 'function') {
         darkMedia.addEventListener('change', (e: MediaQueryListEvent) => {
-            // 浏览器设置切换就会触发
+            // The browser settings switch will trigger
             if (store.getters.GetFollowSystemTheme) {
                 const prefersDarkMode = e.matches
                 if (prefersDarkMode) changeTheme('dark')
@@ -87,7 +87,7 @@ watch(
             handleFollowSystemTheme()
             handleChangeSystemTheme()
         } else {
-            // 如果关闭跟随系统主题
+            // If you turn off follow the system theme
             const storageTheme = store.state.theme as 'light' | 'dark'
             changeTheme(storageTheme)
         }

@@ -101,8 +101,8 @@ function handleChangeEngine(engineId: number): void {
 }
 
 /**
- * 输入时按下空格触发
- * 更具前缀切换引擎
+ * Triggered by pressing space while typing
+ * More prefix switching engine
  */
 function hanldePressSpace() {
     const str = searchValue.value
@@ -118,7 +118,7 @@ function hanldePressSpace() {
 }
 
 /**
- * 选择后缀时触发
+ * Triggered when suffix is selected
  */
 function handleCloseSuffix(suffixItem: string) {
     suffix.value = suffix.value.filter((item: string) => item !== suffixItem)

@@ -55,6 +55,8 @@ backgroundSetting:
     title: 背景
     desc: 限于浏览器存储能力，请选择小于 2M 的图片，格式为 png 或 jpg
     choose: 选择图片
+    blur: 模糊程度
+    mask: 遮罩浓度
 visibilitySetting:
     title: 显示与隐藏
     desc: 你可以在这里设置一些元素的可见性

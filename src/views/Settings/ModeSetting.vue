@@ -2,9 +2,9 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { MutationType } from '../../store/mutations'
-import Pannel from './Pannel.vue'
+import Pannel from '../../components/Pannel.vue'
 import { ColorPaletteOutline } from '@vicons/ionicons5'
-import ColorPicker from './ColorPicker.vue'
+import ColorPicker from '../../components/ColorPicker.vue'
 import { useI18n } from 'vue-i18n'
 import type { Theme } from '@/types'
 
@@ -39,14 +39,14 @@ const color: ColorItem[] = [
 ]
 
 /**
- * 更新模式切换按钮状态
+ * Update the state of the mode switch button
  */
 function updateThemeSwitchDefaultValue(v: Theme) {
     themeSwitchDefaultValue.value = v === 'dark'
 }
 
 /**
- * 更新跟随系统设置按钮状态
+ * Update the status of the follow system settings button
  */
 function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
     followSystemThemeSwitchDefaultValue.value = v
@@ -70,7 +70,7 @@ onMounted(() => {
 })
 
 /**
- * 更新主题强调色
+ * Update theme accent color
  */
 function handleChangeColor(data: any) {
     const { value } = data
@@ -78,14 +78,14 @@ function handleChangeColor(data: any) {
 }
 
 /**
- * 更新模式
+ * Update mode
  */
 function handleChangeTheme(value: boolean) {
     store.commit(MutationType.UpdateTheme, value ? 'dark' : 'light')
 }
 
 /**
- * 更新是否跟随系统设置
+ * Whether the update follows the system settings
  */
 function handleChangeFollowSystemTheme(value: boolean) {
     disableThemeSwitch.value = value

@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { MutationType } from '../../store/mutations'
-import Pannel from './Pannel.vue'
+import Pannel from '../../components/Pannel.vue'
 import { EyeOutline } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import type { VisibleList } from '@/types'

@@ -8,9 +8,9 @@ const wallpaperBlur = ref('0px')
 const wallpaperMask = ref('rgba(0, 0, 0, 0)')
 
 /**
- * 更新首页背景图
- * 手动更新，以优化性能，style CSS variable injection 只能自动将自定义属性插入到组件根节点，
- * 防止当更新一个属性将会刷新所有 tyle 中 variables
+ * Update home page background image
+ * Manual update to optimize performance, style CSS variable injection only automatically inserts custom properties into the component root node
+ * prevent when updating a property will refresh all variables in tyle
  */
 function updateHomeBackground(v: string) {
     const image = document.querySelector('.wallpaper-image') as HTMLDivElement
@@ -23,7 +23,7 @@ watch(
 )
 
 /**
- * 更新首页背景图模糊度
+ * Update the blurriness of the background image of the home page
  */
 function updateHomeBackgroundBlur(v: string) {
     wallpaperBlur.value = `${v}px`
@@ -35,7 +35,7 @@ watch(
 )
 
 /**
- * 更新首页背景遮罩浓度
+ * Update home page background mask concentration
  */
 function updateHomeBackgroundMask(v: string) {
     wallpaperMask.value = `rgba(0, 0, 0, ${v})`
@@ -61,7 +61,8 @@ onMounted(() => {
                 wallpaper-image
                 w-full
                 h-full
-                bg-cover bg-no-repeat bg-center
+                bg-cover bg-no-repeat bg-center bg-white
+                dark:bg-dark-600
             "
         ></div>
     </div>

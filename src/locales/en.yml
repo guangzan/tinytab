@@ -4,6 +4,8 @@ backgroundSetting:
         Limited to the storage capacity of the browser, please select a picture
         smaller than 2M in the format of png or jpg
     title: Background picture
+    blur: Blur
+    mask: Mask
 button:
     cancel: Cancel
     continue: Carry on

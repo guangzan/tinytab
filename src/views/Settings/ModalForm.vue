@@ -17,7 +17,7 @@ const { t } = useI18n()
 const store = useStore()
 const message = useMessage()
 const formRef = ref() /* template ref */
-let formData = ref<EngineItem>() /* 表单初始化数据 */
+let formData = ref<EngineItem>() /* Form initialization data */
 
 const props = defineProps<{
     engineId: number
@@ -29,9 +29,8 @@ const emit = defineEmits<{
     (event: 'update:showModal', showModal: boolean): void
 }>()
 
-
 /**
- * 验证前缀
+ * Validation Prefix
  */
 function validatePrefix(rule: any, value: string) {
     const prefix = value.trim()
@@ -50,7 +49,7 @@ function validatePrefix(rule: any, value: string) {
 }
 
 const rules = ref({
-    /* 表单验证规则 */
+    /* Form validation rules */
     name: [
         {
             required: true,
@@ -144,7 +143,7 @@ watch(
 )
 
 /**
- * 添加引擎
+ * Add engine
  */
 function handleAddEngine(engineItem: EngineItem): void {
     engineItem.id = new Date().getTime()
@@ -154,7 +153,7 @@ function handleAddEngine(engineItem: EngineItem): void {
 }
 
 /**
- * 编辑引擎
+ * Update Engine
  */
 function handleEditEngine(engineItem: EngineItem): void {
     store.dispatch(ActionTypes.UpdateEngine, engineItem).then((msgList) => {
@@ -166,7 +165,7 @@ function handleEditEngine(engineItem: EngineItem): void {
 }
 
 /**
- * 点击确认触发
+ * Handle press submit
  */
 function handleSubmitModal() {
     formRef.value
@@ -185,30 +184,18 @@ function handleSubmitModal() {
 }
 
 /**
- * 点击 modal 取消按钮触发
+ * Handle press cancel
  */
 function handleCancelModal() {
     emit('update:showModal', false)
 }
 
 /**
- * 点击 modal x 按钮触发
+ * Click the modal x button to trigger
  */
 function handleCloseModal() {
     emit('update:showModal', false)
 }
-
-/**
- * modal 状态更新时触发
- * 1. 点击 x
- * 2. 点击 mask 遮罩层
- * 3. 点击确定或取消
- * naive ui 无法监听点击 mask 点击，只能通过 @update
- * 副作用：没有通过表单验证依然触发
- * 参数 e 恒为 false
- * @param {boolean} e -状态
- */
-function handleUpdate(e: boolean): void {}
 </script>
 
 <template>
@@ -224,7 +211,6 @@ function handleUpdate(e: boolean): void {}
         @positive-click="handleSubmitModal"
         @negative-click="handleCancelModal"
         @close="handleCloseModal"
-        @update:show="handleUpdate"
     >
         <template #icon>
             <n-icon size="20">

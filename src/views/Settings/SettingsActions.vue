@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver'
 import { readAsText } from 'promise-file-reader'
 import { useStore } from 'vuex'
 import type { EngineItem, VisibleList, ISettings } from '@/types'
-import Pannel from './Pannel.vue'
+import Pannel from '../../components/Pannel.vue'
 import { LoadingOutlined as Loading } from '@vicons/antd'
 import { MutationType } from '../../store/mutations'
 import { useNotification, useDialog } from 'naive-ui'
@@ -34,7 +34,7 @@ const showExportModal = ref(false)
 const downloading = ref(true)
 
 /**
- * 处理导出配置
+ * Processing export configuration
  */
 function handleExportSettings() {
     const { getters } = store
@@ -61,7 +61,7 @@ function handleExportSettings() {
 }
 
 /**
- * 更新导出提示 modal 框状态
+ * Update export prompt modal box state
  */
 function handleUpdateExportModal(e: boolean) {
     if (e === false) {
@@ -72,7 +72,7 @@ function handleUpdateExportModal(e: boolean) {
 }
 
 /**
- * 处理导入配置
+ * Processing import configuration
  */
 function handleImportSettings() {
     const fileInput = document.getElementById('file-input')
@@ -87,7 +87,7 @@ function handleImportSettings() {
 }
 
 /**
- * 导入配置回调
+ * Import configuration callback
  */
 function generateSettins(e: Event) {
     const target = e.target as HTMLInputElement
@@ -98,9 +98,9 @@ function generateSettins(e: Event) {
             .then((res) => {
                 const data = JSON.parse(res) as ISettings
 
-                // 新增配置需要设置默认值，防止导入旧版本配置文件报错
-                // 强制导入的配置对象实现接口 ISettings
-                // 与导出的配置项保持一致
+                //The new configuration needs to set the default value to prevent the import of the old version configuration file from reporting errors
+                //Force the imported configuration object to implement the interface ISettings
+                //Consistent with the exported configuration items
                 const settings: ISettings = {
                     enginesData: data.enginesData || [],
                     theme: data.theme || _theme,

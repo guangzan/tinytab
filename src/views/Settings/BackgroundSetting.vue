@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 import { MutationType } from '../../store/mutations'
-import Pannel from './Pannel.vue'
+import Pannel from '../../components/Pannel.vue'
 import { ImageOutline, ArchiveOutline, Close } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
 import type { UploadFile } from 'naive-ui'
@@ -26,8 +26,8 @@ function getBase64(file: File) {
 }
 
 /**
- * 上传之前的处理
- * 1. 文件类型判断
+ * Processing before uploading
+ * 1. File type determination
  */
 async function handleBeforeUpload({ file, fileList }) {
     const typeList = ['png', 'jpeg']
@@ -50,7 +50,7 @@ async function handleBeforeUpload({ file, fileList }) {
 }
 
 /**
- * 处理上传变更
+ * Process upload changes
  */
 async function handleUploaderChange({ file, fileList }) {
     const base64 = (await getBase64(file.file)) as string
@@ -65,7 +65,7 @@ async function handleUploaderChange({ file, fileList }) {
 }
 
 /**
- * 清空背景
+ * Clear the background
  */
 function handleClearHomeBackground() {
     updatePreviewImage('')
@@ -74,7 +74,7 @@ function handleClearHomeBackground() {
 }
 
 /**
- * 更新预览图片
+ * Update the preview image
  */
 function updatePreviewImage(v: string): void {
     previewImage.value = v
@@ -86,7 +86,7 @@ watch(
 )
 
 /**
- * 更新首页图片模糊度
+ * Update home page image blur
  */
 function updateHomeBackgroundBlur(v: number) {
     homeBackgroundBlur.value = v
@@ -102,10 +102,9 @@ watch(
 )
 
 /**
- * 更新首页图片模糊度
+ * Update home page image blur
  */
 function updateHomeBackgroundMask(v: number) {
-    console.log(v)
     homeBackgroundMask.value = v
 }
 
@@ -176,7 +175,7 @@ onMounted(() => {
             </n-list-item>
             <n-list-item>
                 <div class="flex flex-col">
-                    <div>模糊程度</div>
+                    <div>{{ t('backgroundSetting.blur') }}</div>
                     <div class="flex items-center mt-2">
                         <n-slider
                             v-model:value="homeBackgroundBlur"
@@ -196,7 +195,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="flex flex-col mt-4">
-                    <div>遮罩浓度</div>
+                    <div>{{ t('backgroundSetting.mask') }}</div>
                     <div class="flex items-center mt-2">
                         <n-slider
                             v-model:value="homeBackgroundMask"
