@@ -122,7 +122,7 @@ watch(
                     baseUrl: '',
                     placeholderText: '',
                     hotkeys: '',
-                    color: '#000000',
+                    color: '#3051ff',
                     category: 1,
                     isDefault: false,
                     prefix: '',
@@ -299,7 +299,6 @@ function handleCloseModal() {
                         <span>{{ t('popover.engineSuffix') }}</span>
                     </n-popover>
                 </template>
-                <!-- <n-form-item label="规则后缀" path="suffix"> -->
                 <n-dynamic-tags v-model:value="formData.suffix" />
             </n-form-item>
             <n-form-item :label="t('switch.defaultTheme')" path="isDefault">

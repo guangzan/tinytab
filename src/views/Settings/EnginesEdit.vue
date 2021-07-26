@@ -94,7 +94,7 @@ function handleRemoveEngine(item: EngineItem): void {
                     {{ t('editEngineSetting.deleteTip') }}
                 </n-popconfirm>
             </n-button>
-            <n-button size="small" @click="handleAddEngine">
+            <n-button type="primary" size="small" @click="handleAddEngine">
                 <template #icon>
                     <n-icon>
                         <Add></Add>

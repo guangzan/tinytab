@@ -89,7 +89,7 @@ function handleImportSettings() {
 /**
  * Import configuration callback
  */
-function generateSettins(e: Event) {
+function generateSettings(e: Event) {
     const target = e.target as HTMLInputElement
     const fileMetaData: File = (target.files as FileList)[0]
 
@@ -165,7 +165,7 @@ function generateSettins(e: Event) {
 
 onMounted(() => {
     const fileInput = document.getElementById('file-input')
-    fileInput?.addEventListener('change', generateSettins, false)
+    fileInput?.addEventListener('change', generateSettings, false)
 })
 </script>
 
