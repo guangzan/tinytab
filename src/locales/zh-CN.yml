@@ -45,7 +45,7 @@ editEngineSetting:
     example: 例如
 sortEngineSetting:
     title: 排序
-    desc: 上下拖动右侧按钮以排序
+    desc: 点击此处展开引擎列表，上下拖动右侧按钮以排序
 modeSetting:
     title: 颜色模式
     dark: 深色模式
@@ -70,6 +70,8 @@ settingActions:
     exportButton: 导出配置
     generating: 生成中...
     generated: 配置文件已生成
+targetSetting:
+    title: 页面打开方式
 popover:
     enginePrefix: 在搜索时，输入自定义前缀并按下空格，就能立即切换到当前引擎
     engineSuffix: 在搜索时，自定义后缀将会添加到搜索路径最后面

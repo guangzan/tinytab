@@ -8,6 +8,7 @@ import {
     lang,
     homeBackgroundBlur,
     homeBackgroundMask,
+    target,
 } from '../data/index'
 
 export function initStorage() {
@@ -21,6 +22,7 @@ export function initStorage() {
         lang,
         homeBackgroundBlur,
         homeBackgroundMask,
+        target,
     }
 
     for (const [key, val] of Object.entries(state)) {

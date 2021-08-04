@@ -1,7 +1,17 @@
 import { State } from './state'
 import { MutationTree } from 'vuex'
-import type { EngineItem, Lang, VisibleList } from '@/types'
 import { removeArrItem } from '@/utils/tools'
+import type {
+    EngineItem,
+    EnginesData,
+    Lang,
+    Target,
+    VisibleList,
+    Theme,
+    PrimaryColor,
+    HomeBackground,
+    FollowSystemTheme,
+} from '@/types'
 
 export enum MutationType {
     UpdateTheme = 'UPDATE_THEME',
@@ -16,28 +26,21 @@ export enum MutationType {
     UpdateLang = 'UPDATE_LANG',
     UpdateHomeBackgroundBlur = 'UPDATE_HOME_BACKGROUND_BLUR',
     UpdateHomeBackgroundMask = 'UPDATE_HOME_BACKGROUND_MASK',
+    UpdateTarget = 'UPDATE_TARGET',
 }
 
 export type Mutations = {
-    [MutationType.UpdateTheme](state: State, theme: 'dark' | 'light'): void
-    [MutationType.UpdatePrimaryColor](state: State, color: string): void
+    [MutationType.UpdateTheme](state: State, theme: Theme): void
+    [MutationType.UpdatePrimaryColor](state: State, color: PrimaryColor): void
     [MutationType.CreateEngine](state: State, engineItem: EngineItem): void
     [MutationType.DeleteEngine](state: State, id: number): void
-    [MutationType.UpdateEnginesData](
-        state: State,
-        enginesData: Array<EngineItem>
-    ): void
+    [MutationType.UpdateEnginesData](state: State, enginesData: EnginesData): void
     [MutationType.ToggleVisible](state: State, visibleItem: string): void
-    [MutationType.UpdateVisibleList](
-        state: State,
-        visibleList: VisibleList
-    ): void
-    [MutationType.UpdateHomeBackground](
-        state: State,
-        homeBackground: string
-    ): void
-    [MutationType.UpdateFollowSystemTheme](state: State, follow: boolean): void
+    [MutationType.UpdateVisibleList](state: State, visibleList: VisibleList): void
+    [MutationType.UpdateHomeBackground](state: State, homeBackground: HomeBackground): void
+    [MutationType.UpdateFollowSystemTheme](state: State, follow: FollowSystemTheme): void
     [MutationType.UpdateLang](state: State, lang: Lang): void
+    [MutationType.UpdateTarget](state: State, target: Target): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -145,10 +148,7 @@ export const mutations: MutationTree<State> & Mutations = {
      */
     [MutationType.UpdateFollowSystemTheme](state, followSystemTheme) {
         state.followSystemTheme = followSystemTheme
-        localStorage.setItem(
-            'followSystemTheme',
-            JSON.stringify(followSystemTheme)
-        )
+        localStorage.setItem('followSystemTheme', JSON.stringify(followSystemTheme))
     },
 
     /**
@@ -179,5 +179,15 @@ export const mutations: MutationTree<State> & Mutations = {
     [MutationType.UpdateHomeBackgroundMask](state, v) {
         state.homeBackgroundMask = v
         localStorage.setItem('homeBackgroundMask', JSON.stringify(v))
+    },
+
+    /**
+     * 更新页面打开方式
+     * @param state
+     * @param target
+     */
+    [MutationType.UpdateTarget](state, v) {
+        state.target = v
+        localStorage.setItem('target', JSON.stringify(v))
     },
 }

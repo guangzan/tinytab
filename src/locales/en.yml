@@ -65,7 +65,7 @@ settingActions:
     importButton: Import
     title: Import and export configuration
 sortEngineSetting:
-    desc: Drag the right button up and down to sort
+    desc: Click here to expand the engine list, drag the right button up and down to sort
     title: Sort
 switch:
     defaultTheme: Default

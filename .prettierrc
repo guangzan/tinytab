@@ -3,7 +3,7 @@
     "semi": false,
     "singleQuote": true,
     "bracketSpacing": true,
-    "printWidth": 80,
+    "printWidth": 100,
     "endOfLine": "auto",
     "proseWrap": "preserve",
     "trailingComma": "es5",

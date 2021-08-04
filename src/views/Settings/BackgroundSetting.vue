@@ -16,8 +16,12 @@ const homeBackgroundBlur = ref(0)
 const homeBackgroundMask = ref(0)
 // const fileListRef = ref([])
 
-const homeBackgroundBlurPercentage = computed(() => parseInt((homeBackgroundBlur.value * 5).toString()))
-const homeBackgroundMaskPercentage = computed(() => parseInt((homeBackgroundMask.value * 100).toString()))
+const homeBackgroundBlurPercentage = computed(() =>
+    parseInt((homeBackgroundBlur.value * 5).toString())
+)
+const homeBackgroundMaskPercentage = computed(() =>
+    parseInt((homeBackgroundMask.value * 100).toString())
+)
 
 /**
  * Gets the base64 encoding of the file.
@@ -161,7 +165,20 @@ onMounted(() => {
         <n-list class="my-0 min-w-full">
             <n-list-item class="group relative !border-0" v-if="previewImage">
                 <img width="335.2" height="160" class="rounded" :src="previewImage" />
-                <n-button round size="small" type="primary" class="!absolute top-6 right-4 cursor-pointer opacity-0 group-hover:opacity-80 transition-opacity">
+                <n-button
+                    round
+                    size="small"
+                    type="primary"
+                    class="
+                        !absolute
+                        top-6
+                        right-4
+                        cursor-pointer
+                        opacity-0
+                        group-hover:opacity-80
+                        transition-opacity
+                    "
+                >
                     <template #icon>
                         <NIcon class="text-white" @click="handleClearHomeBackground">
                             <Close></Close>
@@ -170,13 +187,22 @@ onMounted(() => {
                 </n-button>
             </n-list-item>
             <n-list-item class="!border-0">
-                <n-upload class="setting-upload-button flex" multiple :default-upload="false" :file-list-style="{ display: 'none' }" @change="handleUploaderChange" @before-upload="handleBeforeUpload">
-                    <n-button class="!w-full" size="large">{{ t('backgroundSetting.choose') }}</n-button>
+                <n-upload
+                    class="setting-upload-button flex"
+                    multiple
+                    :default-upload="false"
+                    :file-list-style="{ display: 'none' }"
+                    @change="handleUploaderChange"
+                    @before-upload="handleBeforeUpload"
+                >
+                    <n-button class="!w-full" size="large">{{
+                        t('backgroundSetting.choose')
+                    }}</n-button>
                 </n-upload>
             </n-list-item>
             <n-list-item>
                 <div class="flex flex-col">
-                    <div>
+                    <div class="text-gray-500 text-xs">
                         <span>{{ t('backgroundSetting.blur') }}：</span>
                         <span class="w-12 text-center">{{ homeBackgroundBlurPercentage }}%</span>
                     </div>
@@ -189,7 +215,14 @@ onMounted(() => {
                             </n-button>
                         </div>
                         <div class="mx-4 flex-1">
-                            <n-slider v-model:value="homeBackgroundBlur" :step="0.2" :max="20" :min="0" :tooltip="false" @update:value="handleUpdateHomeBackgroundBlur" />
+                            <n-slider
+                                v-model:value="homeBackgroundBlur"
+                                :step="0.2"
+                                :max="20"
+                                :min="0"
+                                :tooltip="false"
+                                @update:value="handleUpdateHomeBackgroundBlur"
+                            />
                         </div>
                         <div>
                             <n-button size="tiny" @click="handleIncreaseHomeBackgroundBlur">
@@ -201,7 +234,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="flex flex-col mt-4">
-                    <div>
+                    <div class="text-gray-500 text-xs">
                         <span>{{ t('backgroundSetting.mask') }}：</span>
                         <span class="w-12 text-center">{{ homeBackgroundMaskPercentage }}%</span>
                     </div>
@@ -214,7 +247,14 @@ onMounted(() => {
                             </n-button>
                         </div>
                         <div class="mx-4 flex-1">
-                            <n-slider v-model:value="homeBackgroundMask" :step="0.01" :max="1" :min="0" :tooltip="false" @update:value="handleUpdateHomeBackgroundMask" />
+                            <n-slider
+                                v-model:value="homeBackgroundMask"
+                                :step="0.01"
+                                :max="1"
+                                :min="0"
+                                :tooltip="false"
+                                @update:value="handleUpdateHomeBackgroundMask"
+                            />
                         </div>
                         <div>
                             <n-button size="tiny" @click="handleIncreaseHomeBackgroundMask">

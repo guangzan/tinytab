@@ -7,6 +7,7 @@ import EnginesSort from './EnginesSort.vue'
 import SettingsActions from './SettingsActions.vue'
 import VisibilitySettings from './VisibilitySettings.vue'
 import BackgroundSetting from './BackgroundSetting.vue'
+import TargetSetting from './TargetSetting.vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { MutationType } from '@/store/mutations'
@@ -46,12 +47,9 @@ onMounted(() => {
 
 <template>
     <div class="!absolute top-6 right-6 flex">
-        <div
-            class="mr-2 text-center w-8 h-8 leading-10 cursor-pointer"
-            @click="changeLang"
-        >
+        <div class="mr-2 text-center w-8 h-8 leading-10 cursor-pointer" @click="changeLang">
             <div :class="{ hidden: !homeLangButtonVisible }">
-                <n-icon size="20" class="text-bg-dark-100 dark:text-gray-500">
+                <n-icon size="20" class="text-gray-500">
                     <LanguageOutline></LanguageOutline>
                 </n-icon>
             </div>
@@ -60,34 +58,29 @@ onMounted(() => {
             class="group text-center w-8 h-8 leading-10 cursor-pointer"
             @click="drawerVisible = true"
         >
-            <div
-                class="group-hover:block"
-                :class="{ hidden: !homeSettingButtonVisible }"
-            >
-                <n-icon size="20" class="text-bg-dark-100 dark:text-gray-500">
+            <div class="group-hover:block" :class="{ hidden: !homeSettingButtonVisible }">
+                <n-icon size="20" class="text-gray-500">
                     <settings-outline></settings-outline>
                 </n-icon>
             </div>
         </div>
     </div>
-    <n-drawer
-        placement="right"
-        class="cus-drawer"
-        v-model:show="drawerVisible"
-        :width="400"
-    >
+
+    <n-drawer placement="right" class="cus-drawer" v-model:show="drawerVisible" :width="400">
         <n-drawer-content body-content-style="padding:0;" closable>
             <template #header>
                 <div class="flex items-center">
                     <span>{{ t('title.settings') }}</span>
                 </div>
             </template>
-            <engines-editor></engines-editor>
-            <engines-sort></engines-sort>
-            <mode-setting></mode-setting>
-            <BackgroundSetting></BackgroundSetting>
-            <VisibilitySettings></VisibilitySettings>
-            <settings-actions></settings-actions>
+
+            <engines-editor />
+            <engines-sort />
+            <mode-setting />
+            <background-setting />
+            <target-setting />
+            <visibility-settings />
+            <settings-actions />
         </n-drawer-content>
     </n-drawer>
 </template>

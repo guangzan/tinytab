@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import { State } from './state'
-import type { EngineItem } from '@/types'
+import type { EngineItem, Target } from '@/types'
 
 export type Getters = {
     GetTheme(state: State): State['theme']
@@ -40,9 +40,7 @@ export const getters: GetterTree<State, State> & Getters = {
      * 获取默认引擎数据
      */
     GetDefaultEngineData(state) {
-        return state.enginesData.filter(
-            (engine) => engine.isDefault === true
-        )[0]
+        return state.enginesData.filter((engine) => engine.isDefault === true)[0]
     },
 
     /**
@@ -117,4 +115,11 @@ export const getters: GetterTree<State, State> & Getters = {
      * @returns {HomeBackgroundBlur} homeBackgroundBlur - 首页背景模糊度
      */
     GetHomeBackgroundMask: (state) => state.homeBackgroundMask,
+
+    /**
+     * 获取页面打开方式
+     * @param state
+     * @returns {Target} target - 页面打开方式
+     */
+    GetTarget: (state) => state.target,
 }

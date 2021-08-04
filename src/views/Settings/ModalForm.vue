@@ -38,8 +38,7 @@ function validatePrefix(rule: any, value: string) {
 
     if (
         enginesData.find(
-            (engine: EngineItem) =>
-                engine.prefix === prefix && engine.id !== formData.value?.id
+            (engine: EngineItem) => engine.prefix === prefix && engine.id !== formData.value?.id
         )
     ) {
         return false
@@ -122,7 +121,7 @@ watch(
                     baseUrl: '',
                     placeholderText: '',
                     hotkeys: '',
-                    color: '#3051ff',
+                    color: '#4395ff',
                     category: 1,
                     isDefault: false,
                     prefix: '',
@@ -178,9 +177,7 @@ function handleSubmitModal() {
                 handleEditEngine(engineData)
             }
         })
-        .catch((error: any) => {
-            message.error(t('message.unknownError') + error)
-        })
+        .catch(() => {})
 }
 
 /**
@@ -200,6 +197,7 @@ function handleCloseModal() {
 
 <template>
     <n-modal
+        style="width: 550px"
         preset="dialog"
         :positive-text="t('button.submit')"
         :negative-text="t('button.cancel')"
@@ -225,23 +223,16 @@ function handleCloseModal() {
             label-placement="left"
             label-align="left"
         >
-            <n-form-item
-                :label="t('editEngineSetting.nameInputLabel')"
-                path="name"
-            >
+            <n-form-item :label="t('editEngineSetting.nameInputLabel')" path="name">
                 <n-input
                     :placeholder="t('editEngineSetting.example') + '：Baidu'"
                     v-model:value="formData.name"
                 ></n-input>
             </n-form-item>
-            <n-form-item
-                :label="t('editEngineSetting.urlInputLabel')"
-                path="baseUrl"
-            >
+            <n-form-item :label="t('editEngineSetting.urlInputLabel')" path="baseUrl">
                 <n-input
                     :placeholder="
-                        t('editEngineSetting.example') +
-                        '：https://www.baidu.com/s?ie=UTF-8&wd='
+                        t('editEngineSetting.example') + '：https://www.baidu.com/s?ie=UTF-8&wd='
                     "
                     v-model:value="formData.baseUrl"
                 ></n-input>
@@ -251,24 +242,16 @@ function handleCloseModal() {
                 path="placeholderText"
             >
                 <n-input
-                    :placeholder="
-                        t('editEngineSetting.example') + '：百度一下，你就知道'
-                    "
+                    :placeholder="t('editEngineSetting.example') + '：百度一下，你就知道'"
                     v-model:value="formData.placeholderText"
                 ></n-input>
             </n-form-item>
-            <n-form-item
-                :label-style="{ display: 'flex', alignItems: 'center' }"
-                path="prefix"
-            >
+            <n-form-item :label-style="{ display: 'flex', alignItems: 'center' }" path="prefix">
                 <template #label>
                     <span>{{ t('editEngineSetting.prefixInputLabel') }}</span>
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
-                            <n-icon
-                                class="ml-1 text-gray-400 cursor-pointer"
-                                size="20"
-                            >
+                            <n-icon class="ml-1 text-gray-400 cursor-pointer" size="20">
                                 <Info></Info>
                             </n-icon>
                         </template>
@@ -281,18 +264,12 @@ function handleCloseModal() {
                 ></n-input>
             </n-form-item>
 
-            <n-form-item
-                :label-style="{ display: 'flex', alignItems: 'center' }"
-                path="suffix"
-            >
+            <n-form-item :label-style="{ display: 'flex', alignItems: 'center' }" path="suffix">
                 <template #label>
                     <span>{{ t('editEngineSetting.suffixInputLabel') }}</span>
                     <n-popover trigger="hover" :style="{ width: '200px' }">
                         <template #trigger>
-                            <n-icon
-                                class="ml-1 text-gray-400 cursor-pointer"
-                                size="20"
-                            >
+                            <n-icon class="ml-1 text-gray-400 cursor-pointer" size="20">
                                 <Info></Info>
                             </n-icon>
                         </template>
@@ -304,14 +281,8 @@ function handleCloseModal() {
             <n-form-item :label="t('switch.defaultTheme')" path="isDefault">
                 <n-switch v-model:value="formData.isDefault"></n-switch>
             </n-form-item>
-            <n-form-item
-                :label="t('colorPicker.engineColorLabel')"
-                path="color"
-            >
-                <n-color-picker
-                    v-model:value="formData.color"
-                    :modes="['hex']"
-                ></n-color-picker>
+            <n-form-item :label="t('colorPicker.engineColorLabel')" path="color">
+                <n-color-picker v-model:value="formData.color" :modes="['hex']"></n-color-picker>
             </n-form-item>
         </n-form>
     </n-modal>

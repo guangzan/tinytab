@@ -6,11 +6,7 @@ import type { EngineItem } from '@/types'
 import { MutationType } from '../../store/mutations'
 import ModalForm from './ModalForm.vue'
 import Pannel from '../../components/Pannel.vue'
-import {
-    CloseSharp as Close,
-    TrashBinOutline as Trash,
-    Add,
-} from '@vicons/ionicons5'
+import { CloseSharp as Close, TrashBinOutline as Trash, Add } from '@vicons/ionicons5'
 import { EditOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
 
@@ -55,10 +51,7 @@ function handleRemoveEngine(item: EngineItem): void {
 </script>
 
 <template>
-    <pannel
-        :title="t('editEngineSetting.title')"
-        :desc="t('editEngineSetting.desc')"
-    >
+    <pannel :title="t('editEngineSetting.title')" :desc="t('editEngineSetting.desc')">
         <template #icon>
             <NIcon>
                 <EditOutlined></EditOutlined>
@@ -94,7 +87,7 @@ function handleRemoveEngine(item: EngineItem): void {
                     {{ t('editEngineSetting.deleteTip') }}
                 </n-popconfirm>
             </n-button>
-            <n-button type="primary" size="small" @click="handleAddEngine">
+            <n-button size="small" @click="handleAddEngine">
                 <template #icon>
                     <n-icon>
                         <Add></Add>

@@ -1,7 +1,7 @@
 {
     "name": "TinyTab",
     "description": "简洁高效的新标签页",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "manifest_version": 2,
     "chrome_url_overrides": {
         "newtab": "index.html"

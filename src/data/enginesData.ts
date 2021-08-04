@@ -1,6 +1,6 @@
-import type { EngineItem } from '@/types'
+import type { EnginesData } from '@/types'
 
-export const enginesData: Array<EngineItem> = [
+export const enginesData: EnginesData = [
     {
         id: 1,
         name: 'Baidu',

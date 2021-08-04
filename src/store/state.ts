@@ -1,3 +1,4 @@
+import { initStorage } from '../logic/index'
 import type {
     EngineItem,
     VisibleList,
@@ -8,8 +9,8 @@ import type {
     Lang,
     HomeBackgroundBlur,
     HomeBackgroundMask,
+    Target,
 } from '@/types'
-import { initStorage } from '../logic/index'
 
 initStorage()
 
@@ -22,6 +23,7 @@ const followSystemTheme = JSON.parse(localStorage['followSystemTheme'])
 const lang = JSON.parse(localStorage['lang'])
 const homeBackgroundBlur = JSON.parse(localStorage['homeBackgroundBlur'])
 const homeBackgroundMask = JSON.parse(localStorage['homeBackgroundMask'])
+const target = JSON.parse(localStorage['target'])
 
 export type State = {
     theme: Theme
@@ -33,6 +35,7 @@ export type State = {
     lang: Lang
     homeBackgroundBlur: HomeBackgroundBlur
     homeBackgroundMask: HomeBackgroundMask
+    target: Target
 }
 
 export const state: State = {
@@ -45,4 +48,5 @@ export const state: State = {
     lang,
     homeBackgroundBlur,
     homeBackgroundMask,
+    target,
 }
