@@ -105,15 +105,14 @@ function handleUpdateHomeBackgroundBlur(v: number) {
 }
 
 function handleDecreaseHomeBackgroundBlur() {
-  if (homeBackgroundBlurPercentage.value == 0)
+  if (homeBackgroundBlurPercentage.value === 0)
     return
   homeBackgroundBlur.value -= 0.2
 }
 
 function handleIncreaseHomeBackgroundBlur() {
-  if (homeBackgroundBlurPercentage.value == 100)
+  if (homeBackgroundBlurPercentage.value === 100)
     return
-  console.log(123)
   homeBackgroundBlur.value += 0.2
 }
 
@@ -134,13 +133,13 @@ function handleUpdateHomeBackgroundMask(v: number) {
 }
 
 function handleDecreaseHomeBackgroundMask() {
-  if (homeBackgroundMaskPercentage.value == 0)
+  if (homeBackgroundMaskPercentage.value === 0)
     return
   homeBackgroundMask.value -= 0.01
 }
 
 function handleIncreaseHomeBackgroundMask() {
-  if (homeBackgroundMaskPercentage.value == 100)
+  if (homeBackgroundMaskPercentage.value === 100)
     return
   homeBackgroundMask.value += 0.01
 }
@@ -229,7 +228,7 @@ onMounted(() => {
             <div>
               <n-button size="tiny" @click="handleIncreaseHomeBackgroundBlur">
                 <NIcon>
-                  <Add />
+                  <Remove />
                 </NIcon>
               </n-button>
             </div>
@@ -241,13 +240,9 @@ onMounted(() => {
             <span class="w-12 text-center">{{ homeBackgroundMaskPercentage }}%</span>
           </div>
           <div class="flex items-center mt-2">
-            <div>
-              <n-button size="tiny" @click="handleDecreaseHomeBackgroundMask">
-                <NIcon>
-                  <Remove />
-                </NIcon>
-              </n-button>
-            </div>
+            <n-button size="tiny" @click="handleDecreaseHomeBackgroundMask">
+              <icon-minus />
+            </n-button>
             <div class="mx-4 flex-1">
               <n-slider
                 v-model:value="homeBackgroundMask"

@@ -243,8 +243,8 @@ function handleCloseModal() {
         <n-dynamic-tags v-model="formData.suffix" />
       </a-form-item>
       <a-form-item :label="t('switch.defaultTheme')" field="isDefault">
-        <n-switch v-model="formData.isDefault" />
-      </a-form-item>
+        <a-switch v-model="formData.isDefault" />
+      </a-form-item>x
       <a-form-item :label="t('colorPicker.engineColorLabel')" field="color">
         <n-color-picker v-model="formData.color" :modes="['hex']" />
       </a-form-item>

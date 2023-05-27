@@ -2,10 +2,9 @@
 import { computed } from 'vue'
 import { useSettingsStore } from '@/store/settings.store'
 
-const emit
-	= defineEmits<{
-	  (event: 'change-engine', searchEngine: number): void
-	}>()
+const emit = defineEmits<{
+  (event: 'change-engine', searchEngine: number): void
+}>()
 
 defineOptions({
   name: 'HomeEnginesList',
@@ -31,11 +30,6 @@ function handleChooseSearchEngine(id: number): void {
         @click="handleChooseSearchEngine(item.id)"
       >
         {{ item.name }}
-        <!-- <template #default>
-					<span class="text-gray-700 dark:text-gray-300">{{
-						item.name
-					}}</span>
-				</template> -->
       </n-button>
     </n-space>
   </div>

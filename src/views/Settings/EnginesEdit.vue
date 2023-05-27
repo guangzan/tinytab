@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useMessage } from 'naive-ui'
+import { NSpace, useMessage } from 'naive-ui'
 import { Add, CloseSharp as Close, TrashBinOutline as Trash } from '@vicons/ionicons5'
-import { EditOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import ModalForm from './ModalForm.vue'
@@ -53,11 +52,9 @@ function handleRemoveEngine(item: EngineItem): void {
 <template>
   <Pannel :title="t('editEngineSetting.title')" :desc="t('editEngineSetting.desc')">
     <template #icon>
-      <NIcon>
-        <EditOutlined />
-      </NIcon>
+      <icon-edit />
     </template>
-    <n-space>
+    <NSpace>
       <n-button
         v-for="item in enginesData"
         :key="item.id"
@@ -94,7 +91,7 @@ function handleRemoveEngine(item: EngineItem): void {
           </n-icon>
         </template>
       </n-button>
-    </n-space>
+    </NSpace>
   </Pannel>
   <ModalForm
     v-model:showModal="showModal"

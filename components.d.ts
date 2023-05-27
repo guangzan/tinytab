@@ -9,14 +9,18 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     ADrawer: typeof import('@arco-design/web-vue')['Drawer']
     ADynamicTags: typeof import('@arco-design/web-vue')['DynamicTags']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AInput: typeof import('@arco-design/web-vue')['Input']
+    AList: typeof import('@arco-design/web-vue')['List']
+    AListItem: typeof import('@arco-design/web-vue')['ListItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopover: typeof import('@arco-design/web-vue')['Popover']
+    ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ColorPicker: typeof import('./src/components/ColorPicker.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     NButton: typeof import('naive-ui')['NButton']

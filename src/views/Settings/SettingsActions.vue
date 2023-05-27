@@ -120,7 +120,7 @@ function generateSettings(e: Event) {
           duration: 3000,
         })
       })
-      .catch((err: any) => {
+      .catch(() => {
         notification.error({
           content: t('message.unknownError'),
           meta: t('title.tip'),
@@ -145,22 +145,22 @@ onMounted(() => {
     </template>
 
     <div class="flex">
-      <n-button class="flex-1 mr-2" @click="handleImportSettings">
+      <a-button class="flex-1 mr-2" type="outline" @click="handleImportSettings">
         <template #icon>
           <n-icon>
             <Download />
           </n-icon>
         </template>
         {{ t('settingActions.importButton') }}
-      </n-button>
-      <n-button type="primary" class="flex-1 ml-2" @click="handleExportSettings">
+      </a-button>
+      <a-button type="primary" class="flex-1 ml-2" @click="handleExportSettings">
         <template #icon>
           <n-icon>
             <ArrowUp />
           </n-icon>
         </template>
         {{ t('settingActions.exportButton') }}
-      </n-button>
+      </a-button>
     </div>
   </Pannel>
   <input id="file-input" type="file" class="hidden">

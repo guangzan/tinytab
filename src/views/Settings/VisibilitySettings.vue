@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
-import { EyeOutline } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import { useSettingsStore } from '@/store/settings.store'
@@ -36,42 +35,40 @@ onMounted(() => changeVisibility(store.visibleList))
     :desc="t('visibilitySetting.desc')"
   >
     <template #icon>
-      <NIcon>
-        <EyeOutline />
-      </NIcon>
+      <icon-eye />
     </template>
-    <n-list bordered>
-      <n-list-item>
+    <a-list bordered>
+      <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeEngines') }}</div>
-          <n-switch
+          <a-switch
             v-model:value="homeEngineSwitchDefaultValue"
             @update:value="handleChangeItemVisible('homeEngines')"
           />
         </div>
-      </n-list-item>
-      <n-list-item>
+      </a-list-item>
+      <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeSettingButton') }}</div>
-          <n-switch
+          <a-switch
             v-model:value="homeSettingButtonSwitchDefaultValue"
             @update:value="
               handleChangeItemVisible('homeSettingButton')
             "
           />
         </div>
-      </n-list-item>
-      <n-list-item>
+      </a-list-item>
+      <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeLangButton') }}</div>
-          <n-switch
+          <a-switch
             v-model:value="homeLangButtonSwitchDefaultValue"
             @update:value="
               handleChangeItemVisible('homeLangButton')
             "
           />
         </div>
-      </n-list-item>
-    </n-list>
+      </a-list-item>
+    </a-list>
   </Pannel>
 </template>
