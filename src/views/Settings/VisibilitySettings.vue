@@ -1,20 +1,19 @@
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import { MutationType } from '../../store/mutations'
+import { useSettingsStore } from '@/store/settings.store'
 import Pannel from '../../components/Pannel.vue'
 import { EyeOutline } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import type { VisibleList } from '@/types'
 
 const { t } = useI18n()
-const store = useStore()
+const store = useSettingsStore()
 const homeEngineSwitchDefaultValue = ref(false)
 const homeSettingButtonSwitchDefaultValue = ref(false)
 const homeLangButtonSwitchDefaultValue = ref(false)
 
 function handleChangeItemVisible(item: string): void {
-    store.commit(MutationType.ToggleVisible, item)
+    store.ToggleVisible(item)
 }
 
 function changeVisibility(v: VisibleList) {
@@ -24,11 +23,11 @@ function changeVisibility(v: VisibleList) {
 }
 
 watch(
-    () => store.getters.GetVisibleList,
+    () => store.visibleList,
     (v) => changeVisibility(v)
 )
 
-onMounted(() => changeVisibility(store.getters.GetVisibleList))
+onMounted(() => changeVisibility(store.visibleList))
 </script>
 
 <template>
@@ -58,7 +57,7 @@ onMounted(() => changeVisibility(store.getters.GetVisibleList))
                         v-model:value="homeSettingButtonSwitchDefaultValue"
                         @update:value="
                             handleChangeItemVisible('homeSettingButton')
-                        "
+                            "
                     ></n-switch>
                 </div>
             </n-list-item>
@@ -69,7 +68,7 @@ onMounted(() => changeVisibility(store.getters.GetVisibleList))
                         v-model:value="homeLangButtonSwitchDefaultValue"
                         @update:value="
                             handleChangeItemVisible('homeLangButton')
-                        "
+                            "
                     ></n-switch>
                 </div>
             </n-list-item>

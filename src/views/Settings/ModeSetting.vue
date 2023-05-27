@@ -1,17 +1,22 @@
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import { MutationType } from '../../store/mutations'
+import { ref, watch, onMounted } from 'vue'
+import { useSettingsStore } from '@/store/settings.store'
 import Pannel from '../../components/Pannel.vue'
 import { ColorPaletteOutline } from '@vicons/ionicons5'
 import ColorPicker from '../../components/ColorPicker.vue'
 import { useI18n } from 'vue-i18n'
 import type { Theme } from '@/types'
 
-const { t } = useI18n()
-const store = useStore()
 
-const disableThemeSwitch = ref(store.state.followSystemTheme)
+type ColorItem = {
+    value: string
+    label: string
+}
+
+const { t } = useI18n()
+const store = useSettingsStore()
+
+const disableThemeSwitch = ref(store.followSystemTheme)
 const themeSwitchDefaultValue = ref(false)
 const followSystemThemeSwitchDefaultValue = ref(false)
 
@@ -53,19 +58,19 @@ function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
 }
 
 watch(
-    () => store.getters.GetTheme,
+    () => store.theme,
     (v) => updateThemeSwitchDefaultValue(v)
 )
 
 watch(
-    () => store.getters.GetFollowSystemTheme,
+    () => store.followSystemTheme,
     (v) => updateFollowSystemThemeSwitchDefaultValue(v)
 )
 
 onMounted(() => {
-    updateThemeSwitchDefaultValue(store.getters.GetTheme)
+    updateThemeSwitchDefaultValue(store.theme)
     updateFollowSystemThemeSwitchDefaultValue(
-        store.getters.GetFollowSystemTheme
+        store.followSystemTheme
     )
 })
 
@@ -74,14 +79,14 @@ onMounted(() => {
  */
 function handleChangeColor(data: any) {
     const { value } = data
-    store.commit(MutationType.UpdatePrimaryColor, value)
+    store.UpdatePrimaryColor(value)
 }
 
 /**
  * Update mode
  */
 function handleChangeTheme(value: boolean) {
-    store.commit(MutationType.UpdateTheme, value ? 'dark' : 'light')
+    store.UpdateTheme(value ? 'dark' : 'light')
 }
 
 /**
@@ -89,7 +94,7 @@ function handleChangeTheme(value: boolean) {
  */
 function handleChangeFollowSystemTheme(value: boolean) {
     disableThemeSwitch.value = value
-    store.commit(MutationType.UpdateFollowSystemTheme, value)
+    store.UpdateFollowSystemTheme(value)
 }
 </script>
 

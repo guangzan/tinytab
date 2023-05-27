@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 import { useMessage } from 'naive-ui'
 import type { EngineItem } from '@/types'
-import { MutationType } from '../../store/mutations'
 import ModalForm from './ModalForm.vue'
 import Pannel from '../../components/Pannel.vue'
 import { CloseSharp as Close, TrashBinOutline as Trash, Add } from '@vicons/ionicons5'
@@ -11,10 +10,10 @@ import { EditOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const store = useStore()
+const store = useSettingsStore()
 const message = useMessage()
 const showModal = ref(false)
-const enginesData = computed(() => store.state.enginesData)
+const enginesData = computed(() => store.enginesData)
 const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
 
@@ -44,7 +43,7 @@ function handleRemoveEngine(item: EngineItem): void {
     if (isDefault) {
         message.error(t('message.noDelDefaultEngine'))
     } else {
-        store.commit(MutationType.DeleteEngine, id)
+        store.DeleteEngine(id)
         message.success(t('message.delSuccess'))
     }
 }

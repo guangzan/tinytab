@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useStore } from 'vuex'
-import { MutationType } from '../../store/mutations'
+import { useSettingsStore } from '@/store/settings.store'
 import Pannel from '../../components/Pannel.vue'
-import { ImageOutline, ArchiveOutline, Close, Add, Remove } from '@vicons/ionicons5'
+import { ImageOutline, Close, Add, Remove } from '@vicons/ionicons5'
 import { useMessage } from 'naive-ui'
-import type { UploadFile } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const store = useStore()
+const store = useSettingsStore()
 const message = useMessage()
 const previewImage = ref()
 const homeBackgroundBlur = ref(0)
@@ -65,7 +63,7 @@ async function handleBeforeUpload({ file, fileList }) {
 async function handleUploaderChange({ file, fileList }) {
     const base64 = (await getBase64(file.file)) as string
     updatePreviewImage(base64)
-    store.commit(MutationType.UpdateHomeBackground, base64)
+    store.UpdateHomeBackground(base64)
     message.success(t('message.updateSuccess'))
 
     // fileList.forEach(async (file: any) => {
@@ -79,7 +77,7 @@ async function handleUploaderChange({ file, fileList }) {
  */
 function handleClearHomeBackground() {
     updatePreviewImage('')
-    store.commit(MutationType.UpdateHomeBackground, '')
+    store.UpdateHomeBackground('')
     message.success(t('message.clear'))
 }
 
@@ -91,8 +89,8 @@ function updatePreviewImage(v: string): void {
 }
 
 watch(
-    () => store.getters.GetHomeBackground,
-    (v) => updatePreviewImage(v)
+    () => store.homeBackground,
+    (v) => updatePreviewImage(v || '')
 )
 
 /**
@@ -103,7 +101,7 @@ function updateHomeBackgroundBlur(v: number) {
 }
 
 function handleUpdateHomeBackgroundBlur(v: number) {
-    store.commit(MutationType.UpdateHomeBackgroundBlur, v)
+    store.UpdateHomeBackgroundBlur(v)
 }
 
 function handleDecreaseHomeBackgroundBlur() {
@@ -118,8 +116,8 @@ function handleIncreaseHomeBackgroundBlur() {
 }
 
 watch(
-    () => store.getters.GetHomeBackgroundBlur,
-    (v) => updateHomeBackgroundBlur(v)
+    () => homeBackgroundBlur,
+    (v) => updateHomeBackgroundBlur(v.value)
 )
 
 /**
@@ -130,7 +128,7 @@ function updateHomeBackgroundMask(v: number) {
 }
 
 function handleUpdateHomeBackgroundMask(v: number) {
-    store.commit(MutationType.UpdateHomeBackgroundMask, v)
+    store.UpdateHomeBackgroundMask(v)
 }
 
 function handleDecreaseHomeBackgroundMask() {
@@ -144,14 +142,14 @@ function handleIncreaseHomeBackgroundMask() {
 }
 
 watch(
-    () => store.getters.GetHomeBackgroundMask,
-    (v) => updateHomeBackgroundMask(v)
+    () => homeBackgroundMask,
+    (v) => updateHomeBackgroundMask(v.value)
 )
 
 onMounted(() => {
-    updatePreviewImage(store.getters.GetHomeBackground)
-    updateHomeBackgroundBlur(store.getters.GetHomeBackgroundBlur)
-    updateHomeBackgroundMask(store.getters.GetHomeBackgroundMask)
+    updatePreviewImage(store.homeBackground)
+    updateHomeBackgroundBlur(store.homeBackgroundBlur)
+    updateHomeBackgroundMask(store.homeBackgroundMask)
 })
 </script>
 

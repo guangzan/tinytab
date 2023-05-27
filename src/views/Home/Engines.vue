@@ -1,16 +1,20 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 
-const store = useStore()
-const enginesData = computed(() => store.state.enginesData)
+defineOptions({
+	name: 'home-engines-list',
+})
+
+const store = useSettingsStore()
+const enginesData = computed(() => store.enginesData)
 
 const emit =
 	defineEmits<{
-		(event: 'change-engine', searchEngine: string): void
+		(event: 'change-engine', searchEngine: number): void
 	}>()
 
-function handleChooseSearchEngine(id: string): void {
+function handleChooseSearchEngine(id: number): void {
 	emit('change-engine', id)
 }
 </script>

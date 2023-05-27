@@ -8,7 +8,7 @@ import {
     lang,
     homeBackgroundBlur,
     homeBackgroundMask,
-    target,
+    target
 } from '../data/index'
 
 export function initStorage() {
@@ -22,7 +22,7 @@ export function initStorage() {
         lang,
         homeBackgroundBlur,
         homeBackgroundMask,
-        target,
+        target
     }
 
     for (const [key, val] of Object.entries(state)) {
@@ -30,4 +30,6 @@ export function initStorage() {
             localStorage.setItem(key, JSON.stringify(val))
         }
     }
+
+    return state
 }

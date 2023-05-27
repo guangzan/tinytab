@@ -1,19 +1,16 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { saveAs } from 'file-saver'
 import { readAsText } from 'promise-file-reader'
-import { useStore } from 'vuex'
-import type { EngineItem, VisibleList, ISettings } from '@/types'
+import { useSettingsStore } from '@/store/settings.store'
+import type { ISettings } from '@/types'
 import Pannel from '../../components/Pannel.vue'
-import { LoadingOutlined as Loading } from '@vicons/antd'
-import { MutationType } from '../../store/mutations'
 import { useNotification, useDialog, useMessage } from 'naive-ui'
 import { FileTrayFullOutline } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import {
     DownloadOutline as Download,
     ArrowUpOutline as ArrowUp,
-    CheckmarkCircleSharp as Success,
 } from '@vicons/ionicons5'
 import {
     theme as _theme,
@@ -29,7 +26,7 @@ import {
 
 const { t } = useI18n()
 const dialog = useDialog()
-const store = useStore()
+const store = useSettingsStore()
 const message = useMessage()
 const notification = useNotification()
 
@@ -37,18 +34,17 @@ const notification = useNotification()
  * Processing export configuration
  */
 function handleExportSettings() {
-    const { getters } = store
     const settings: ISettings = {
-        theme: getters.GetTheme,
-        primaryColor: getters.GetPrimaryColor,
-        visibleList: getters.GetVisibleList,
-        followSystemTheme: getters.GetFollowSystemTheme,
-        lang: getters.GetLang,
-        homeBackground: getters.GetHomeBackground,
-        enginesData: getters.GetEnginesData,
-        homeBackgroundMask: getters.GetHomeBackgroundMask,
-        homeBackgroundBlur: getters.GetHomeBackgroundBlur,
-        target: getters.GetTarget,
+        theme: store.theme,
+        primaryColor: store.primaryColor,
+        visibleList: store.visibleList,
+        followSystemTheme: store.followSystemTheme,
+        lang: store.lang,
+        homeBackground: store.homeBackground,
+        enginesData: store.enginesData,
+        homeBackgroundMask: store.homeBackgroundMask,
+        homeBackgroundBlur: store.homeBackgroundBlur,
+        target: store.target,
     }
 
     const blob = new Blob([JSON.stringify(settings)], { type: '' })
@@ -107,16 +103,16 @@ function generateSettings(e: Event) {
                     target: data.target || _target,
                 }
 
-                store.commit(MutationType.UpdateEnginesData, settings.enginesData)
-                store.commit(MutationType.UpdateTheme, settings.theme)
-                store.commit(MutationType.UpdatePrimaryColor, settings.primaryColor)
-                store.commit(MutationType.UpdateHomeBackground, settings.homeBackground)
-                store.commit(MutationType.UpdateFollowSystemTheme, settings.followSystemTheme)
-                store.commit(MutationType.UpdateVisibleList, settings.visibleList)
-                store.commit(MutationType.UpdateLang, settings.lang)
-                store.commit(MutationType.UpdateHomeBackgroundMask, settings.homeBackgroundMask)
-                store.commit(MutationType.UpdateHomeBackgroundBlur, settings.homeBackgroundBlur)
-                store.commit(MutationType.UpdateTarget, settings.target)
+                store.UpdateEnginesData(settings.enginesData)
+                store.UpdateTheme(settings.theme)
+                store.UpdatePrimaryColor(settings.primaryColor)
+                store.UpdateHomeBackground(settings.homeBackground)
+                store.UpdateFollowSystemTheme(settings.followSystemTheme)
+                store.UpdateVisibleList(settings.visibleList)
+                store.UpdateLang(settings.lang)
+                store.UpdateHomeBackgroundMask(settings.homeBackgroundMask)
+                store.UpdateHomeBackgroundBlur(settings.homeBackgroundBlur)
+                store.UpdateTarget(settings.target)
 
                 notification.success({
                     content: t('message.importSuccess'),
@@ -174,6 +170,7 @@ onMounted(() => {
 .spin {
     animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
     to {
         transform: rotate(360deg);

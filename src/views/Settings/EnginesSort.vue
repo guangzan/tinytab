@@ -1,24 +1,20 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
-import { MutationType } from '../../store/mutations'
+import { useSettingsStore } from '@/store/settings.store'
 import draggable from 'vuedraggable'
-import Pannel from '../../components/Pannel.vue'
-import { MenuOutline as move, ReorderFourOutline, InformationCircleOutline as Info } from '@vicons/ionicons5'
-import { useMessage } from 'naive-ui'
+import { MenuOutline as move, InformationCircleOutline as Info } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const message = useMessage()
-const store = useStore()
+const store = useSettingsStore()
 const drag = ref(false)
 
 const engineList = computed({
     get() {
-        return store.state.enginesData
+        return store.enginesData
     },
     set(value) {
-        store.commit(MutationType.UpdateEnginesData, value)
+        store.UpdateEnginesData(value)
     },
 })
 
@@ -47,8 +43,8 @@ const dragOptions = computed(() => ({
                 </template>
                 <n-list class="my-0 min-w-full">
                     <draggable
-                        tag="transition-group"
-                        :component-data="{
+                        :componentData="{
+                            tag: 'div',
                             type: 'transition-group',
                             name: !drag ? 'flip-list' : null,
                         }"

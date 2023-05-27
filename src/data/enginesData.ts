@@ -11,7 +11,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: true,
         prefix: 'bd',
-        suffix: [],
+        suffix: []
     },
     {
         id: 2,
@@ -23,7 +23,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'bing',
-        suffix: [],
+        suffix: []
     },
     {
         id: 3,
@@ -35,7 +35,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'gg',
-        suffix: [],
+        suffix: []
     },
     {
         id: 4,
@@ -47,7 +47,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'sg',
-        suffix: [],
+        suffix: []
     },
     {
         id: 5,
@@ -59,7 +59,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'npm',
-        suffix: [],
+        suffix: []
     },
     {
         id: 6,
@@ -71,7 +71,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'gh',
-        suffix: [],
+        suffix: []
     },
     {
         id: 7,
@@ -83,7 +83,7 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'yq',
-        suffix: [],
+        suffix: []
     },
     {
         id: 8,
@@ -95,6 +95,6 @@ export const enginesData: EnginesData = [
         category: 1,
         isDefault: false,
         prefix: 'fy',
-        suffix: [],
-    },
+        suffix: []
+    }
 ]

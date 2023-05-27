@@ -2,22 +2,10 @@
 import { ref, watch } from 'vue'
 import type { EngineItem, IMsgItem } from '@/types'
 import { useMessage } from 'naive-ui'
-import {
-    PencilOutline as Edit,
-    Add,
-    InformationCircleOutline as Info,
-    ReturnDownBackOutline,
-} from '@vicons/ionicons5'
-import { useStore } from 'vuex'
-import { ActionTypes } from '../../store/actions'
-import { MutationType } from '@/store/mutations'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-const store = useStore()
-const message = useMessage()
-const formRef = ref() /* template ref */
-let formData = ref<EngineItem>() /* Form initialization data */
+import * as _ from 'lodash-es'
+import { useI18n } from "vue-i18n"
+import { useSettingsStore } from '@/store/settings.store'
+import { FieldRule } from '@arco-design/web-vue'
 
 const props = defineProps<{
     engineId: number
@@ -26,55 +14,41 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (event: 'update:showModal', showModal: boolean): void
+    (event: "update:showModal", showModal: boolean): void
 }>()
 
-/**
- * Validation Prefix
- */
-function validatePrefix(rule: any, value: string) {
-    const prefix = value.trim()
-    const enginesData = store.state.enginesData
+const { t } = useI18n()
+const store = useSettingsStore()
+const message = useMessage()
+const formRef = ref()
+const formData = ref<EngineItem>()
 
-    if (
-        enginesData.find(
-            (engine: EngineItem) => engine.prefix === prefix && engine.id !== formData.value?.id
-        )
-    ) {
-        return false
-    }
-
-    return true
-}
-
-const rules = ref({
-    /* Form validation rules */
+const rules: Record<string, FieldRule[]> = ref({
     name: [
         {
             required: true,
             message: t('rules.engineNameEmpty'),
-            trigger: 'blur',
         },
         {
             min: 1,
             max: 20,
             message: t('rules.engineNameLength'),
-            trigger: 'blur',
         },
     ],
     baseUrl: [
         {
             required: true,
             message: t('rules.engineUrlEmpty'),
-            trigger: 'blur',
         },
     ],
+    placeholderText: {
+        required: false,
+    },
     prefix: [
         {
             min: 1,
             max: 20,
             message: t('rules.enginePrefixLength'),
-            trigger: 'blur',
         },
         {
             validator: validatePrefix,
@@ -84,7 +58,7 @@ const rules = ref({
     ],
     suffix: [
         {
-            validator(rule: any, value: string[]) {
+            validator(value: string[]) {
                 if (value.length) {
                     if (value[value.length - 1].length > 10) {
                         return false
@@ -93,19 +67,22 @@ const rules = ref({
                 }
             },
             message: t('rules.engineSuffixLength'),
-            trigger: ['input'],
         },
         {
-            validator(rule: any, value: string[]) {
+            validator(value: string[]) {
                 if (value.length > 5) {
                     return false
                 }
                 return true
             },
             message: t('rules.engineSuffixNum'),
-            trigger: ['input', 'blur'],
         },
     ],
+    isDefault: [
+        {
+            required: false,
+        }
+    ]
 })
 
 watch(
@@ -113,7 +90,6 @@ watch(
     (value) => {
         if (value === true) {
             const { engineId, operateType } = props
-
             if (operateType === 'add') {
                 formData.value = {
                     id: 0,
@@ -128,25 +104,36 @@ watch(
                     suffix: [],
                 }
             }
-
             if (operateType === 'edit') {
-                const enginesData = JSON.parse(
-                    localStorage.getItem('enginesData') as string
-                ) as EngineItem[]
-                formData.value = enginesData.filter(
-                    (engine: EngineItem) => engine.id === engineId
-                )[0]
+                formData.value = store.GetEngineById(engineId)
             }
         }
     }
 )
 
 /**
+ * Validation Prefix
+ */
+function validatePrefix(rule, value: string) {
+    const prefix = value.trim()
+    const enginesData = store.enginesData
+
+    if (
+        enginesData.find(
+            (engine: EngineItem) => engine.prefix === prefix && engine.id !== formData.value?.id
+        )
+    ) {
+        return false
+    }
+    return true
+}
+
+/**
  * Add engine
  */
 function handleAddEngine(engineItem: EngineItem): void {
     engineItem.id = new Date().getTime()
-    store.commit(MutationType.CreateEngine, engineItem)
+    store.CreateEngine(engineItem)
     message.success(t('message.addSuccess'))
     emit('update:showModal', false)
 }
@@ -155,7 +142,7 @@ function handleAddEngine(engineItem: EngineItem): void {
  * Update Engine
  */
 function handleEditEngine(engineItem: EngineItem): void {
-    store.dispatch(ActionTypes.UpdateEngine, engineItem).then((msgList) => {
+    store.UpdateEngine(engineItem).then((msgList) => {
         msgList.map((msgItem: IMsgItem) => {
             message[msgItem.type](msgItem.content)
         })
@@ -167,17 +154,16 @@ function handleEditEngine(engineItem: EngineItem): void {
  * Handle press submit
  */
 function handleSubmitModal() {
-    formRef.value
-        .validate()
-        .then((res: any) => {
-            const engineData = formData.value as EngineItem
-            if (props.operateType == 'add') {
-                handleAddEngine(engineData)
-            } else {
-                handleEditEngine(engineData)
-            }
-        })
-        .catch(() => {})
+    formRef.value.validate(() => {
+        if (_.isUndefined(formData.value)) {
+            return
+        }
+        if (props.operateType == 'add') {
+            handleAddEngine(formData.value)
+        } else {
+            handleEditEngine(formData.value)
+        }
+    })
 }
 
 /**
@@ -196,94 +182,74 @@ function handleCloseModal() {
 </script>
 
 <template>
-    <n-modal
-        style="width: 550px"
-        preset="dialog"
-        :positive-text="t('button.submit')"
-        :negative-text="t('button.cancel')"
-        :closable="true"
-        :show="showModal"
+    <a-modal
+        :ok-text="t('button.submit')"
+        :cancel-text="t('button.cancel')"
+        :visible="showModal"
         :title="operateType === 'add' ? t('title.add') : t('title.edit')"
-        :mask-closable="true"
+        :rules="rules"
         display-directive="show"
-        @positive-click="handleSubmitModal"
-        @negative-click="handleCancelModal"
+        @ok="handleSubmitModal"
+        @cancel="handleCancelModal"
         @close="handleCloseModal"
     >
-        <template #icon>
-            <n-icon size="20">
-                <component :is="operateType === 'add' ? Add : Edit"></component>
-            </n-icon>
-        </template>
-        <n-form
+        <a-form
+            v-if="formData"
             ref="formRef"
             :model="formData"
-            :rules="rules"
             label-width="80"
             label-placement="left"
             label-align="left"
         >
-            <n-form-item :label="t('editEngineSetting.nameInputLabel')" path="name">
-                <n-input
-                    :placeholder="t('editEngineSetting.example') + '：Baidu'"
-                    v-model:value="formData.name"
-                ></n-input>
-            </n-form-item>
-            <n-form-item :label="t('editEngineSetting.urlInputLabel')" path="baseUrl">
-                <n-input
-                    :placeholder="
-                        t('editEngineSetting.example') + '：https://www.baidu.com/s?ie=UTF-8&wd='
-                    "
-                    v-model:value="formData.baseUrl"
-                ></n-input>
-            </n-form-item>
-            <n-form-item
-                :label="t('editEngineSetting.placeholderInputLabel')"
-                path="placeholderText"
-            >
-                <n-input
+            <a-form-item :label="t('editEngineSetting.nameInputLabel')" field="name">
+                <a-input v-model="formData.name" :placeholder="t('editEngineSetting.example') + '：Baidu'"></a-input>
+            </a-form-item>
+
+            <a-form-item :label="t('editEngineSetting.urlInputLabel')" field="baseUrl">
+                <a-input
+                    v-model="formData.baseUrl"
+                    :placeholder="t('editEngineSetting.example') + '：https://www.baidu.com/s?ie=UTF-8&wd='"
+                ></a-input>
+            </a-form-item>
+            <a-form-item :label="t('editEngineSetting.placeholderInputLabel')" field="placeholderText">
+                <a-input
                     :placeholder="t('editEngineSetting.example') + '：百度一下，你就知道'"
-                    v-model:value="formData.placeholderText"
-                ></n-input>
-            </n-form-item>
-            <n-form-item :label-style="{ display: 'flex', alignItems: 'center' }" path="prefix">
+                    v-model="formData.placeholderText"
+                ></a-input>
+            </a-form-item>
+            <a-form-item :label-style="{ display: 'flex', alignItems: 'center' }" field="prefix">
                 <template #label>
                     <span>{{ t('editEngineSetting.prefixInputLabel') }}</span>
-                    <n-popover trigger="hover" :style="{ width: '200px' }">
-                        <template #trigger>
-                            <n-icon class="ml-1 text-gray-400 cursor-pointer" size="20">
-                                <Info></Info>
-                            </n-icon>
+                    <a-popover trigger="hover" :style="{ width: '200px' }">
+                        <icon-info-circle class="ml-1" />
+                        <template #content>
+                          <span>{{ t('popover.enginePrefix') }}</span>
                         </template>
-                        <span>{{ t('popover.enginePrefix') }}</span>
-                    </n-popover>
+                    </a-popover>
                 </template>
-                <n-input
+                <a-input
                     :placeholder="t('placeholder.enginePrefix')"
-                    v-model:value="formData.prefix"
-                ></n-input>
-            </n-form-item>
-
-            <n-form-item :label-style="{ display: 'flex', alignItems: 'center' }" path="suffix">
+                    v-model="formData.prefix"
+                ></a-input>
+            </a-form-item>
+            <a-form-item :label-style="{ display: 'flex', alignItems: 'center' }" field="suffix">
                 <template #label>
                     <span>{{ t('editEngineSetting.suffixInputLabel') }}</span>
-                    <n-popover trigger="hover" :style="{ width: '200px' }">
-                        <template #trigger>
-                            <n-icon class="ml-1 text-gray-400 cursor-pointer" size="20">
-                                <Info></Info>
-                            </n-icon>
+                    <a-popover trigger="hover" :style="{ width: '200px' }">
+                        <icon-info-circle class="ml-1" />
+                        <template #content>
+                            <span>{{ t('popover.engineSuffix') }}</span>
                         </template>
-                        <span>{{ t('popover.engineSuffix') }}</span>
-                    </n-popover>
+                    </a-popover>
                 </template>
-                <n-dynamic-tags v-model:value="formData.suffix" />
-            </n-form-item>
-            <n-form-item :label="t('switch.defaultTheme')" path="isDefault">
-                <n-switch v-model:value="formData.isDefault"></n-switch>
-            </n-form-item>
-            <n-form-item :label="t('colorPicker.engineColorLabel')" path="color">
-                <n-color-picker v-model:value="formData.color" :modes="['hex']"></n-color-picker>
-            </n-form-item>
-        </n-form>
-    </n-modal>
+                <n-dynamic-tags v-model="formData.suffix" />
+            </a-form-item>
+            <a-form-item :label="t('switch.defaultTheme')" field="isDefault">
+                <n-switch v-model="formData.isDefault"></n-switch>
+            </a-form-item>
+            <a-form-item :label="t('colorPicker.engineColorLabel')" field="color">
+                <n-color-picker v-model="formData.color" :modes="['hex']"></n-color-picker>
+            </a-form-item>
+        </a-form>
+    </a-modal>
 </template>

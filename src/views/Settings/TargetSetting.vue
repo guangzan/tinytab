@@ -2,12 +2,11 @@
 import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { LinkOutline } from '@vicons/ionicons5'
-import { useStore } from 'vuex'
-import { MutationType } from '../../store/mutations'
+import { useSettingsStore } from '@/store/settings.store'
 import type { Target } from '@/types'
 
 const { t } = useI18n()
-const store = useStore()
+const store = useSettingsStore()
 
 const target = ref('_self')
 
@@ -16,12 +15,12 @@ function updateTarget(v: Target) {
 }
 
 watch(
-    () => store.getters.GetTarget,
+    () => store.target,
     (v) => updateTarget(v)
 )
 
 onMounted(() => {
-    updateTarget(store.getters.GetTarget)
+    updateTarget(store.target)
 })
 
 type TargetList = Array<{
@@ -41,7 +40,7 @@ const targetList = ref<TargetList>([
 ])
 
 function handleUpdateTarget(v: Target) {
-    store.commit(MutationType.UpdateTarget, v)
+    store.UpdateTarget(v)
 }
 </script>
 

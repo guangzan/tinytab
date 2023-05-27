@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { InformationCircleOutline as Info } from '@vicons/ionicons5'
 
+defineOptions({
+    name: 'settings-group-item',
+})
+
 defineProps<{
     title: string
     desc?: string

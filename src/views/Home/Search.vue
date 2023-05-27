@@ -1,26 +1,28 @@
 <script lang="ts" setup>
 import Engines from './Engines.vue'
 import { ref, onMounted, computed, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 import { hexToRgba } from '../../utils/tools'
 import type { EngineItem, Target } from '@/types'
 import { isEngineAttrValue } from '@/utils/tools'
-import type { DropdownOption } from 'naive-ui'
-import { MutationType } from '@/store/mutations'
 import {
     CloseSharp as Close,
-    ReturnDownBackSharp,
     SearchOutline as Search,
 } from '@vicons/ionicons5'
 
-const store = useStore()
-const currentEngine = ref<EngineItem>(store.getters.GetDefaultEngineData)
+defineOptions({
+    name: 'home-search',
+})
+
+const store = useSettingsStore()
+console.log(store);
+const currentEngine = ref<EngineItem>(store.defaultEngineData)
 const searchValue = ref('')
 const suffix = ref<any>([])
 const hasHomeBackground = ref()
 const target = ref()
 
-const showHomeEngines = computed(() => store.getters.GetVisibleList.includes('homeEngines'))
+const showHomeEngines = computed(() => store.visibleList.includes('homeEngines'))
 
 function updateHasHomeBackground(v: boolean): void {
     hasHomeBackground.value = v
@@ -31,12 +33,12 @@ function updateTarget(v: Target) {
 }
 
 watch(
-    () => store.getters.GetTarget,
+    () => store.target,
     (v) => updateTarget(v)
 )
 
 watch(
-    () => store.getters.GetHomeBackground,
+    () => store.homeBackground,
     (v) => updateHasHomeBackground(v !== '')
 )
 
@@ -47,8 +49,8 @@ onMounted(() => {
     }, 300)
 
     suffix.value = currentEngine.value.suffix
-    updateHasHomeBackground(store.getters.GetHomeBackground !== '')
-    updateTarget(store.getters.GetTarget)
+    updateHasHomeBackground(store.homeBackground !== '')
+    updateTarget(store.target)
 })
 
 watch(currentEngine, () => {
@@ -86,7 +88,7 @@ function handleSubmit(): void {
     target.value === '_self' ? (window.location.href = url) : window.open(url)
 }
 
-function handleBlurInput(e: any) {
+function handleBlurInput() {
     handleClearInputStyle()
 }
 
@@ -95,7 +97,7 @@ function clearSearchValue() {
 }
 
 function handleChangeEngine(engineId: number): void {
-    const engineData = store.getters.GetEngineById(engineId)
+    const engineData = store.GetEngineById(engineId)
     const searchInput = document.querySelector('.search-component') as HTMLInputElement
 
     currentEngine.value = engineData
@@ -115,7 +117,7 @@ function hanldePressSpace() {
     if (!prefix.length) return
     if (!isEngineAttrValue('prefix', prefix)) return
 
-    const engineData = store.getters.GetEngineByPrefix(prefix)
+    const engineData = store.GetEngineByPrefix(prefix)
     handleChangeEngine(engineData.id)
     searchValue.value = ''
 }
@@ -159,9 +161,8 @@ function handleCloseSuffix(suffixItem: string) {
                     dark:bg-gray-800 dark:text-light-500 dark:placeholder-gray-400
                 "
                 v-model="searchValue"
-                :class="
-                    hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']
-                "
+                :class="hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']
+                    "
                 :placeholder="currentEngine.placeholderText"
                 @keyup.enter="handleSubmit"
                 @keyup.space="hanldePressSpace"

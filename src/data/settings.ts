@@ -7,7 +7,7 @@ import {
     PrimaryColor,
     Theme,
     VisibleList,
-    Target,
+    Target
 } from '@/types'
 
 export const followSystemTheme: FollowSystemTheme = false

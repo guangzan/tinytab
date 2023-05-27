@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 import { darkTheme, NConfigProvider } from 'naive-ui'
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { lightenDarkenColor } from '@/utils/tools'
 import Wallpaper from '@/components/Wallpaper.vue'
 
-const store = useStore()
+const store = useSettingsStore()
 const theme = ref()
 const themeOverrides = ref<GlobalThemeOverrides>({})
 
@@ -63,7 +63,7 @@ function handleChangeSystemTheme() {
     if (typeof darkMedia.addEventListener === 'function') {
         darkMedia.addEventListener('change', (e: MediaQueryListEvent) => {
             // The browser settings switch will trigger
-            if (store.getters.GetFollowSystemTheme) {
+            if (store.followSystemTheme) {
                 const prefersDarkMode = e.matches
                 if (prefersDarkMode) changeTheme('dark')
                 else changeTheme('light')
@@ -73,22 +73,22 @@ function handleChangeSystemTheme() {
 }
 
 watch(
-    () => store.state.primaryColor,
+    () => store.primaryColor,
     (v: string) => changePrimaryColor(v)
 )
 watch(
-    () => store.state.theme,
+    () => store.theme,
     (v: 'dark' | 'light') => changeTheme(v)
 )
 watch(
-    () => store.getters.GetFollowSystemTheme,
+    () => store.followSystemTheme,
     (v: boolean) => {
         if (v) {
             handleFollowSystemTheme()
             handleChangeSystemTheme()
         } else {
             // If you turn off follow the system theme
-            const storageTheme = store.state.theme as 'light' | 'dark'
+            const storageTheme = store.theme
             changeTheme(storageTheme)
         }
     }
@@ -96,12 +96,12 @@ watch(
 
 onMounted(() => {
     handleChangeSystemTheme()
-    changePrimaryColor(store.getters.GetPrimaryColor)
+    changePrimaryColor(store.primaryColor)
 
-    if (store.getters.GetFollowSystemTheme) {
+    if (store.followSystemTheme) {
         handleFollowSystemTheme()
     } else {
-        changeTheme(store.state.theme)
+        changeTheme(store.theme)
     }
 })
 </script>

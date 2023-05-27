@@ -8,32 +8,34 @@ import SettingsActions from './SettingsActions.vue'
 import VisibilitySettings from './VisibilitySettings.vue'
 import BackgroundSetting from './BackgroundSetting.vue'
 import TargetSetting from './TargetSetting.vue'
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 import { useI18n } from 'vue-i18n'
-import { MutationType } from '@/store/mutations'
 import { useMessage } from 'naive-ui'
-import type { VisibleList } from '@/types'
+
+defineOptions({
+    name: 'settings-drawer'
+})
 
 const message = useMessage()
 const { t, locale } = useI18n()
-const store = useStore()
+const store = useSettingsStore()
 const drawerVisible = ref(false)
 
 const homeSettingButtonVisible = computed(() =>
-    store.getters.GetVisibleList.includes('homeSettingButton')
+    store.visibleList.includes('homeSettingButton')
 )
 
 const homeLangButtonVisible = computed(() =>
-    store.getters.GetVisibleList.includes('homeLangButton')
+    store.visibleList.includes('homeLangButton')
 )
 
 function changeLang() {
-    const currentLang = store.getters.GetLang
-    store.commit(MutationType.UpdateLang, currentLang === 'en' ? 'zh-CN' : 'en')
+    const currentLang = store.lang
+    store.UpdateLang(currentLang === 'en' ? 'zh-CN' : 'en')
 }
 
 watch(
-    () => store.getters.GetLang,
+    () => store.lang,
     (v) => {
         locale.value = v
         message.info(t('message.toggleLang'))
@@ -41,7 +43,7 @@ watch(
 )
 
 onMounted(() => {
-    locale.value = store.getters.GetLang
+    locale.value = store.lang
 })
 </script>
 
@@ -66,30 +68,18 @@ onMounted(() => {
         </div>
     </div>
 
-    <n-drawer placement="right" class="cus-drawer" v-model:show="drawerVisible" :width="400">
-        <n-drawer-content body-content-style="padding:0;" closable>
-            <template #header>
-                <div class="flex items-center">
-                    <span>{{ t('title.settings') }}</span>
-                </div>
-            </template>
-
-            <engines-editor />
-            <engines-sort />
-            <mode-setting />
-            <background-setting />
-            <target-setting />
-            <visibility-settings />
-            <settings-actions />
-        </n-drawer-content>
-    </n-drawer>
+    <a-drawer class="<md:!w-full" :visible="drawerVisible" :width="400" :footer="false">
+        <template #title>
+            <div class="flex items-center">
+                <span>{{ t('title.settings') }}</span>
+            </div>
+        </template>
+        <engines-editor />
+        <engines-sort />
+        <mode-setting />
+        <background-setting />
+        <target-setting />
+        <visibility-settings />
+        <settings-actions />
+    </a-drawer>
 </template>
-
-<style>
-/* windcss doesn't work <md:!w-full */
-@media (max-width: 767.9px) {
-    .cus-drawer {
-        width: 100% !important;
-    }
-}
-</style>

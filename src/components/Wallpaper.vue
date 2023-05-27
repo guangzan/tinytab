@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { useStore } from 'vuex'
+import { useSettingsStore } from '@/store/settings.store'
 import { watch, onMounted, ref } from 'vue'
 
-const store = useStore()
-const wallpaper = ref('url()')
+defineOptions({
+    name: 'settings-wallpaper',
+})
+
+const store = useSettingsStore()
 const wallpaperBlur = ref('0px')
 const wallpaperMask = ref('rgba(0, 0, 0, 0)')
 
@@ -18,38 +21,38 @@ function updateHomeBackground(v: string) {
 }
 
 watch(
-    () => store.getters.GetHomeBackground,
+    () => store.homeBackground,
     (v) => updateHomeBackground(v)
 )
 
 /**
  * Update the blurriness of the background image of the home page
  */
-function updateHomeBackgroundBlur(v: string) {
+function updateHomeBackgroundBlur(v: number) {
     wallpaperBlur.value = `${v}px`
 }
 
 watch(
-    () => store.getters.GetHomeBackgroundBlur,
+    () => store.homeBackgroundBlur,
     (v) => updateHomeBackgroundBlur(v)
 )
 
 /**
  * Update home page background mask concentration
  */
-function updateHomeBackgroundMask(v: string) {
+function updateHomeBackgroundMask(v: number) {
     wallpaperMask.value = `rgba(0, 0, 0, ${v})`
 }
 
 watch(
-    () => store.getters.GetHomeBackgroundMask,
+    () => store.homeBackgroundMask,
     (v) => updateHomeBackgroundMask(v)
 )
 
 onMounted(() => {
-    updateHomeBackground(store.getters.GetHomeBackground)
-    updateHomeBackgroundBlur(store.getters.GetHomeBackgroundBlur)
-    updateHomeBackgroundMask(store.getters.GetHomeBackgroundMask)
+    updateHomeBackground(store.homeBackground)
+    updateHomeBackgroundBlur(store.homeBackgroundBlur)
+    updateHomeBackgroundMask(store.homeBackgroundMask)
 })
 </script>
 
@@ -75,9 +78,11 @@ onMounted(() => {
     left: calc(v-bind(wallpaperBlur) * -2);
     right: calc(v-bind(wallpaperBlur) * -2);
     top: calc(v-bind(wallpaperBlur) * -2);
+
     .wallpaper-image {
         transition: background-image 0.6s, background-color 0.4s;
     }
+
     .wallpaper-mask {
         background-color: v-bind(wallpaperMask);
     }
