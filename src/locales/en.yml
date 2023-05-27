@@ -1,83 +1,83 @@
 backgroundSetting:
-    choose: Select
-    desc: >-
-        Limited to the storage capacity of the browser, please select a picture
-        smaller than 2M in the format of png or jpg
-    title: Background picture
-    blur: Blur
-    mask: Mask
+  choose: Select
+  desc: >-
+    Limited to the storage capacity of the browser, please select a picture
+    smaller than 2M in the format of png or jpg
+  title: Background picture
+  blur: Blur
+  mask: Mask
 button:
-    cancel: Cancel
-    continue: Carry on
-    submit: Submit
+  cancel: Cancel
+  continue: Carry on
+  submit: Submit
 colorPicker:
-    engineColorLabel: Color
+  engineColorLabel: Color
 dialog:
-    settingActionsDesc: The imported configuration will overwrite all current configurations
+  settingActionsDesc: The imported configuration will overwrite all current configurations
 editEngineSetting:
-    deleteTip: Do you want to delete this search engine?
-    desc: Click x to delete, click the name to enter editing
-    example: Eg
-    nameInputLabel: Name
-    placeholderInputLabel: Prompt
-    prefixInputLabel: Prefix
-    suffixInputLabel: Suffix
-    title: Edit engine
-    urlInputLabel: Base URL
+  deleteTip: Do you want to delete this search engine?
+  desc: Click x to delete, click the name to enter editing
+  example: Eg
+  nameInputLabel: Name
+  placeholderInputLabel: Prompt
+  prefixInputLabel: Prefix
+  suffixInputLabel: Suffix
+  title: Edit engine
+  urlInputLabel: Base URL
 message:
-    addSuccess: Added successfully
-    clear: Cleared
-    delSuccess: Successfully deleted
-    imgFormatError: Only picture files in png or jpg format can be selected, please select again
-    importSuccess: Successfully imported configuration
-    noDelDefaultEngine: Can not delete the default search engine
-    sizeOverflow: Can only select pictures smaller than 2M, please select again
-    unknownError: Unknown mistake
-    updateSuccess: Successfully modified
-    toggleLang: Switch to English
+  addSuccess: Added successfully
+  clear: Cleared
+  delSuccess: Successfully deleted
+  imgFormatError: Only picture files in png or jpg format can be selected, please select again
+  importSuccess: Successfully imported configuration
+  noDelDefaultEngine: Can not delete the default search engine
+  sizeOverflow: Can only select pictures smaller than 2M, please select again
+  unknownError: Unknown mistake
+  updateSuccess: Successfully modified
+  toggleLang: Switch to English
 modeSetting:
-    color: Theme
-    dark: Dark
-    follow: Follow system
-    title: Color
+  color: Theme
+  dark: Dark
+  follow: Follow system
+  title: Color
 placeholder:
-    enginePrefix: Quickly switch engines by prefix
+  enginePrefix: Quickly switch engines by prefix
 popover:
-    enginePrefix: >-
-        When searching, enter a custom prefix and press the space, you can
-        immediately switch to the current engine
-    engineSuffix: >-
-        When searching, the custom suffix will be added to the end of the search
-        path
+  enginePrefix: >-
+    When searching, enter a custom prefix and press the space, you can
+    immediately switch to the current engine
+  engineSuffix: >-
+    When searching, the custom suffix will be added to the end of the search
+    path
 rules:
-    engineNameEmpty: Please enter the search engine name
-    engineNameLength: 1 to 20 characters in length
-    enginePrefixExist: The prefix already exists
-    enginePrefixLength: 1 to 20 characters in length
-    engineSuffixLength: Single length is 1 to 10 characters
-    engineSuffixNum: Up to five
-    engineUrlEmpty: Please enter the search path prefix
+  engineNameEmpty: Please enter the search engine name
+  engineNameLength: 1 to 20 characters in length
+  enginePrefixExist: The prefix already exists
+  enginePrefixLength: 1 to 20 characters in length
+  engineSuffixLength: Single length is 1 to 10 characters
+  engineSuffixNum: Up to five
+  engineUrlEmpty: Please enter the search path prefix
 settingActions:
-    desc: To prevent configuration loss, please save the configuration file properly
-    exportButton: Export
-    generated: Configuration file has been generated
-    generating: Building...
-    importButton: Import
-    title: Import and export configuration
+  desc: To prevent configuration loss, please save the configuration file properly
+  exportButton: Export
+  generated: Configuration file has been generated
+  generating: Building...
+  importButton: Import
+  title: Import and export configuration
 sortEngineSetting:
-    desc: Click here to expand the engine list, drag the right button up and down to sort
-    title: Sort
+  desc: Click here to expand the engine list, drag the right button up and down to sort
+  title: Sort
 switch:
-    defaultTheme: Default
+  defaultTheme: Default
 title:
-    add: Add
-    edit: modify
-    settings: Set up
-    tip: Prompt
-    warn: Warn
+  add: Add
+  edit: modify
+  settings: Set up
+  tip: Prompt
+  warn: Warn
 visibilitySetting:
-    desc: You can set the visibility of some elements here
-    homeEngines: Homepage search engine button
-    homeSettingButton: Settings button in the upper right corner of the homepage
-    title: Show and hide
-    homeLangButton: Home language switch button
+  desc: You can set the visibility of some elements here
+  homeEngines: Homepage search engine button
+  homeSettingButton: Settings button in the upper right corner of the homepage
+  title: Show and hide
+  homeLangButton: Home language switch button

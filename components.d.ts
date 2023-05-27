@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ACard: typeof import('@arco-design/web-vue')['Card']
     ADrawer: typeof import('@arco-design/web-vue')['Drawer']
     ADynamicTags: typeof import('@arco-design/web-vue')['DynamicTags']
     AForm: typeof import('@arco-design/web-vue')['Form']

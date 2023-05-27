@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-import { useSettingsStore } from '@/store/settings.store'
+import { computed, ref } from 'vue'
 import { useMessage } from 'naive-ui'
-import type { EngineItem } from '@/types'
-import ModalForm from './ModalForm.vue'
-import Pannel from '../../components/Pannel.vue'
-import { CloseSharp as Close, TrashBinOutline as Trash, Add } from '@vicons/ionicons5'
+import { Add, CloseSharp as Close, TrashBinOutline as Trash } from '@vicons/ionicons5'
 import { EditOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
+import Pannel from '../../components/Pannel.vue'
+import ModalForm from './ModalForm.vue'
+import type { EngineItem } from '@/types'
+import { useSettingsStore } from '@/store/settings.store'
 
 const { t } = useI18n()
 const store = useSettingsStore()
@@ -21,83 +21,84 @@ const engineId = ref(0)
  * Click the Add button to add an engine
  */
 function handleAddEngine() {
-    operateType.value = 'add'
-    engineId.value = 0
-    showModal.value = true
+  operateType.value = 'add'
+  engineId.value = 0
+  showModal.value = true
 }
 
 /**
  * Click on the engine name to modify the engine
  */
 function handleEditEngine(id: number): void {
-    operateType.value = 'edit'
-    engineId.value = id
-    showModal.value = true
+  operateType.value = 'edit'
+  engineId.value = id
+  showModal.value = true
 }
 
 /**
  * Click x to delete the engine
  */
 function handleRemoveEngine(item: EngineItem): void {
-    const { id, isDefault } = item
-    if (isDefault) {
-        message.error(t('message.noDelDefaultEngine'))
-    } else {
-        store.DeleteEngine(id)
-        message.success(t('message.delSuccess'))
-    }
+  const { id, isDefault } = item
+  if (isDefault) {
+    message.error(t('message.noDelDefaultEngine'))
+  }
+  else {
+    store.DeleteEngine(id)
+    message.success(t('message.delSuccess'))
+  }
 }
 </script>
 
 <template>
-    <pannel :title="t('editEngineSetting.title')" :desc="t('editEngineSetting.desc')">
+  <Pannel :title="t('editEngineSetting.title')" :desc="t('editEngineSetting.desc')">
+    <template #icon>
+      <NIcon>
+        <EditOutlined />
+      </NIcon>
+    </template>
+    <n-space>
+      <n-button
+        v-for="item in enginesData"
+        :key="item.id"
+        size="small"
+        ghost
+        :color="item.color"
+      >
+        <span @click="handleEditEngine(item.id)">{{ item.name }}</span>
+        <n-popconfirm
+          icon-color="red"
+          :confirm-button-text="t('button.submit')"
+          :cancel-button-text="t('button.cancel')"
+          :positive-text="t('button.submit')"
+          :negative-text="t('button.cancel')"
+          @positive-click.stop="handleRemoveEngine(item)"
+        >
+          <template #icon>
+            <n-icon color="red">
+              <Trash />
+            </n-icon>
+          </template>
+          <template #trigger>
+            <n-icon size="20" class="ml-1 hover:text-red-500">
+              <Close />
+            </n-icon>
+          </template>
+          {{ t('editEngineSetting.deleteTip') }}
+        </n-popconfirm>
+      </n-button>
+      <n-button size="small" @click="handleAddEngine">
         <template #icon>
-            <NIcon>
-                <EditOutlined></EditOutlined>
-            </NIcon>
+          <n-icon>
+            <Add />
+          </n-icon>
         </template>
-        <n-space>
-            <n-button
-                size="small"
-                ghost
-                :color="item.color"
-                v-for="item in enginesData"
-                :key="item.id"
-            >
-                <span @click="handleEditEngine(item.id)">{{ item.name }}</span>
-                <n-popconfirm
-                    iconColor="red"
-                    :confirmButtonText="t('button.submit')"
-                    :cancelButtonText="t('button.cancel')"
-                    :positive-text="t('button.submit')"
-                    :negative-text="t('button.cancel')"
-                    @positive-click.stop="handleRemoveEngine(item)"
-                >
-                    <template #icon>
-                        <n-icon color="red">
-                            <trash />
-                        </n-icon>
-                    </template>
-                    <template #trigger>
-                        <n-icon size="20" class="ml-1 hover:text-red-500">
-                            <close></close>
-                        </n-icon>
-                    </template>
-                    {{ t('editEngineSetting.deleteTip') }}
-                </n-popconfirm>
-            </n-button>
-            <n-button size="small" @click="handleAddEngine">
-                <template #icon>
-                    <n-icon>
-                        <Add></Add>
-                    </n-icon>
-                </template>
-            </n-button>
-        </n-space>
-    </pannel>
-    <modal-form
-        v-model:showModal="showModal"
-        :operateType="operateType"
-        :engineId="engineId"
-    ></modal-form>
+      </n-button>
+    </n-space>
+  </Pannel>
+  <ModalForm
+    v-model:showModal="showModal"
+    :operate-type="operateType"
+    :engine-id="engineId"
+  />
 </template>

@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import Search from './Search.vue'
 import settings from '../Settings/Settings.vue'
+import Search from './Search.vue'
 
 defineOptions({
-    name: 'home-view',
+  name: 'HomeView',
 })
-
 </script>
 
 <template>
-    <search></search>
-    <settings></settings>
+  <Search />
+  <settings />
 </template>

@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue'
-import { useSettingsStore } from '@/store/settings.store'
-import Pannel from '../../components/Pannel.vue'
+import { onMounted, ref, watch } from 'vue'
 import { ColorPaletteOutline } from '@vicons/ionicons5'
-import ColorPicker from '../../components/ColorPicker.vue'
 import { useI18n } from 'vue-i18n'
+import Pannel from '../../components/Pannel.vue'
+import ColorPicker from '../../components/ColorPicker.vue'
+import { useSettingsStore } from '@/store/settings.store'
 import type { Theme } from '@/types'
 
-
-type ColorItem = {
-    value: string
-    label: string
+interface ColorItem {
+  value: string
+  label: string
 }
 
 const { t } = useI18n()
@@ -21,120 +20,120 @@ const themeSwitchDefaultValue = ref(false)
 const followSystemThemeSwitchDefaultValue = ref(false)
 
 const color: ColorItem[] = [
-    {
-        value: '#3051ff',
-        label: '',
-    },
-    {
-        value: '#28C46F',
-        label: '',
-    },
-    {
-        value: '#fa506e',
-        label: '',
-    },
-    {
-        value: '#ffc529',
-        label: '',
-    },
-    {
-        value: '#009688',
-        label: '',
-    },
+  {
+    value: '#3051ff',
+    label: '',
+  },
+  {
+    value: '#28C46F',
+    label: '',
+  },
+  {
+    value: '#fa506e',
+    label: '',
+  },
+  {
+    value: '#ffc529',
+    label: '',
+  },
+  {
+    value: '#009688',
+    label: '',
+  },
 ]
 
 /**
  * Update the state of the mode switch button
  */
 function updateThemeSwitchDefaultValue(v: Theme) {
-    themeSwitchDefaultValue.value = v === 'dark'
+  themeSwitchDefaultValue.value = v === 'dark'
 }
 
 /**
  * Update the status of the follow system settings button
  */
 function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
-    followSystemThemeSwitchDefaultValue.value = v
+  followSystemThemeSwitchDefaultValue.value = v
 }
 
 watch(
-    () => store.theme,
-    (v) => updateThemeSwitchDefaultValue(v)
+  () => store.theme,
+  v => updateThemeSwitchDefaultValue(v),
 )
 
 watch(
-    () => store.followSystemTheme,
-    (v) => updateFollowSystemThemeSwitchDefaultValue(v)
+  () => store.followSystemTheme,
+  v => updateFollowSystemThemeSwitchDefaultValue(v),
 )
 
 onMounted(() => {
-    updateThemeSwitchDefaultValue(store.theme)
-    updateFollowSystemThemeSwitchDefaultValue(
-        store.followSystemTheme
-    )
+  updateThemeSwitchDefaultValue(store.theme)
+  updateFollowSystemThemeSwitchDefaultValue(
+    store.followSystemTheme,
+  )
 })
 
 /**
  * Update theme accent color
  */
 function handleChangeColor(data: any) {
-    const { value } = data
-    store.UpdatePrimaryColor(value)
+  const { value } = data
+  store.UpdatePrimaryColor(value)
 }
 
 /**
  * Update mode
  */
 function handleChangeTheme(value: boolean) {
-    store.UpdateTheme(value ? 'dark' : 'light')
+  store.UpdateTheme(value ? 'dark' : 'light')
 }
 
 /**
  * Whether the update follows the system settings
  */
 function handleChangeFollowSystemTheme(value: boolean) {
-    disableThemeSwitch.value = value
-    store.UpdateFollowSystemTheme(value)
+  disableThemeSwitch.value = value
+  store.UpdateFollowSystemTheme(value)
 }
 </script>
 
 <template>
-    <pannel :title="t('modeSetting.title')">
-        <template #icon>
-            <NIcon>
-                <ColorPaletteOutline></ColorPaletteOutline>
-            </NIcon>
-        </template>
-        <n-list bordered>
-            <n-list-item>
-                <div class="flex justify-between">
-                    <div>{{ t('modeSetting.dark') }}</div>
-                    <n-switch
-                        v-model:value="themeSwitchDefaultValue"
-                        :disabled="disableThemeSwitch"
-                        @update:value="handleChangeTheme"
-                    ></n-switch>
-                </div>
-            </n-list-item>
-            <n-list-item>
-                <div class="flex justify-between">
-                    <div>{{ t('modeSetting.follow') }}</div>
-                    <n-switch
-                        v-model:value="followSystemThemeSwitchDefaultValue"
-                        @update:value="handleChangeFollowSystemTheme"
-                    ></n-switch>
-                </div>
-            </n-list-item>
-            <n-list-item>
-                <div class="flex justify-between items-center">
-                    <div>{{ t('modeSetting.color') }}</div>
-                    <ColorPicker
-                        class="ml-auto"
-                        :color="color"
-                        @change-color="handleChangeColor"
-                    ></ColorPicker>
-                </div>
-            </n-list-item>
-        </n-list>
-    </pannel>
+  <Pannel :title="t('modeSetting.title')">
+    <template #icon>
+      <NIcon>
+        <ColorPaletteOutline />
+      </NIcon>
+    </template>
+    <n-list bordered>
+      <n-list-item>
+        <div class="flex justify-between">
+          <div>{{ t('modeSetting.dark') }}</div>
+          <n-switch
+            v-model:value="themeSwitchDefaultValue"
+            :disabled="disableThemeSwitch"
+            @update:value="handleChangeTheme"
+          />
+        </div>
+      </n-list-item>
+      <n-list-item>
+        <div class="flex justify-between">
+          <div>{{ t('modeSetting.follow') }}</div>
+          <n-switch
+            v-model:value="followSystemThemeSwitchDefaultValue"
+            @update:value="handleChangeFollowSystemTheme"
+          />
+        </div>
+      </n-list-item>
+      <n-list-item>
+        <div class="flex justify-between items-center">
+          <div>{{ t('modeSetting.color') }}</div>
+          <ColorPicker
+            class="ml-auto"
+            :color="color"
+            @change-color="handleChangeColor"
+          />
+        </div>
+      </n-list-item>
+    </n-list>
+  </Pannel>
 </template>

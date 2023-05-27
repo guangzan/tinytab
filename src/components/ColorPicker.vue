@@ -1,33 +1,33 @@
 <script lang="ts" setup>
 interface IColorItem {
-    label?: string
-    value: string
+  label?: string
+  value: string
 }
 
 defineProps<{
-    color: IColorItem[]
+  color: IColorItem[]
 }>()
 
 const emit = defineEmits<{
-    (event: 'change-color', colorItem: IColorItem): void
+  (event: 'change-color', colorItem: IColorItem): void
 }>()
 
 /**
  * picker color
  */
 function pickerColor(colorItem: IColorItem): void {
-    emit('change-color', colorItem)
+  emit('change-color', colorItem)
 }
 </script>
 
 <template>
-    <div class="flex">
-        <div
-            class="w-8 h-8 rounded ml-2 cursor-pointer"
-            v-for="(item, index) in color"
-            :key="index"
-            :style="{ background: item.value }"
-            @click="pickerColor(item)"
-        ></div>
-    </div>
+  <div class="flex">
+    <div
+      v-for="(item, index) in color"
+      :key="index"
+      class="w-8 h-8 rounded ml-2 cursor-pointer"
+      :style="{ background: item.value }"
+      @click="pickerColor(item)"
+    />
+  </div>
 </template>

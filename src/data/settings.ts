@@ -1,13 +1,13 @@
-import {
-    FollowSystemTheme,
-    HomeBackground,
-    HomeBackgroundBlur,
-    HomeBackgroundMask,
-    Lang,
-    PrimaryColor,
-    Theme,
-    VisibleList,
-    Target
+import type {
+  FollowSystemTheme,
+  HomeBackground,
+  HomeBackgroundBlur,
+  HomeBackgroundMask,
+  Lang,
+  PrimaryColor,
+  Target,
+  Theme,
+  VisibleList,
 } from '@/types'
 
 export const followSystemTheme: FollowSystemTheme = false

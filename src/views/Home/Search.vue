@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import Engines from './Engines.vue'
-import { ref, onMounted, computed, watch } from 'vue'
-import { useSettingsStore } from '@/store/settings.store'
+import { computed, onMounted, ref, watch } from 'vue'
+import {
+  CloseSharp as Close,
+  SearchOutline as Search,
+} from '@vicons/ionicons5'
 import { hexToRgba } from '../../utils/tools'
+import Engines from './Engines.vue'
+import { useSettingsStore } from '@/store/settings.store'
 import type { EngineItem, Target } from '@/types'
 import { isEngineAttrValue } from '@/utils/tools'
-import {
-    CloseSharp as Close,
-    SearchOutline as Search,
-} from '@vicons/ionicons5'
 
 defineOptions({
-    name: 'home-search',
+  name: 'HomeSearch',
 })
 
 const store = useSettingsStore()
-console.log(store);
+console.log(store)
 const currentEngine = ref<EngineItem>(store.defaultEngineData)
 const searchValue = ref('')
 const suffix = ref<any>([])
@@ -25,84 +25,83 @@ const target = ref()
 const showHomeEngines = computed(() => store.visibleList.includes('homeEngines'))
 
 function updateHasHomeBackground(v: boolean): void {
-    hasHomeBackground.value = v
+  hasHomeBackground.value = v
 }
 
 function updateTarget(v: Target) {
-    target.value = v
+  target.value = v
 }
 
 watch(
-    () => store.target,
-    (v) => updateTarget(v)
+  () => store.target,
+  v => updateTarget(v),
 )
 
 watch(
-    () => store.homeBackground,
-    (v) => updateHasHomeBackground(v !== '')
+  () => store.homeBackground,
+  v => updateHasHomeBackground(v !== ''),
 )
 
 onMounted(() => {
-    const searchInput = document.querySelector('.search-component') as HTMLInputElement
-    setTimeout(() => {
-        searchInput.focus()
-    }, 300)
+  const searchInput = document.querySelector('.search-component') as HTMLInputElement
+  setTimeout(() => {
+    searchInput.focus()
+  }, 300)
 
-    suffix.value = currentEngine.value.suffix
-    updateHasHomeBackground(store.homeBackground !== '')
-    updateTarget(store.target)
+  suffix.value = currentEngine.value.suffix
+  updateHasHomeBackground(store.homeBackground !== '')
+  updateTarget(store.target)
 })
 
 watch(currentEngine, () => {
-    suffix.value = currentEngine.value.suffix
+  suffix.value = currentEngine.value.suffix
 })
 
 function handleSetInputStyle() {
-    const searchInput = document.querySelector('.search-component') as HTMLInputElement
-    const searchIcon = document.querySelector('.icon-search') as HTMLElement
-    const color = currentEngine.value.color
-    const shadowColor = hexToRgba(color, 0.3)
+  const searchInput = document.querySelector('.search-component') as HTMLInputElement
+  const searchIcon = document.querySelector('.icon-search') as HTMLElement
+  const color = currentEngine.value.color
+  const shadowColor = hexToRgba(color, 0.3)
 
-    searchInput.style.borderColor = color
-    searchInput.style.boxShadow = `0 0 0 3px ${shadowColor}`
-    searchIcon.style.color = color
+  searchInput.style.borderColor = color
+  searchInput.style.boxShadow = `0 0 0 3px ${shadowColor}`
+  searchIcon.style.color = color
 }
 
 function handleClearInputStyle() {
-    const searchInput = document.querySelector('.search-component') as HTMLInputElement
-    const searchIcon = document.querySelector('.icon-search') as HTMLElement
+  const searchInput = document.querySelector('.search-component') as HTMLInputElement
+  const searchIcon = document.querySelector('.icon-search') as HTMLElement
 
-    searchInput.style.borderColor = ''
-    searchInput.style.boxShadow = ''
-    searchIcon.style.color = 'gray'
+  searchInput.style.borderColor = ''
+  searchInput.style.boxShadow = ''
+  searchIcon.style.color = 'gray'
 }
 
 function handleSubmit(): void {
-    let url = `${currentEngine.value?.baseUrl}${searchValue.value}`
+  let url = `${currentEngine.value?.baseUrl}${searchValue.value}`
 
-    if (searchValue.value.length && suffix.value.length) {
-        url += ' ' + suffix.value.join(' ')
-    }
+  if (searchValue.value.length && suffix.value.length)
+    url += ` ${suffix.value.join(' ')}`
 
-    // Use `window.location.href` instead of  `window.open(url, '_self')`
-    target.value === '_self' ? (window.location.href = url) : window.open(url)
+  // Use `window.location.href` instead of  `window.open(url, '_self')`
+  target.value === '_self' ? (window.location.href = url) : window.open(url)
 }
 
 function handleBlurInput() {
-    handleClearInputStyle()
+  handleClearInputStyle()
 }
 
 function clearSearchValue() {
-    searchValue.value = ''
+  searchValue.value = ''
 }
 
 function handleChangeEngine(engineId: number): void {
-    const engineData = store.GetEngineById(engineId)
-    const searchInput = document.querySelector('.search-component') as HTMLInputElement
+  const engineData = store.GetEngineById(engineId)
+  const searchInput = document.querySelector('.search-component') as HTMLInputElement
 
-    currentEngine.value = engineData
-    handleSetInputStyle()
-    searchInput.focus()
+  currentEngine.value = engineData
+  handleSetInputStyle()
+  searchInput.focus()
 }
 
 /**
@@ -110,45 +109,48 @@ function handleChangeEngine(engineId: number): void {
  * More prefix switching engine
  */
 function hanldePressSpace() {
-    const str = searchValue.value
-    const index = str.indexOf(' ')
-    const prefix = str.substring(0, index)
+  const str = searchValue.value
+  const index = str.indexOf(' ')
+  const prefix = str.substring(0, index)
 
-    if (!prefix.length) return
-    if (!isEngineAttrValue('prefix', prefix)) return
+  if (!prefix.length)
+    return
+  if (!isEngineAttrValue('prefix', prefix))
+    return
 
-    const engineData = store.GetEngineByPrefix(prefix)
-    handleChangeEngine(engineData.id)
-    searchValue.value = ''
+  const engineData = store.GetEngineByPrefix(prefix)
+  handleChangeEngine(engineData.id)
+  searchValue.value = ''
 }
 
 /**
  * Triggered when suffix is selected
  */
 function handleCloseSuffix(suffixItem: string) {
-    suffix.value = suffix.value.filter((item: string) => item !== suffixItem)
+  suffix.value = suffix.value.filter((item: string) => item !== suffixItem)
 }
 </script>
 
 <template>
-    <div class="mx-auto pt-40 w-2/5 rounded-lg <md:w-4/5">
-        <div
-            class="relative w-full flex items-center transform transition"
-            :class="{
-                'translate-y-6': !showHomeEngines,
-                '-translate-y-8': hasHomeBackground,
-            }"
-        >
-            <n-icon
-                size="20"
-                class="icon-search !absolute left-4 cursor-pointer text-gray-500 transition"
-                @click="handleSubmit"
-            >
-                <Search></Search>
-            </n-icon>
-            <input
-                type="text"
-                class="
+  <div class="mx-auto pt-40 w-2/5 rounded-lg <md:w-4/5">
+    <div
+      class="relative w-full flex items-center transform transition"
+      :class="{
+        'translate-y-6': !showHomeEngines,
+        '-translate-y-8': hasHomeBackground,
+      }"
+    >
+      <n-icon
+        size="20"
+        class="icon-search !absolute left-4 cursor-pointer text-gray-500 transition"
+        @click="handleSubmit"
+      >
+        <Search />
+      </n-icon>
+      <input
+        v-model="searchValue"
+        type="text"
+        class="
                     search-component
                     px-10
                     w-full
@@ -160,43 +162,42 @@ function handleCloseSuffix(suffixItem: string) {
                     transition
                     dark:bg-gray-800 dark:text-light-500 dark:placeholder-gray-400
                 "
-                v-model="searchValue"
-                :class="hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']
-                    "
-                :placeholder="currentEngine.placeholderText"
-                @keyup.enter="handleSubmit"
-                @keyup.space="hanldePressSpace"
-                @focus="handleSetInputStyle"
-                @blur="handleBlurInput"
-            />
-            <div class="flex justify-center !absolute right-10 mb-2" :style="{ top: '7.8px' }">
-                <n-space>
-                    <n-tag
-                        closable
-                        size="small"
-                        v-for="(item, index) in suffix"
-                        :key="index"
-                        @close="handleCloseSuffix(item)"
-                    >
-                        {{ item }}
-                    </n-tag>
-                </n-space>
-            </div>
-            <n-icon
-                size="20"
-                color="red"
-                class="!absolute right-4 cursor-pointer"
-                v-show="searchValue !== ''"
-                @click="clearSearchValue"
-            >
-                <close></close>
-            </n-icon>
-        </div>
-        <engines
-            v-if="showHomeEngines"
-            class="mt-4 transform transition"
-            :class="{ '-translate-y-8': hasHomeBackground }"
-            @change-engine="handleChangeEngine"
-        ></engines>
+        :class="hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']
+        "
+        :placeholder="currentEngine.placeholderText"
+        @keyup.enter="handleSubmit"
+        @keyup.space="hanldePressSpace"
+        @focus="handleSetInputStyle"
+        @blur="handleBlurInput"
+      >
+      <div class="flex justify-center !absolute right-10 mb-2" :style="{ top: '7.8px' }">
+        <n-space>
+          <n-tag
+            v-for="(item, index) in suffix"
+            :key="index"
+            closable
+            size="small"
+            @close="handleCloseSuffix(item)"
+          >
+            {{ item }}
+          </n-tag>
+        </n-space>
+      </div>
+      <n-icon
+        v-show="searchValue !== ''"
+        size="20"
+        color="red"
+        class="!absolute right-4 cursor-pointer"
+        @click="clearSearchValue"
+      >
+        <Close />
+      </n-icon>
     </div>
+    <Engines
+      v-if="showHomeEngines"
+      class="mt-4 transform transition"
+      :class="{ '-translate-y-8': hasHomeBackground }"
+      @change-engine="handleChangeEngine"
+    />
+  </div>
 </template>

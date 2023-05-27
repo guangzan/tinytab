@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { onMounted, ref, watch } from 'vue'
 import { useSettingsStore } from '@/store/settings.store'
-import { watch, onMounted, ref } from 'vue'
 
 defineOptions({
-    name: 'settings-wallpaper',
+  name: 'SettingsWallpaper',
 })
 
 const store = useSettingsStore()
@@ -16,59 +16,59 @@ const wallpaperMask = ref('rgba(0, 0, 0, 0)')
  * prevent when updating a property will refresh all variables in tyle
  */
 function updateHomeBackground(v: string) {
-    const image = document.querySelector('.wallpaper-image') as HTMLDivElement
-    image.style.backgroundImage = `url(${v})`
+  const image = document.querySelector('.wallpaper-image') as HTMLDivElement
+  image.style.backgroundImage = `url(${v})`
 }
 
 watch(
-    () => store.homeBackground,
-    (v) => updateHomeBackground(v)
+  () => store.homeBackground,
+  v => updateHomeBackground(v),
 )
 
 /**
  * Update the blurriness of the background image of the home page
  */
 function updateHomeBackgroundBlur(v: number) {
-    wallpaperBlur.value = `${v}px`
+  wallpaperBlur.value = `${v}px`
 }
 
 watch(
-    () => store.homeBackgroundBlur,
-    (v) => updateHomeBackgroundBlur(v)
+  () => store.homeBackgroundBlur,
+  v => updateHomeBackgroundBlur(v),
 )
 
 /**
  * Update home page background mask concentration
  */
 function updateHomeBackgroundMask(v: number) {
-    wallpaperMask.value = `rgba(0, 0, 0, ${v})`
+  wallpaperMask.value = `rgba(0, 0, 0, ${v})`
 }
 
 watch(
-    () => store.homeBackgroundMask,
-    (v) => updateHomeBackgroundMask(v)
+  () => store.homeBackgroundMask,
+  v => updateHomeBackgroundMask(v),
 )
 
 onMounted(() => {
-    updateHomeBackground(store.homeBackground)
-    updateHomeBackgroundBlur(store.homeBackgroundBlur)
-    updateHomeBackgroundMask(store.homeBackgroundMask)
+  updateHomeBackground(store.homeBackground)
+  updateHomeBackgroundBlur(store.homeBackgroundBlur)
+  updateHomeBackgroundMask(store.homeBackgroundMask)
 })
 </script>
 
 <template>
-    <div class="wallpaper absolute">
-        <div class="absolute w-full h-full wallpaper-mask"></div>
-        <div
-            class="
+  <div class="wallpaper absolute">
+    <div class="absolute w-full h-full wallpaper-mask" />
+    <div
+      class="
                 wallpaper-image
                 w-full
                 h-full
                 bg-cover bg-no-repeat bg-center bg-white
                 dark:bg-dark-600
             "
-        ></div>
-    </div>
+    />
+  </div>
 </template>
 
 <style lang="scss">

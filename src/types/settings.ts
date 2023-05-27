@@ -1,4 +1,4 @@
-import { EngineItem } from './engines'
+import type { EngineItem } from './engines'
 
 export type Theme = 'light' | 'dark'
 export type FollowSystemTheme = boolean
@@ -11,14 +11,14 @@ export type Lang = 'zh-CN' | 'en'
 export type Target = '_blank' | '_self'
 
 export interface ISettings {
-    enginesData: Array<EngineItem>
-    theme: 'light' | 'dark'
-    visibleList: VisibleList
-    primaryColor: PrimaryColor
-    homeBackground: HomeBackground
-    homeBackgroundBlur: HomeBackgroundBlur
-    homeBackgroundMask: HomeBackgroundMask
-    followSystemTheme: FollowSystemTheme
-    lang: Lang
-    target: Target
+  enginesData: Array<EngineItem>
+  theme: 'light' | 'dark'
+  visibleList: VisibleList
+  primaryColor: PrimaryColor
+  homeBackground: HomeBackground
+  homeBackgroundBlur: HomeBackgroundBlur
+  homeBackgroundMask: HomeBackgroundMask
+  followSystemTheme: FollowSystemTheme
+  lang: Lang
+  target: Target
 }
