@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { NSpace, useMessage } from 'naive-ui'
 import { Add, CloseSharp as Close, TrashBinOutline as Trash } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
@@ -14,6 +14,7 @@ const message = useMessage()
 const showModal = ref(false)
 const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
+const engines = computed(() => store.settings.engines)
 
 /**
  * Click the Add button to add an engine
@@ -55,7 +56,7 @@ function handleRemoveEngine(item: TTEngine): void {
     </template>
     <NSpace>
       <n-button
-        v-for="item in store.settings.engines"
+        v-for="item in engines"
         :key="item.id"
         size="small"
         ghost

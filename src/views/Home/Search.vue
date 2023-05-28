@@ -1,14 +1,10 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import {
-  CloseSharp as Close,
-  SearchOutline as Search,
-} from '@vicons/ionicons5'
-import { hexToRgba } from '../../utils/tools'
+
 import Engines from './Engines.vue'
 import { useSettingsStore } from '@/store/settings.store'
 import type { TTEngine, TTTarget } from '@/types'
-import { isEngineAttrValue } from '@/utils/tools'
+import { hexToRgba, isEngineAttrValue } from '@/utils/tools'
 
 defineOptions({
   name: 'HomeSearch',
@@ -72,11 +68,11 @@ function handleClearInputStyle() {
   const searchIcon = document.querySelector('.icon-search') as HTMLElement
   searchInput.style.borderColor = ''
   searchInput.style.boxShadow = ''
-  searchIcon.style.color = 'gray'
+  searchIcon.style.color = ''
 }
 
 function handleSubmit(): void {
-  let url = `${currentEngine.value?.baseUrl}${searchValue.value}`
+  let url = `${currentEngine.value?.baseUrl}${encodeURIComponent(searchValue.value)}`
 
   if (searchValue.value.length && suffix.value.length)
     url += ` ${suffix.value.join(' ')}`
@@ -85,19 +81,13 @@ function handleSubmit(): void {
   target.value === '_self' ? (window.location.href = url) : window.open(url)
 }
 
-function handleBlurInput() {
-  handleClearInputStyle()
-}
-
 function clearSearchValue() {
   searchValue.value = ''
 }
 
 function handleChangeEngine(engineId: number): void {
-  const engineData = store.GetEngineById(engineId)
+  currentEngine.value = store.GetEngineById(engineId)
   const searchInput = document.querySelector('.search-component') as HTMLInputElement
-
-  currentEngine.value = engineData
   handleSetInputStyle()
   searchInput.focus()
 }
@@ -132,44 +122,26 @@ function handleCloseSuffix(suffixItem: string) {
 <template>
   <div class="mx-auto pt-40 w-2/5 rounded-lg <md:w-4/5">
     <div
-      class="relative w-full flex items-center transform transition"
+      class="search-component relative w-full h-10 flex items-center rounded-[20px] border border-gray-500 border-solid  border-dark overflow-hidden"
       :class="{
         'translate-y-6': !showHomeEngines,
         '-translate-y-8': hasHomeBackground,
       }"
     >
-      <n-icon
-        size="20"
-        class="icon-search !absolute left-4 cursor-pointer text-gray-500 transition"
-        @click="handleSubmit"
-      >
-        <Search />
-      </n-icon>
+      <icon-search class="icon-search text-coolgray !absolute left-4 cursor-pointer" @click="handleSubmit" />
       <input
         v-model="searchValue"
         type="text"
-        class="
-                    search-component
-                    px-10
-                    w-full
-                    h-10
-                    outline-none
-                    border-2 border-gray-500
-                    rounded-xl
-                    placeholder-gray-500
-                    transition
-                    dark:bg-gray-800 dark:text-light-500 dark:placeholder-gray-400
-                "
-        :class="hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']
-        "
+        class="px-10 w-full h-full text-base border-none outline-none bg-transparent dark:text-white"
+        :class="hasHomeBackground && ['bg-[rgba(255,255,255,0.7)]', 'dark:bg-[rgba(0,0,0,0.7)]']"
         :placeholder="currentEngine.placeholderText"
         @keyup.enter="handleSubmit"
         @keyup.space="hanldePressSpace"
         @focus="handleSetInputStyle"
-        @blur="handleBlurInput"
+        @blur="handleClearInputStyle"
       >
       <div class="flex justify-center !absolute right-10 mb-2" :style="{ top: '7.8px' }">
-        <n-space>
+        <a-space>
           <n-tag
             v-for="(item, index) in suffix"
             :key="index"
@@ -179,17 +151,9 @@ function handleCloseSuffix(suffixItem: string) {
           >
             {{ item }}
           </n-tag>
-        </n-space>
+        </a-space>
       </div>
-      <n-icon
-        v-show="searchValue !== ''"
-        size="20"
-        color="red"
-        class="!absolute right-4 cursor-pointer"
-        @click="clearSearchValue"
-      >
-        <Close />
-      </n-icon>
+      <icon-close v-show="searchValue !== ''" class="text-red !absolute right-4 cursor-pointer" @click="clearSearchValue" />
     </div>
     <Engines
       v-if="showHomeEngines"

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { useMessage } from 'naive-ui'
+import { NColorPicker, useMessage } from 'naive-ui'
 import * as _ from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 import type { FieldRule } from '@arco-design/web-vue'
@@ -21,7 +21,18 @@ const { t } = useI18n()
 const store = useSettingsStore()
 const message = useMessage()
 const formRef = ref()
-const formData = ref<TTEngine>()
+const formData = ref<TTEngine>({
+  id: 0,
+  name: '',
+  baseUrl: '',
+  placeholderText: '',
+  hotkeys: '',
+  color: '#4395ff',
+  category: 1,
+  isDefault: false,
+  prefix: '',
+  suffix: [],
+})
 
 const rules: Record<string, FieldRule[]> = ref({
   name: [
@@ -53,7 +64,7 @@ const rules: Record<string, FieldRule[]> = ref({
     {
       validator: validatePrefix,
       message: t('rules.enginePrefixExist'),
-      trigger: ['input', 'blur'],
+      // trigger: ['input', 'blur'],
     },
   ],
   suffix: [
@@ -141,6 +152,7 @@ function handleAddEngine(engineItem: TTEngine): void {
  * Update Engine
  */
 function handleEditEngine(engineItem: TTEngine): void {
+  console.log(engineItem)
   store.UpdateEngine(engineItem).then((msgList) => {
     msgList.forEach((msgItem: TTMsgItem) => {
       message[msgItem.type](msgItem.content)
@@ -247,7 +259,7 @@ function handleCloseModal() {
         <a-switch v-model="formData.isDefault" />
       </a-form-item>x
       <a-form-item :label="t('colorPicker.engineColorLabel')" field="color">
-        <n-color-picker v-model="formData.color" :modes="['hex']" />
+        <NColorPicker :default-value="formData.color" :modes="['hex']" @confirm="(value) => formData.color = value" />
       </a-form-item>
     </a-form>
   </a-modal>

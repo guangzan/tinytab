@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     AListItem: typeof import('@arco-design/web-vue')['ListItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopover: typeof import('@arco-design/web-vue')['Popover']
+    ASpace: typeof import('@arco-design/web-vue')['Space']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ColorPicker: typeof import('./src/components/ColorPicker.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
