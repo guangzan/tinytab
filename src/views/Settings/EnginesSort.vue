@@ -11,7 +11,7 @@ const drag = ref(false)
 
 const engineList = computed({
   get() {
-    return store.enginesData
+    return store.settings.enginesData
   },
   set(value) {
     store.UpdateEnginesData(value)

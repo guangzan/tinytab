@@ -15,7 +15,7 @@ interface ColorItem {
 const { t } = useI18n()
 const store = useSettingsStore()
 
-const disableThemeSwitch = ref(store.followSystemTheme)
+const disableThemeSwitch = ref(store.settings.followSystemTheme)
 const themeSwitchDefaultValue = ref(false)
 const followSystemThemeSwitchDefaultValue = ref(false)
 
@@ -57,19 +57,19 @@ function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
 }
 
 watch(
-  () => store.theme,
+  () => store.settings.theme,
   v => updateThemeSwitchDefaultValue(v),
 )
 
 watch(
-  () => store.followSystemTheme,
+  () => store.settings.followSystemTheme,
   v => updateFollowSystemThemeSwitchDefaultValue(v),
 )
 
 onMounted(() => {
-  updateThemeSwitchDefaultValue(store.theme)
+  updateThemeSwitchDefaultValue(store.settings.theme)
   updateFollowSystemThemeSwitchDefaultValue(
-    store.followSystemTheme,
+    store.settings.followSystemTheme,
   )
 })
 

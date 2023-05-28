@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useSettingsStore } from '@/store/settings.store'
 
 const emit = defineEmits<{
-  (event: 'change-engine', searchEngine: number): void
+  (event: 'changeEngine', searchEngine: number): void
 }>()
 
 defineOptions({
@@ -11,10 +11,10 @@ defineOptions({
 })
 
 const store = useSettingsStore()
-const enginesData = computed(() => store.enginesData)
+const enginesData = computed(() => store.settings.enginesData)
 
 function handleChooseSearchEngine(id: number): void {
-  emit('change-engine', id)
+  emit('changeEngine', id)
 }
 </script>
 

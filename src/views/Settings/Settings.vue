@@ -22,20 +22,20 @@ const store = useSettingsStore()
 const drawerVisible = ref(false)
 
 const homeSettingButtonVisible = computed(() =>
-  store.visibleList.includes('homeSettingButton'),
+  store.settings.visibleList.includes('homeSettingButton'),
 )
 
 const homeLangButtonVisible = computed(() =>
-  store.visibleList.includes('homeLangButton'),
+  store.settings.visibleList.includes('homeLangButton'),
 )
 
 function changeLang() {
-  const currentLang = store.lang
+  const currentLang = store.settings.lang
   store.UpdateLang(currentLang === 'en' ? 'zh-CN' : 'en')
 }
 
 watch(
-  () => store.lang,
+  () => store.settings.lang,
   (v) => {
     locale.value = v
     message.info(t('message.toggleLang'))
@@ -43,7 +43,7 @@ watch(
 )
 
 onMounted(() => {
-  locale.value = store.lang
+  locale.value = store.settings.lang
 })
 </script>
 

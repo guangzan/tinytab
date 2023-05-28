@@ -1,8 +1,7 @@
-import type { EngineItem } from '@/types'
+import type { EngineItem, VisibleList } from '@/types'
 
 /**
  * sleep
- * @param ms time
  */
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -10,8 +9,6 @@ export function sleep(ms: number) {
 
 /**
  * 将 16 进制颜色转成 rgb 或 rgba
- * @param {string} hex
- * @param {number} opacity
  */
 export function hexToRgba(hex: string, opacity: number): string {
   if (hex.length === 9)
@@ -33,9 +30,6 @@ export function hexToRgba(hex: string, opacity: number): string {
 
 /**
  * 判断一个属性及其值是否存在引擎列表中
- * @param attr
- * @param value
- * @returns
  */
 export function isEngineAttrValue(attr: keyof EngineItem, value: any): boolean {
   const enginesData = JSON.parse(localStorage.enginesData)
@@ -46,10 +40,8 @@ export function isEngineAttrValue(attr: keyof EngineItem, value: any): boolean {
 
 /**
  * 删除数组中指定元素
- * @param arr
- * @param item
  */
-export function removeArrItem(arr: any[], item: any) {
+export function removeArrItem(arr: VisibleList, item: VisibleList[number]): VisibleList {
   const index = arr.indexOf(item)
   if (index > -1)
     arr.splice(index, 1)
@@ -59,13 +51,11 @@ export function removeArrItem(arr: any[], item: any) {
 
 /**
  * 获取更亮和更暗的颜色
- * @param col
- * @param amt
  */
 export function lightenDarkenColor(col: string, amt: number) {
   let usePound = false
 
-  if (col[0] == '#') {
+  if (col[0] === '#') {
     col = col.slice(1)
     usePound = true
   }

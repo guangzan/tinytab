@@ -115,7 +115,7 @@ watch(
  */
 function validatePrefix(rule, value: string) {
   const prefix = value.trim()
-  const enginesData = store.enginesData
+  const enginesData = store.settings.enginesData
 
   if (
     enginesData.find(
@@ -142,7 +142,7 @@ function handleAddEngine(engineItem: EngineItem): void {
  */
 function handleEditEngine(engineItem: EngineItem): void {
   store.UpdateEngine(engineItem).then((msgList) => {
-    msgList.map((msgItem: IMsgItem) => {
+    msgList.forEach((msgItem: IMsgItem) => {
       message[msgItem.type](msgItem.content)
     })
   })
@@ -157,7 +157,7 @@ function handleSubmitModal() {
     if (_.isUndefined(formData.value))
       return
 
-    if (props.operateType == 'add')
+    if (props.operateType === 'add')
       handleAddEngine(formData.value)
     else
       handleEditEngine(formData.value)

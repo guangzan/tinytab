@@ -10,23 +10,12 @@ import {
 } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
-import type { ISettings } from '@/types'
+import type { TinyTabSettings } from '@/types'
 import { useSettingsStore } from '@/store/settings.store'
-import {
-  followSystemTheme as _followSystemTheme,
-  homeBackground as _homeBackground,
-  homeBackgroundBlur as _homeBackgroundBlur,
-  homeBackgroundMask as _homeBackgroundMask,
-  lang as _lang,
-  primaryColor as _primaryColor,
-  target as _target,
-  theme as _theme,
-  visibleList as _visibleList,
-} from '@/data'
 
 const { t } = useI18n()
 const dialog = useDialog()
-const store = useSettingsStore()
+const settingsStore = useSettingsStore()
 const message = useMessage()
 const notification = useNotification()
 
@@ -34,20 +23,7 @@ const notification = useNotification()
  * Processing export configuration
  */
 function handleExportSettings() {
-  const settings: ISettings = {
-    theme: store.theme,
-    primaryColor: store.primaryColor,
-    visibleList: store.visibleList,
-    followSystemTheme: store.followSystemTheme,
-    lang: store.lang,
-    homeBackground: store.homeBackground,
-    enginesData: store.enginesData,
-    homeBackgroundMask: store.homeBackgroundMask,
-    homeBackgroundBlur: store.homeBackgroundBlur,
-    target: store.target,
-  }
-
-  const blob = new Blob([JSON.stringify(settings)], { type: '' })
+  const blob = new Blob([JSON.stringify(settingsStore.settings)], { type: '' })
   saveAs(blob, `tinytab.settings.${new Date().getTime()}.json`)
 
   const msg: any = message.info(t('settingActions.generating'), {
@@ -85,40 +61,22 @@ function generateSettings(e: Event) {
   if (fileMetaData) {
     readAsText(fileMetaData)
       .then((res) => {
-        const data = JSON.parse(res) as ISettings
-
-        // The new configuration needs to set the default value to prevent the import of the old version configuration file from reporting errors
-        // Force the imported configuration object to implement the interface ISettings
-        // Consistent with the exported configuration items
-        const settings: ISettings = {
-          enginesData: data.enginesData || [],
-          theme: data.theme || _theme,
-          primaryColor: data.primaryColor || _primaryColor,
-          homeBackground: data.homeBackground || _homeBackground,
-          followSystemTheme: data.followSystemTheme || _followSystemTheme,
-          visibleList: data.visibleList || _visibleList,
-          lang: data.lang || _lang,
-          homeBackgroundMask: data.homeBackgroundMask || _homeBackgroundMask,
-          homeBackgroundBlur: data.homeBackgroundBlur || _homeBackgroundBlur,
-          target: data.target || _target,
+        try {
+          const data = JSON.parse(res) as TinyTabSettings
+          settingsStore.UpdateSettings(data)
+          notification.success({
+            content: t('message.importSuccess'),
+            meta: t('title.tip'),
+            duration: 3000,
+          })
         }
-
-        store.UpdateEnginesData(settings.enginesData)
-        store.UpdateTheme(settings.theme)
-        store.UpdatePrimaryColor(settings.primaryColor)
-        store.UpdateHomeBackground(settings.homeBackground)
-        store.UpdateFollowSystemTheme(settings.followSystemTheme)
-        store.UpdateVisibleList(settings.visibleList)
-        store.UpdateLang(settings.lang)
-        store.UpdateHomeBackgroundMask(settings.homeBackgroundMask)
-        store.UpdateHomeBackgroundBlur(settings.homeBackgroundBlur)
-        store.UpdateTarget(settings.target)
-
-        notification.success({
-          content: t('message.importSuccess'),
-          meta: t('title.tip'),
-          duration: 3000,
-        })
+        catch (err) {
+          notification.error({
+            content: t('message.importError'),
+            meta: t('title.tip'),
+            duration: 3000,
+          })
+        }
       })
       .catch(() => {
         notification.error({

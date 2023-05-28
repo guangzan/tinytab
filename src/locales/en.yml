@@ -30,6 +30,7 @@ message:
   delSuccess: Successfully deleted
   imgFormatError: Only picture files in png or jpg format can be selected, please select again
   importSuccess: Successfully imported configuration
+  importError: Error parsing configuration file
   noDelDefaultEngine: Can not delete the default search engine
   sizeOverflow: Can only select pictures smaller than 2M, please select again
   unknownError: Unknown mistake

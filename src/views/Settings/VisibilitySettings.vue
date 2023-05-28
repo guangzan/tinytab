@@ -22,11 +22,11 @@ function changeVisibility(v: VisibleList) {
 }
 
 watch(
-  () => store.visibleList,
+  () => store.settings.visibleList,
   v => changeVisibility(v),
 )
 
-onMounted(() => changeVisibility(store.visibleList))
+onMounted(() => changeVisibility(store.settings.visibleList))
 </script>
 
 <template>

@@ -21,7 +21,7 @@ function updateHomeBackground(v: string) {
 }
 
 watch(
-  () => store.homeBackground,
+  () => store.settings.homeBackground,
   v => updateHomeBackground(v),
 )
 
@@ -33,7 +33,7 @@ function updateHomeBackgroundBlur(v: number) {
 }
 
 watch(
-  () => store.homeBackgroundBlur,
+  () => store.settings.homeBackgroundBlur,
   v => updateHomeBackgroundBlur(v),
 )
 
@@ -45,14 +45,14 @@ function updateHomeBackgroundMask(v: number) {
 }
 
 watch(
-  () => store.homeBackgroundMask,
+  () => store.settings.homeBackgroundMask,
   v => updateHomeBackgroundMask(v),
 )
 
 onMounted(() => {
-  updateHomeBackground(store.homeBackground)
-  updateHomeBackgroundBlur(store.homeBackgroundBlur)
-  updateHomeBackgroundMask(store.homeBackgroundMask)
+  updateHomeBackground(store.settings.homeBackground)
+  updateHomeBackgroundBlur(store.settings.homeBackgroundBlur)
+  updateHomeBackgroundMask(store.settings.homeBackgroundMask)
 })
 </script>
 

@@ -12,7 +12,7 @@ const { t } = useI18n()
 const store = useSettingsStore()
 const message = useMessage()
 const showModal = ref(false)
-const enginesData = computed(() => store.enginesData)
+const enginesData = computed(() => store.settings.enginesData)
 const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
 

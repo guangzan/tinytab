@@ -15,14 +15,14 @@ defineOptions({
 })
 
 const store = useSettingsStore()
-console.log(store)
+
 const currentEngine = ref<EngineItem>(store.defaultEngineData)
 const searchValue = ref('')
 const suffix = ref<any>([])
 const hasHomeBackground = ref()
 const target = ref()
 
-const showHomeEngines = computed(() => store.visibleList.includes('homeEngines'))
+const showHomeEngines = computed(() => store.settings.visibleList.includes('homeEngines'))
 
 function updateHasHomeBackground(v: boolean): void {
   hasHomeBackground.value = v
@@ -33,12 +33,12 @@ function updateTarget(v: Target) {
 }
 
 watch(
-  () => store.target,
+  () => store.settings.target,
   v => updateTarget(v),
 )
 
 watch(
-  () => store.homeBackground,
+  () => store.settings.homeBackground,
   v => updateHasHomeBackground(v !== ''),
 )
 
@@ -49,8 +49,8 @@ onMounted(() => {
   }, 300)
 
   suffix.value = currentEngine.value.suffix
-  updateHasHomeBackground(store.homeBackground !== '')
-  updateTarget(store.target)
+  updateHasHomeBackground(store.settings.homeBackground !== '')
+  updateTarget(store.settings.target)
 })
 
 watch(currentEngine, () => {

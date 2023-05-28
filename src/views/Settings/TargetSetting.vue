@@ -15,12 +15,12 @@ function updateTarget(v: Target) {
 }
 
 watch(
-  () => store.target,
+  () => store.settings.target,
   v => updateTarget(v),
 )
 
 onMounted(() => {
-  updateTarget(store.target)
+  updateTarget(store.settings.target)
 })
 
 type TargetList = Array<{

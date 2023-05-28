@@ -1,5 +1,6 @@
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useStorageAsync } from '@vueuse/core'
 import type {
   EngineItem,
   EnginesData,
@@ -12,151 +13,120 @@ import type {
   PrimaryColor,
   Target,
   Theme,
+  TinyTabSettings,
   VisibleList,
 } from '@/types'
 import { removeArrItem } from '@/utils/tools'
-import { initStorage } from '@/logic/initStorage'
-
-const initialValue = initStorage()
+import { initialSettings } from '@/constants/settings'
+import { STORAGE_KEY_PREFIX } from '@/constants/keys'
 
 export const useSettingsStore = defineStore('settings', () => {
-  const theme = ref<Theme>(initialValue.theme)
-  const primaryColor = ref<PrimaryColor>(initialValue.primaryColor)
-  const visibleList = ref<VisibleList>(initialValue.visibleList)
-  const enginesData = ref<EnginesData>(initialValue.enginesData)
-  const homeBackground = ref<HomeBackground>(initialValue.homeBackground)
-  const followSystemTheme = ref<FollowSystemTheme>(initialValue.followSystemTheme)
-  const lang = ref<Lang>(initialValue.lang)
-  const homeBackgroundBlur = ref<HomeBackgroundBlur>(initialValue.homeBackgroundBlur)
-  const homeBackgroundMask = ref<HomeBackgroundMask>(initialValue.homeBackgroundMask)
-  const target = ref<Target>(initialValue.target)
+  const settings = useStorageAsync<TinyTabSettings>(`${STORAGE_KEY_PREFIX}_SETTINGS`, initialSettings)
 
   const defaultEngineData = computed(() => {
-    return enginesData.value.filter(engine => engine.isDefault === true)[0]
+    return settings.value.enginesData.filter(engine => engine.isDefault === true)[0]
   })
 
   function GetEngineById(id: number) {
-    return enginesData.value.filter(engine => engine.id === id)[0]
+    return settings.value.enginesData.filter(engine => engine.id === id)[0]
   }
-
   function GetEngineByPrefix(prefix: string) {
-    return enginesData.value.filter(engine => engine.prefix === prefix)[0]
+    return settings.value.enginesData.filter(engine => engine.prefix === prefix)[0]
   }
 
+  function UpdateSettings(v: TinyTabSettings) {
+    settings.value = v
+  }
   function UpdateTheme(value: Theme) {
-    theme.value = value
-    localStorage.setItem('theme', JSON.stringify(value))
+    settings.value.theme = value
   }
   function UpdatePrimaryColor(value: PrimaryColor) {
-    primaryColor.value = value
-    localStorage.setItem('primaryColor', JSON.stringify(value))
+    settings.value.primaryColor = value
   }
   function CreateEngine(value: EngineItem) {
     if (value.isDefault === true)
-      enginesData.value.map(item => (item.isDefault = false))
+      settings.value.enginesData.map(item => (item.isDefault = false))
 
-    enginesData.value.push(value)
-    localStorage.setItem('enginesData', JSON.stringify(enginesData))
+    settings.value.enginesData.push(value)
   }
   function DeleteEngine(id: number) {
-    const data = enginesData.value
-    enginesData.value.forEach((item: any, index: any) => {
-      if (item.id === id) {
+    const data = settings.value.enginesData
+    settings.value.enginesData.forEach((item, index) => {
+      if (item.id === id)
         data.splice(index, 1)
-        localStorage.enginesData = JSON.stringify(data)
-      }
     })
   }
   function UpdateEnginesData(value: EnginesData) {
-    enginesData.value = value
-    localStorage.setItem('enginesData', JSON.stringify(enginesData))
+    settings.value.enginesData = value
   }
   function UpdateEngine(newItem: EngineItem): Promise<IMsgItem[]> {
     return new Promise((resolve) => {
       const resultMsg: Array<IMsgItem> = []
-      if (newItem.isDefault === true)
-        enginesData.value.map(item => (item.isDefault = false))
-
-      enginesData.value.forEach((item: EngineItem) => {
-        const updateEnginesData = (item: EngineItem, newItem: EngineItem): void => {
-          Object.assign(item, newItem)
-          UpdateEnginesData(enginesData.value)
-        }
-        if (newItem.isDefault === false) {
-          if (item.id === newItem.id) {
-            if (item.isDefault === true) {
-              resultMsg.push({
-                type: 'error',
-                content: '不能将默认搜索引擎取消',
-              })
-              newItem.isDefault = true
+      if (newItem.isDefault === true) {
+        settings.value.enginesData.forEach((item: EngineItem) => {
+          const updateEnginesData = (item: EngineItem, newItem: EngineItem): void => {
+            Object.assign(item, newItem)
+            UpdateEnginesData(settings.value.enginesData)
+          }
+          if (newItem.isDefault === false) {
+            if (item.id === newItem.id) {
+              if (item.isDefault === true) {
+                resultMsg.push({
+                  type: 'error',
+                  content: '不能将默认搜索引擎取消',
+                })
+                newItem.isDefault = true
+              }
             }
           }
-        }
-        if (item.id === newItem.id) {
-          resultMsg.push({
-            type: 'success',
-            content: '修改成功',
-          })
-          resolve(resultMsg)
-          updateEnginesData(item, newItem)
-        }
-      })
+          if (item.id === newItem.id) {
+            resultMsg.push({
+              type: 'success',
+              content: '修改成功',
+            })
+            resolve(resultMsg)
+            updateEnginesData(item, newItem)
+          }
+        })
+      }
     })
   }
   function ToggleVisible(item: string) {
-    if (visibleList.value.includes(item))
-      visibleList.value = removeArrItem(visibleList.value, item)
+    if (settings.value.visibleList.includes(item))
+      settings.value.visibleList = removeArrItem(settings.value.visibleList, item)
     else
-      visibleList.value.push(item)
-
-    localStorage.setItem('visibleList', JSON.stringify(visibleList))
+      settings.value.visibleList.push(item)
   }
   function UpdateVisibleList(value: VisibleList) {
-    visibleList.value = value
-    localStorage.setItem('visibleList', JSON.stringify(visibleList))
+    settings.value.visibleList = value
   }
   function UpdateHomeBackground(value: HomeBackground) {
-    homeBackground.value = value
-    localStorage.setItem('homeBackground', JSON.stringify(homeBackground))
+    settings.value.homeBackground = value
   }
   function UpdateFollowSystemTheme(value: FollowSystemTheme) {
-    followSystemTheme.value = value
-    localStorage.setItem('followSystemTheme', JSON.stringify(followSystemTheme))
+    settings.value.followSystemTheme = value
   }
   function UpdateLang(value: Lang) {
-    lang.value = value
-    localStorage.setItem('lang', JSON.stringify(lang))
+    settings.value.lang = value
   }
   function UpdateHomeBackgroundBlur(value: HomeBackgroundBlur) {
-    homeBackgroundBlur.value = value
-    localStorage.setItem('homeBackgroundBlur', JSON.stringify(value))
+    settings.value.homeBackgroundBlur = value
   }
   function UpdateHomeBackgroundMask(v: HomeBackgroundMask) {
-    homeBackgroundMask.value = v
-    localStorage.setItem('homeBackgroundMask', JSON.stringify(v))
+    settings.value.homeBackgroundMask = v
   }
   function UpdateTarget(v: Target) {
-    target.value = v
-    localStorage.setItem('target', JSON.stringify(v))
+    settings.value.target = v
   }
 
   return {
-    theme,
-    primaryColor,
-    visibleList,
-    enginesData,
-    homeBackground,
-    followSystemTheme,
-    lang,
-    homeBackgroundBlur,
-    homeBackgroundMask,
-    target,
+    settings,
 
     defaultEngineData,
     GetEngineById,
     GetEngineByPrefix,
 
+    UpdateSettings,
     UpdateTheme,
     UpdatePrimaryColor,
     CreateEngine,

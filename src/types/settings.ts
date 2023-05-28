@@ -10,7 +10,7 @@ export type VisibleList = string[]
 export type Lang = 'zh-CN' | 'en'
 export type Target = '_blank' | '_self'
 
-export interface ISettings {
+export interface TinyTabSettings {
   enginesData: Array<EngineItem>
   theme: 'light' | 'dark'
   visibleList: VisibleList

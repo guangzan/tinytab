@@ -9,7 +9,7 @@ import {
   target,
   theme,
   visibleList,
-} from '../data/index'
+} from '@/constants'
 
 export function initStorage() {
   const state = {
@@ -29,6 +29,4 @@ export function initStorage() {
     if (localStorage.getItem(key) === null)
       localStorage.setItem(key, JSON.stringify(val))
   }
-
-  return state
 }

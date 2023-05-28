@@ -89,7 +89,7 @@ function updatePreviewImage(v: string): void {
 }
 
 watch(
-  () => store.homeBackground,
+  () => store.settings.homeBackground,
   v => updatePreviewImage(v || ''),
 )
 
@@ -150,9 +150,9 @@ watch(
 )
 
 onMounted(() => {
-  updatePreviewImage(store.homeBackground)
-  updateHomeBackgroundBlur(store.homeBackgroundBlur)
-  updateHomeBackgroundMask(store.homeBackgroundMask)
+  updatePreviewImage(store.settings.homeBackground)
+  updateHomeBackgroundBlur(store.settings.homeBackgroundBlur)
+  updateHomeBackgroundMask(store.settings.homeBackgroundMask)
 })
 </script>
 

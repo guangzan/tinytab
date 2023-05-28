@@ -24,6 +24,7 @@ message:
   sizeOverflow: 只能选择小于 2M 的图片，请重新选择
   unknownError: 未知错误
   importSuccess: 导入配置成功
+  importError: 解析配置文件出现错误
   toggleLang: 切换到中文
 rules:
   engineNameEmpty: 请输入搜索引擎名称

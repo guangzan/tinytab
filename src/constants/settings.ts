@@ -1,4 +1,16 @@
-import type { EnginesData } from '@/types'
+import type {
+  EnginesData,
+  FollowSystemTheme,
+  HomeBackground,
+  HomeBackgroundBlur,
+  HomeBackgroundMask,
+  Lang,
+  PrimaryColor,
+  Target,
+  Theme,
+  TinyTabSettings,
+  VisibleList,
+} from '@/types'
 
 export const enginesData: EnginesData = [
   {
@@ -98,3 +110,26 @@ export const enginesData: EnginesData = [
     suffix: [],
   },
 ]
+
+export const followSystemTheme: FollowSystemTheme = false
+export const homeBackground: HomeBackground = ''
+export const homeBackgroundBlur: HomeBackgroundBlur = 0
+export const homeBackgroundMask: HomeBackgroundMask = 0
+export const lang: Lang = 'zh-CN'
+export const primaryColor: PrimaryColor = '#3051ff'
+export const theme: Theme = 'light'
+export const visibleList: VisibleList = ['homeEngines', 'homeSettingButton', 'homeLangButton']
+export const target: Target = '_blank'
+
+export const initialSettings: TinyTabSettings = {
+  enginesData,
+  theme,
+  visibleList,
+  primaryColor,
+  homeBackground,
+  homeBackgroundBlur,
+  homeBackgroundMask,
+  followSystemTheme,
+  lang,
+  target,
+}

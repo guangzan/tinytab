@@ -9,14 +9,14 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: 'change-color', colorItem: IColorItem): void
+  (event: 'changeColor', colorItem: IColorItem): void
 }>()
 
 /**
  * picker color
  */
 function pickerColor(colorItem: IColorItem): void {
-  emit('change-color', colorItem)
+  emit('changeColor', colorItem)
 }
 </script>
 

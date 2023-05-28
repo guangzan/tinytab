@@ -63,7 +63,7 @@ function handleChangeSystemTheme() {
   if (typeof darkMedia.addEventListener === 'function') {
     darkMedia.addEventListener('change', (e: MediaQueryListEvent) => {
       // The browser settings switch will trigger
-      if (store.followSystemTheme) {
+      if (store.settings.followSystemTheme) {
         const prefersDarkMode = e.matches
         if (prefersDarkMode)
           changeTheme('dark')
@@ -74,15 +74,15 @@ function handleChangeSystemTheme() {
 }
 
 watch(
-  () => store.primaryColor,
+  () => store.settings.primaryColor,
   (v: string) => changePrimaryColor(v),
 )
 watch(
-  () => store.theme,
+  () => store.settings.theme,
   (v: 'dark' | 'light') => changeTheme(v),
 )
 watch(
-  () => store.followSystemTheme,
+  () => store.settings.followSystemTheme,
   (v: boolean) => {
     if (v) {
       handleFollowSystemTheme()
@@ -90,20 +90,19 @@ watch(
     }
     else {
       // If you turn off follow the system theme
-      const storageTheme = store.theme
-      changeTheme(storageTheme)
+      changeTheme(store.settings.theme)
     }
   },
 )
 
 onMounted(() => {
   handleChangeSystemTheme()
-  changePrimaryColor(store.primaryColor)
+  changePrimaryColor(store.settings.primaryColor)
 
-  if (store.followSystemTheme)
+  if (store.settings.followSystemTheme)
     handleFollowSystemTheme()
   else
-    changeTheme(store.theme)
+    changeTheme(store.settings.theme)
 })
 </script>
 
