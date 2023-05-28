@@ -47,7 +47,6 @@ export default ({ mode }) => {
       open: true
     },
     build: {
-      outDir: 'docs',
       cssCodeSplit: true,
       emptyOutDir: true,
       chunkSizeWarningLimit: 1024,
