@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import { useSettingsStore } from '@/store/settings.store'
@@ -7,27 +7,14 @@ import type { TTVisibleElements } from '@/types'
 
 const { t } = useI18n()
 const store = useSettingsStore()
-const homeEngineSwitchDefaultValue = ref(false)
-const homeSettingButtonSwitchDefaultValue = ref(false)
-const homeLangButtonSwitchDefaultValue = ref(false)
-const homeModeButtonSwitchDefaultValue = ref(false)
+const homeEngineSwitchDefaultValue = ref(store.GetVisible('homeEngines'))
+const homeSettingButtonSwitchDefaultValue = ref(store.GetVisible('homeSettingButton'))
+const homeLangButtonSwitchDefaultValue = ref(store.GetVisible('homeLangButton'))
+const homeModeButtonSwitchDefaultValue = ref(store.GetVisible('HOME_MODE_BUTTON'))
 
 function handleChangeItemVisible(item: TTVisibleElements): void {
   store.ToggleVisible(item)
 }
-
-function changeVisibility(v: TTVisibleElements[]) {
-  homeEngineSwitchDefaultValue.value = v.includes('homeEngines')
-  homeSettingButtonSwitchDefaultValue.value = v.includes('homeSettingButton')
-  homeLangButtonSwitchDefaultValue.value = v.includes('homeLangButton')
-}
-
-watch(
-  () => store.settings.visibleList,
-  v => changeVisibility(v),
-)
-
-onMounted(() => changeVisibility(store.settings.visibleList))
 </script>
 
 <template>

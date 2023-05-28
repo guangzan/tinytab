@@ -12,6 +12,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const defaultEngine = computed(() => settings.value.engines.filter(engine => engine.isDefault === true)[0])
   const GetEngineById = (id: number) => settings.value.engines.filter(engine => engine.id === id)[0]
   const GetEngineByPrefix = (prefix: string) => settings.value.engines.filter(engine => engine.prefix === prefix)
+  const GetVisible = (node: TT.TTVisibleElements) => settings.value.visibleList.includes(node)
 
   function UpdateSettings(v: TT.TTSettings) {
     settings.value = v
@@ -91,6 +92,7 @@ export const useSettingsStore = defineStore('settings', () => {
     defaultEngine,
     GetEngineById,
     GetEngineByPrefix,
+    GetVisible,
 
     UpdateSettings,
     UpdateTheme,

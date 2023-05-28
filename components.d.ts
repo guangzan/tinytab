@@ -38,7 +38,6 @@ declare module '@vue/runtime-core' {
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
     NSlider: typeof import('naive-ui')['NSlider']
     NSpace: typeof import('naive-ui')['NSpace']
-    NSwitch: typeof import('naive-ui')['NSwitch']
     NTag: typeof import('naive-ui')['NTag']
     NUpload: typeof import('naive-ui')['NUpload']
     Pannel: typeof import('./src/components/Pannel.vue')['default']
