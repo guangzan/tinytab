@@ -16,27 +16,18 @@ const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
 const engines = computed(() => store.settings.engines)
 
-/**
- * Click the Add button to add an engine
- */
 function handleAddEngine() {
   operateType.value = 'add'
   engineId.value = 0
   showModal.value = true
 }
 
-/**
- * Click on the engine name to modify the engine
- */
 function handleEditEngine(id: number): void {
   operateType.value = 'edit'
   engineId.value = id
   showModal.value = true
 }
 
-/**
- * Click x to delete the engine
- */
 function handleRemoveEngine(item: TTEngine): void {
   const { id, isDefault } = item
   if (isDefault) {
