@@ -62,7 +62,7 @@ visibilitySetting:
   title: 显示与隐藏
   desc: 你可以在这里设置一些元素的可见性
   homeEngines: 首页搜索引擎按钮
-  homeSettingButton: 首页右上角设置按钮
+  homeSettingButton: 首页设置按钮
   homeLangButton: 首页语言切换按钮
   homeModeButton: 首页模式切换按钮
 settingActions:
