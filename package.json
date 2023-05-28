@@ -12,13 +12,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp manifest.json docs",
+    "build": "vite build && cp manifest.json dist",
     "preview": "vite preview --port 8080",
     "up": "taze major -I",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@arco-design/color": "^0.4.0",
     "@arco-design/web-vue": "^2.46.1",
     "@intlify/unplugin-vue-i18n": "^0.11.0",
     "@vicons/ionicons5": "^0.12.0",

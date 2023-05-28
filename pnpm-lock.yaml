@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@arco-design/color':
+    specifier: ^0.4.0
+    version: 0.4.0
   '@arco-design/web-vue':
     specifier: ^2.46.1
     version: 2.46.1(vue@3.3.4)
