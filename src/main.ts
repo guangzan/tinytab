@@ -5,6 +5,8 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import App from './App.vue'
 import router from './router'
 import 'virtual:uno.css'
+import '@arco-design/web-vue/es/notification/style/css.js'
+import '@arco-design/web-vue/es/message/style/css.js'
 
 const app = createApp(App)
 
