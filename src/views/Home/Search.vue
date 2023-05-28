@@ -4,7 +4,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import Engines from './Engines.vue'
 import { useSettingsStore } from '@/store/settings.store'
 import type { TTEngine, TTTarget } from '@/types'
-import { hexToRgba, isEngineAttrValue } from '@/utils/tools'
+import { hexToRgba } from '@/utils/tools'
 
 defineOptions({
   name: 'HomeSearch',
@@ -103,11 +103,13 @@ function hanldePressSpace() {
 
   if (!prefix.length)
     return
-  if (!isEngineAttrValue('prefix', prefix))
+
+  const current = store.GetEngineByPrefix(prefix)
+
+  if (!current.length)
     return
 
-  const engineData = store.GetEngineByPrefix(prefix)
-  handleChangeEngine(engineData.id)
+  handleChangeEngine(current[0].id)
   searchValue.value = ''
 }
 
@@ -153,7 +155,7 @@ function handleCloseSuffix(suffixItem: string) {
           </n-tag>
         </a-space>
       </div>
-      <icon-close v-show="searchValue !== ''" class="text-red !absolute right-4 cursor-pointer" @click="clearSearchValue" />
+      <icon-close v-show="searchValue !== ''" class="text-lg !absolute right-4 cursor-pointer text-coolgray" @click="clearSearchValue" />
     </div>
     <Engines
       v-if="showHomeEngines"

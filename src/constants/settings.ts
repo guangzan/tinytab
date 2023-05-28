@@ -35,7 +35,7 @@ export const initialSettings: TT.TTSettings = {
     primaryColor: '#3051ff',
     followSystem: false,
   },
-  visibleList: ['homeEngines', 'homeSettingButton', 'homeLangButton'],
+  visibleList: ['homeEngines', 'homeSettingButton', 'homeLangButton', 'HOME_MODE_BUTTON'],
   homeBackground: {
     src: '',
     blur: 0,

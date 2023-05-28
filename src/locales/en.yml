@@ -82,3 +82,4 @@ visibilitySetting:
   homeSettingButton: Settings button in the upper right corner of the homepage
   title: Show and hide
   homeLangButton: Home language switch button
+  homeModeButton: Home mode switch button

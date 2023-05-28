@@ -27,7 +27,7 @@ export interface TTHomeBackground {
 export type TTHomeBackgroundBlur = number
 export type TTHomeBackgroundMask = number
 export type TTPrimaryColor = string
-export type TTVisibleElements = 'homeEngines' | 'homeSettingButton' | 'homeLangButton'
+export type TTVisibleElements = 'homeEngines' | 'homeSettingButton' | 'homeLangButton' | 'HOME_MODE_BUTTON'
 export type TTLang = 'zh-CN' | 'en'
 export type TTTarget = '_blank' | '_self'
 export type TTMode = 'light' | 'dark'

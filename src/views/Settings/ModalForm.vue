@@ -152,7 +152,6 @@ function handleAddEngine(engineItem: TTEngine): void {
  * Update Engine
  */
 function handleEditEngine(engineItem: TTEngine): void {
-  console.log(engineItem)
   store.UpdateEngine(engineItem).then((msgList) => {
     msgList.forEach((msgItem: TTMsgItem) => {
       message[msgItem.type](msgItem.content)

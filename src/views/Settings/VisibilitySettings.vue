@@ -10,6 +10,7 @@ const store = useSettingsStore()
 const homeEngineSwitchDefaultValue = ref(false)
 const homeSettingButtonSwitchDefaultValue = ref(false)
 const homeLangButtonSwitchDefaultValue = ref(false)
+const homeModeButtonSwitchDefaultValue = ref(false)
 
 function handleChangeItemVisible(item: TTVisibleElements): void {
   store.ToggleVisible(item)
@@ -41,31 +42,36 @@ onMounted(() => changeVisibility(store.settings.visibleList))
       <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeEngines') }}</div>
-          <a-switch
-            v-model:value="homeEngineSwitchDefaultValue"
-            @update:value="handleChangeItemVisible('homeEngines')"
+          <ASwitch
+            v-model="homeEngineSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('homeEngines')"
           />
         </div>
       </a-list-item>
       <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeSettingButton') }}</div>
-          <a-switch
-            v-model:value="homeSettingButtonSwitchDefaultValue"
-            @update:value="
-              handleChangeItemVisible('homeSettingButton')
-            "
+          <ASwitch
+            v-model="homeSettingButtonSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('homeSettingButton')"
           />
         </div>
       </a-list-item>
       <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('visibilitySetting.homeLangButton') }}</div>
-          <a-switch
-            v-model:value="homeLangButtonSwitchDefaultValue"
-            @update:value="
-              handleChangeItemVisible('homeLangButton')
-            "
+          <ASwitch
+            v-model="homeLangButtonSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('homeLangButton')"
+          />
+        </div>
+      </a-list-item>
+      <a-list-item>
+        <div class="flex justify-between">
+          <div>{{ t('visibilitySetting.homeModeButton') }}</div>
+          <ASwitch
+            v-model="homeModeButtonSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('HOME_MODE_BUTTON')"
           />
         </div>
       </a-list-item>

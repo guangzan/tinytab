@@ -101,8 +101,7 @@ onMounted(() => {
         <FileTrayFullOutline />
       </n-icon>
     </template>
-
-    <div class="flex">
+    <div class="flex pb-4">
       <a-button class="flex-1 mr-2" type="outline" @click="handleImportSettings">
         <template #icon>
           <n-icon>

@@ -11,7 +11,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const settings = useStorageAsync<TT.TTSettings>(`${STORAGE_KEY_PREFIX}_SETTINGS`, initialSettings)
   const defaultEngine = computed(() => settings.value.engines.filter(engine => engine.isDefault === true)[0])
   const GetEngineById = (id: number) => settings.value.engines.filter(engine => engine.id === id)[0]
-  const GetEngineByPrefix = (prefix: string) => settings.value.engines.filter(engine => engine.prefix === prefix)[0]
+  const GetEngineByPrefix = (prefix: string) => settings.value.engines.filter(engine => engine.prefix === prefix)
 
   function UpdateSettings(v: TT.TTSettings) {
     settings.value = v

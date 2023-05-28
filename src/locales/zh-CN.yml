@@ -64,6 +64,7 @@ visibilitySetting:
   homeEngines: 首页搜索引擎按钮
   homeSettingButton: 首页右上角设置按钮
   homeLangButton: 首页语言切换按钮
+  homeModeButton: 首页模式切换按钮
 settingActions:
   title: 导入与导出
   desc: 为防止配置丢失，请务必妥善保存配置文件

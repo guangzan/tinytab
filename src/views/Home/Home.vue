@@ -8,6 +8,6 @@ defineOptions({
 </script>
 
 <template>
-  <Search />
   <settings />
+  <Search />
 </template>

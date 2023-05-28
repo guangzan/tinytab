@@ -1,4 +1,5 @@
 import type * as TT from '@/types'
+import { useSettingsStore} from '@/store/settings.store'
 
 /**
  * sleep
@@ -26,15 +27,6 @@ export function hexToRgba(hex: string, opacity: number): string {
   if (!opacity)
     return rgb
   return `rgba(${red},${green},${blue},${opacity})`
-}
-
-/**
- * 判断一个属性及其值是否存在引擎列表中
- */
-export function isEngineAttrValue(attr: keyof TT.TTEngine, value: any): boolean {
-  const enginesData = JSON.parse(localStorage.enginesData)
-  const arr = enginesData.filter((engine: Engine) => engine[attr] === value)
-  return !!arr.length
 }
 
 /**
