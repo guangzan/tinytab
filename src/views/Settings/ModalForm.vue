@@ -5,7 +5,7 @@ import * as _ from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 import type { FieldRule } from '@arco-design/web-vue'
 import { useSettingsStore } from '@/store/settings.store'
-import type { TTEngine, TTMsgItem } from '@/types'
+import type { TTEngine } from '@/types'
 
 const props = defineProps<{
   engineId: number
@@ -116,7 +116,7 @@ watch(
         }
       }
       if (operateType === 'edit')
-        formData.value = store.GetEngineById(engineId)
+        formData.value = _.cloneDeep(store.GetEngineById(engineId))
     }
   },
 )
@@ -151,12 +151,8 @@ function handleAddEngine(engineItem: TTEngine): void {
 /**
  * Update Engine
  */
-function handleEditEngine(engineItem: TTEngine): void {
-  store.UpdateEngine(engineItem).then((msgList) => {
-    msgList.forEach((msgItem: TTMsgItem) => {
-      message[msgItem.type](msgItem.content)
-    })
-  })
+function handleEditEngine(engine: TTEngine): void {
+  store.UpdateEngine(engine)
   emit('update:showModal', false)
 }
 
@@ -188,6 +184,10 @@ function handleCancelModal() {
 function handleCloseModal() {
   emit('update:showModal', false)
 }
+
+function handleColorPickerConfirm(value: string) {
+  formData.value.color = value
+}
 </script>
 
 <template>
@@ -214,7 +214,6 @@ function handleCloseModal() {
       <a-form-item :label="t('editEngineSetting.nameInputLabel')" field="name">
         <a-input v-model="formData.name" :placeholder="`${t('editEngineSetting.example')}：Baidu`" />
       </a-form-item>
-
       <a-form-item :label="t('editEngineSetting.urlInputLabel')" field="baseUrl">
         <a-input
           v-model="formData.baseUrl"
@@ -252,13 +251,13 @@ function handleCloseModal() {
             </template>
           </a-popover>
         </template>
-        <n-dynamic-tags v-model="formData.suffix" />
+        <n-dynamic-tags v-model:value="formData.suffix" />
       </a-form-item>
       <a-form-item :label="t('switch.defaultTheme')" field="isDefault">
         <a-switch v-model="formData.isDefault" />
-      </a-form-item>x
+      </a-form-item>
       <a-form-item :label="t('colorPicker.engineColorLabel')" field="color">
-        <NColorPicker :default-value="formData.color" :modes="['hex']" @confirm="(value) => formData.color = value" />
+        <NColorPicker v-model:value="formData.color" :modes="['hex']" @confirm="handleColorPickerConfirm" />
       </a-form-item>
     </a-form>
   </a-modal>

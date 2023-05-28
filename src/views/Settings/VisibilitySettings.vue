@@ -28,19 +28,19 @@ function handleChangeItemVisible(item: TTVisibleElements): void {
     <a-list bordered>
       <a-list-item>
         <div class="flex justify-between">
-          <div>{{ t('visibilitySetting.homeEngines') }}</div>
+          <div>{{ t('visibilitySetting.homeSettingButton') }}</div>
           <ASwitch
-            v-model="homeEngineSwitchDefaultValue"
-            @update:model-value="handleChangeItemVisible('homeEngines')"
+            v-model="homeSettingButtonSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('homeSettingButton')"
           />
         </div>
       </a-list-item>
       <a-list-item>
         <div class="flex justify-between">
-          <div>{{ t('visibilitySetting.homeSettingButton') }}</div>
+          <div>{{ t('visibilitySetting.homeEngines') }}</div>
           <ASwitch
-            v-model="homeSettingButtonSwitchDefaultValue"
-            @update:model-value="handleChangeItemVisible('homeSettingButton')"
+            v-model="homeEngineSwitchDefaultValue"
+            @update:model-value="handleChangeItemVisible('homeEngines')"
           />
         </div>
       </a-list-item>
