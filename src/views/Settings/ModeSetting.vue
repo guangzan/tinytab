@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import ColorPicker from '../../components/ColorPicker.vue'
 import { useSettingsStore } from '@/store/settings.store'
-import type { Theme } from '@/types'
+import type { TTMode } from '@/types'
 
 interface ColorItem {
   value: string
@@ -14,8 +14,7 @@ interface ColorItem {
 
 const { t } = useI18n()
 const store = useSettingsStore()
-
-const disableThemeSwitch = ref(store.settings.followSystemTheme)
+const disableThemeSwitch = ref(store.settings.theme.followSystem)
 const themeSwitchDefaultValue = ref(false)
 const followSystemThemeSwitchDefaultValue = ref(false)
 
@@ -45,7 +44,7 @@ const color: ColorItem[] = [
 /**
  * Update the state of the mode switch button
  */
-function updateThemeSwitchDefaultValue(v: Theme) {
+function updateThemeSwitchDefaultValue(v: TTMode) {
   themeSwitchDefaultValue.value = v === 'dark'
 }
 
@@ -57,19 +56,19 @@ function updateFollowSystemThemeSwitchDefaultValue(v: boolean) {
 }
 
 watch(
-  () => store.settings.theme,
+  () => store.settings.theme.mode,
   v => updateThemeSwitchDefaultValue(v),
 )
 
 watch(
-  () => store.settings.followSystemTheme,
+  () => store.settings.theme.followSystem,
   v => updateFollowSystemThemeSwitchDefaultValue(v),
 )
 
 onMounted(() => {
-  updateThemeSwitchDefaultValue(store.settings.theme)
+  updateThemeSwitchDefaultValue(store.settings.theme.mode)
   updateFollowSystemThemeSwitchDefaultValue(
-    store.settings.followSystemTheme,
+    store.settings.theme.followSystem,
   )
 })
 
@@ -78,14 +77,14 @@ onMounted(() => {
  */
 function handleChangeColor(data: any) {
   const { value } = data
-  store.UpdatePrimaryColor(value)
+  store.UpdateTheme('primaryColor', value)
 }
 
 /**
  * Update mode
  */
 function handleChangeTheme(value: boolean) {
-  store.UpdateTheme(value ? 'dark' : 'light')
+  store.UpdateTheme('mode', value ? 'dark' : 'light')
 }
 
 /**
@@ -93,7 +92,7 @@ function handleChangeTheme(value: boolean) {
  */
 function handleChangeFollowSystemTheme(value: boolean) {
   disableThemeSwitch.value = value
-  store.UpdateFollowSystemTheme(value)
+  store.UpdateTheme('followSystem', value)
 }
 </script>
 
@@ -104,8 +103,8 @@ function handleChangeFollowSystemTheme(value: boolean) {
         <ColorPaletteOutline />
       </NIcon>
     </template>
-    <n-list bordered>
-      <n-list-item>
+    <a-list bordered>
+      <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('modeSetting.dark') }}</div>
           <n-switch
@@ -114,8 +113,8 @@ function handleChangeFollowSystemTheme(value: boolean) {
             @update:value="handleChangeTheme"
           />
         </div>
-      </n-list-item>
-      <n-list-item>
+      </a-list-item>
+      <a-list-item>
         <div class="flex justify-between">
           <div>{{ t('modeSetting.follow') }}</div>
           <n-switch
@@ -123,8 +122,8 @@ function handleChangeFollowSystemTheme(value: boolean) {
             @update:value="handleChangeFollowSystemTheme"
           />
         </div>
-      </n-list-item>
-      <n-list-item>
+      </a-list-item>
+      <a-list-item>
         <div class="flex justify-between items-center">
           <div>{{ t('modeSetting.color') }}</div>
           <ColorPicker
@@ -133,7 +132,7 @@ function handleChangeFollowSystemTheme(value: boolean) {
             @change-color="handleChangeColor"
           />
         </div>
-      </n-list-item>
-    </n-list>
+      </a-list-item>
+    </a-list>
   </Pannel>
 </template>

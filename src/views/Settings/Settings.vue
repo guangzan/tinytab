@@ -68,18 +68,26 @@ onMounted(() => {
     </div>
   </div>
 
-  <a-drawer class="<md:!w-full" :visible="drawerVisible" :width="400" :footer="false">
+  <a-drawer id="settings-drawer" class="<md:!w-full" :visible="drawerVisible" :width="400" :footer="false" @cancel="drawerVisible = false">
     <template #title>
       <div class="flex items-center">
         <span>{{ t('title.settings') }}</span>
       </div>
     </template>
-    <EnginesEditor />
-    <EnginesSort />
-    <ModeSetting />
-    <BackgroundSetting />
-    <TargetSetting />
-    <VisibilitySettings />
-    <SettingsActions />
+    <div class="flex flex-col py-4">
+      <EnginesEditor />
+      <EnginesSort />
+      <ModeSetting />
+      <BackgroundSetting />
+      <TargetSetting />
+      <VisibilitySettings />
+      <SettingsActions />
+    </div>
   </a-drawer>
 </template>
+
+<style>
+#settings-drawer .arco-drawer-body {
+  padding: 0;
+}
+</style>

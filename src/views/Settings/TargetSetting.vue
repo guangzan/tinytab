@@ -3,28 +3,28 @@ import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { LinkOutline } from '@vicons/ionicons5'
 import { useSettingsStore } from '@/store/settings.store'
-import type { Target } from '@/types'
+import type { TTTarget } from '@/types'
 
 const { t } = useI18n()
 const store = useSettingsStore()
 
 const target = ref('_self')
 
-function updateTarget(v: Target) {
+function updateTarget(v: TTTarget) {
   target.value = v
 }
 
 watch(
-  () => store.settings.target,
+  () => store.settings.search.target,
   v => updateTarget(v),
 )
 
 onMounted(() => {
-  updateTarget(store.settings.target)
+  updateTarget(store.settings.search.target)
 })
 
 type TargetList = Array<{
-  value: Target
+  value: TTTarget
   label: string
 }>
 
@@ -39,8 +39,8 @@ const targetList = ref<TargetList>([
   },
 ])
 
-function handleUpdateTarget(v: Target) {
-  store.UpdateTarget(v)
+function handleUpdateTarget(v: TTTarget) {
+  store.UpdateSearch('target', v)
 }
 </script>
 

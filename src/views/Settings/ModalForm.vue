@@ -5,7 +5,7 @@ import * as _ from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 import type { FieldRule } from '@arco-design/web-vue'
 import { useSettingsStore } from '@/store/settings.store'
-import type { EngineItem, IMsgItem } from '@/types'
+import type { TTEngine, TTMsgItem } from '@/types'
 
 const props = defineProps<{
   engineId: number
@@ -21,7 +21,7 @@ const { t } = useI18n()
 const store = useSettingsStore()
 const message = useMessage()
 const formRef = ref()
-const formData = ref<EngineItem>()
+const formData = ref<TTEngine>()
 
 const rules: Record<string, FieldRule[]> = ref({
   name: [
@@ -115,11 +115,11 @@ watch(
  */
 function validatePrefix(rule, value: string) {
   const prefix = value.trim()
-  const enginesData = store.settings.enginesData
+  const enginesData = store.settings.engines
 
   if (
     enginesData.find(
-      (engine: EngineItem) => engine.prefix === prefix && engine.id !== formData.value?.id,
+      (engine: TTEngine) => engine.prefix === prefix && engine.id !== formData.value?.id,
     )
   )
     return false
@@ -130,7 +130,7 @@ function validatePrefix(rule, value: string) {
 /**
  * Add engine
  */
-function handleAddEngine(engineItem: EngineItem): void {
+function handleAddEngine(engineItem: TTEngine): void {
   engineItem.id = new Date().getTime()
   store.CreateEngine(engineItem)
   message.success(t('message.addSuccess'))
@@ -140,9 +140,9 @@ function handleAddEngine(engineItem: EngineItem): void {
 /**
  * Update Engine
  */
-function handleEditEngine(engineItem: EngineItem): void {
+function handleEditEngine(engineItem: TTEngine): void {
   store.UpdateEngine(engineItem).then((msgList) => {
-    msgList.forEach((msgItem: IMsgItem) => {
+    msgList.forEach((msgItem: TTMsgItem) => {
       message[msgItem.type](msgItem.content)
     })
   })
@@ -186,6 +186,7 @@ function handleCloseModal() {
     :visible="showModal"
     :title="operateType === 'add' ? t('title.add') : t('title.edit')"
     :rules="rules"
+    draggable
     display-directive="show"
     @ok="handleSubmitModal"
     @cancel="handleCancelModal"

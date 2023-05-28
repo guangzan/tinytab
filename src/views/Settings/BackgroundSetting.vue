@@ -63,7 +63,7 @@ async function handleBeforeUpload({ file, fileList }) {
 async function handleUploaderChange({ file, fileList }) {
   const base64 = (await getBase64(file.file)) as string
   updatePreviewImage(base64)
-  store.UpdateHomeBackground(base64)
+  store.UpdateHomeBackground('src', base64)
   message.success(t('message.updateSuccess'))
 
   // fileList.forEach(async (file: any) => {
@@ -77,7 +77,7 @@ async function handleUploaderChange({ file, fileList }) {
  */
 function handleClearHomeBackground() {
   updatePreviewImage('')
-  store.UpdateHomeBackground('')
+  store.UpdateHomeBackground('src', '')
   message.success(t('message.clear'))
 }
 
@@ -89,7 +89,7 @@ function updatePreviewImage(v: string): void {
 }
 
 watch(
-  () => store.settings.homeBackground,
+  () => store.settings.homeBackground.src,
   v => updatePreviewImage(v || ''),
 )
 
@@ -101,7 +101,7 @@ function updateHomeBackgroundBlur(v: number) {
 }
 
 function handleUpdateHomeBackgroundBlur(v: number) {
-  store.UpdateHomeBackgroundBlur(v)
+  store.UpdateHomeBackground('blur', v)
 }
 
 function handleDecreaseHomeBackgroundBlur() {
@@ -129,7 +129,7 @@ function updateHomeBackgroundMask(v: number) {
 }
 
 function handleUpdateHomeBackgroundMask(v: number) {
-  store.UpdateHomeBackgroundMask(v)
+  store.UpdateHomeBackground('mask', v)
 }
 
 function handleDecreaseHomeBackgroundMask() {
@@ -150,9 +150,9 @@ watch(
 )
 
 onMounted(() => {
-  updatePreviewImage(store.settings.homeBackground)
-  updateHomeBackgroundBlur(store.settings.homeBackgroundBlur)
-  updateHomeBackgroundMask(store.settings.homeBackgroundMask)
+  updatePreviewImage(store.settings.homeBackground.src)
+  updateHomeBackgroundBlur(store.settings.homeBackground.blur)
+  updateHomeBackgroundMask(store.settings.homeBackground.mask)
 })
 </script>
 
@@ -161,22 +161,14 @@ onMounted(() => {
     <template #icon>
       <icon-image />
     </template>
-    <n-list class="my-0 min-w-full">
-      <n-list-item v-if="previewImage" class="group relative !border-0">
-        <img width="335.2" height="160" class="rounded" :src="previewImage">
+    <a-list class="my-0 min-w-full">
+      <a-list-item v-if="previewImage" class="group relative !border-0">
+        <img height="160" class="w-full rounded" :src="previewImage">
         <n-button
           round
           size="small"
           type="primary"
-          class="
-                        !absolute
-                        top-6
-                        right-4
-                        cursor-pointer
-                        opacity-0
-                        group-hover:opacity-80
-                        transition-opacity
-                    "
+          class="!absolute top-6 right-4 cursor-pointer opacity-0 group-hover:opacity-80 transition-opacity"
         >
           <template #icon>
             <NIcon class="text-white" @click="handleClearHomeBackground">
@@ -184,10 +176,10 @@ onMounted(() => {
             </NIcon>
           </template>
         </n-button>
-      </n-list-item>
-      <n-list-item class="!border-0">
+      </a-list-item>
+      <a-list-item class="!border-0">
         <n-upload
-          class="setting-upload-button flex"
+          class="setting-upload-button flex w-full"
           multiple
           :default-upload="false"
           :file-list-style="{ display: 'none' }"
@@ -200,8 +192,8 @@ onMounted(() => {
             }}
           </n-button>
         </n-upload>
-      </n-list-item>
-      <n-list-item>
+      </a-list-item>
+      <a-list-item>
         <div class="flex flex-col">
           <div class="text-gray-500 text-xs">
             <span>{{ t('backgroundSetting.blur') }}：</span>
@@ -262,8 +254,8 @@ onMounted(() => {
             </div>
           </div>
         </div>
-      </n-list-item>
-    </n-list>
+      </a-list-item>
+    </a-list>
   </Pannel>
 </template>
 

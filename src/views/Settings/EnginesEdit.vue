@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { NSpace, useMessage } from 'naive-ui'
 import { Add, CloseSharp as Close, TrashBinOutline as Trash } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import ModalForm from './ModalForm.vue'
-import type { EngineItem } from '@/types'
+import type { TTEngine } from '@/types'
 import { useSettingsStore } from '@/store/settings.store'
 
 const { t } = useI18n()
 const store = useSettingsStore()
 const message = useMessage()
 const showModal = ref(false)
-const enginesData = computed(() => store.settings.enginesData)
 const operateType = ref<'add' | 'edit'>('add')
 const engineId = ref(0)
 
@@ -37,7 +36,7 @@ function handleEditEngine(id: number): void {
 /**
  * Click x to delete the engine
  */
-function handleRemoveEngine(item: EngineItem): void {
+function handleRemoveEngine(item: TTEngine): void {
   const { id, isDefault } = item
   if (isDefault) {
     message.error(t('message.noDelDefaultEngine'))
@@ -56,7 +55,7 @@ function handleRemoveEngine(item: EngineItem): void {
     </template>
     <NSpace>
       <n-button
-        v-for="item in enginesData"
+        v-for="item in store.settings.engines"
         :key="item.id"
         size="small"
         ghost

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useSettingsStore } from '@/store/settings.store'
 
 defineOptions({
@@ -15,58 +15,36 @@ const wallpaperMask = ref('rgba(0, 0, 0, 0)')
  * Manual update to optimize performance, style CSS variable injection only automatically inserts custom properties into the component root node
  * prevent when updating a property will refresh all variables in tyle
  */
-function updateHomeBackground(v: string) {
-  const image = document.querySelector('.wallpaper-image') as HTMLDivElement
-  image.style.backgroundImage = `url(${v})`
-}
-
 watch(
-  () => store.settings.homeBackground,
-  v => updateHomeBackground(v),
+  () => store.settings.homeBackground.src,
+  (v) => {
+    const image = document.querySelector('.wallpaper-image') as HTMLDivElement
+    image.style.backgroundImage = `url(${v})`
+  },
 )
 
 /**
  * Update the blurriness of the background image of the home page
  */
-function updateHomeBackgroundBlur(v: number) {
-  wallpaperBlur.value = `${v}px`
-}
-
 watch(
-  () => store.settings.homeBackgroundBlur,
-  v => updateHomeBackgroundBlur(v),
+  () => store.settings.homeBackground.blur,
+  v => wallpaperBlur.value = `${v}px`,
 )
 
 /**
  * Update home page background mask concentration
  */
-function updateHomeBackgroundMask(v: number) {
-  wallpaperMask.value = `rgba(0, 0, 0, ${v})`
-}
-
 watch(
-  () => store.settings.homeBackgroundMask,
-  v => updateHomeBackgroundMask(v),
+  () => store.settings.homeBackground.mask,
+  v => wallpaperMask.value = `rgba(0, 0, 0, ${v})`,
 )
-
-onMounted(() => {
-  updateHomeBackground(store.settings.homeBackground)
-  updateHomeBackgroundBlur(store.settings.homeBackgroundBlur)
-  updateHomeBackgroundMask(store.settings.homeBackgroundMask)
-})
 </script>
 
 <template>
   <div class="wallpaper absolute">
     <div class="absolute w-full h-full wallpaper-mask" />
     <div
-      class="
-                wallpaper-image
-                w-full
-                h-full
-                bg-cover bg-no-repeat bg-center bg-white
-                dark:bg-dark-600
-            "
+      class="wallpaper-image w-full h-full bg-cover bg-no-repeat bg-center bg-white dark:bg-dark-600"
     />
   </div>
 </template>

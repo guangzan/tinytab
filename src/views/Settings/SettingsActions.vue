@@ -10,7 +10,7 @@ import {
 } from '@vicons/ionicons5'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
-import type { TinyTabSettings } from '@/types'
+import type { TTSettings } from '@/types'
 import { useSettingsStore } from '@/store/settings.store'
 
 const { t } = useI18n()
@@ -62,7 +62,7 @@ function generateSettings(e: Event) {
     readAsText(fileMetaData)
       .then((res) => {
         try {
-          const data = JSON.parse(res) as TinyTabSettings
+          const data = JSON.parse(res) as TTSettings
           settingsStore.UpdateSettings(data)
           notification.success({
             content: t('message.importSuccess'),

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { useSettingsStore } from '@/store/settings.store'
 
 const emit = defineEmits<{
@@ -11,7 +10,6 @@ defineOptions({
 })
 
 const store = useSettingsStore()
-const enginesData = computed(() => store.settings.enginesData)
 
 function handleChooseSearchEngine(id: number): void {
   emit('changeEngine', id)
@@ -22,7 +20,7 @@ function handleChooseSearchEngine(id: number): void {
   <div>
     <n-space>
       <n-button
-        v-for="(item, index) in enginesData"
+        v-for="(item, index) in store.settings.engines"
         :key="index"
         :color="item.color"
         ghost

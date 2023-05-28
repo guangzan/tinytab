@@ -11,10 +11,10 @@ const drag = ref(false)
 
 const engineList = computed({
   get() {
-    return store.settings.enginesData
+    return store.settings.engines
   },
   set(value) {
-    store.UpdateEnginesData(value)
+    store.UpdateEngines(value)
   },
 })
 

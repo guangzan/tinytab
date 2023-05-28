@@ -1,4 +1,4 @@
-import type { EngineItem, VisibleList } from '@/types'
+import type * as TT from '@/types'
 
 /**
  * sleep
@@ -31,17 +31,16 @@ export function hexToRgba(hex: string, opacity: number): string {
 /**
  * 判断一个属性及其值是否存在引擎列表中
  */
-export function isEngineAttrValue(attr: keyof EngineItem, value: any): boolean {
+export function isEngineAttrValue(attr: keyof TT.TTEngine, value: any): boolean {
   const enginesData = JSON.parse(localStorage.enginesData)
-  const arr = enginesData.filter((engine: EngineItem) => engine[attr] === value)
-  const res = !!arr.length
-  return res
+  const arr = enginesData.filter((engine: Engine) => engine[attr] === value)
+  return !!arr.length
 }
 
 /**
  * 删除数组中指定元素
  */
-export function removeArrItem(arr: VisibleList, item: VisibleList[number]): VisibleList {
+export function removeArrItem(arr: TT.TTVisibleElements[], item: TT.TTVisibleElements[][number]): TT.TTVisibleElements[] {
   const index = arr.indexOf(item)
   if (index > -1)
     arr.splice(index, 1)
@@ -83,4 +82,14 @@ export function lightenDarkenColor(col: string, amt: number) {
     g = 0
 
   return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16)
+}
+
+export function getStringBetween(str: string, start: string, end: string) {
+  const startIndex = str.indexOf(start) + start.length
+  const endIndex = str.indexOf(end)
+  return str.substring(startIndex, endIndex)
+}
+
+export function updateObject<T extends object, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+  obj[key] = value
 }

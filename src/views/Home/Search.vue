@@ -7,7 +7,7 @@ import {
 import { hexToRgba } from '../../utils/tools'
 import Engines from './Engines.vue'
 import { useSettingsStore } from '@/store/settings.store'
-import type { EngineItem, Target } from '@/types'
+import type { TTEngine, TTTarget } from '@/types'
 import { isEngineAttrValue } from '@/utils/tools'
 
 defineOptions({
@@ -16,29 +16,28 @@ defineOptions({
 
 const store = useSettingsStore()
 
-const currentEngine = ref<EngineItem>(store.defaultEngineData)
+const currentEngine = ref<TTEngine>(store.defaultEngine)
 const searchValue = ref('')
 const suffix = ref<any>([])
 const hasHomeBackground = ref()
 const target = ref()
-
 const showHomeEngines = computed(() => store.settings.visibleList.includes('homeEngines'))
 
 function updateHasHomeBackground(v: boolean): void {
   hasHomeBackground.value = v
 }
 
-function updateTarget(v: Target) {
+function updateTarget(v: TTTarget) {
   target.value = v
 }
 
 watch(
-  () => store.settings.target,
+  () => store.settings.search.target,
   v => updateTarget(v),
 )
 
 watch(
-  () => store.settings.homeBackground,
+  () => store.settings.homeBackground.src,
   v => updateHasHomeBackground(v !== ''),
 )
 
@@ -49,8 +48,8 @@ onMounted(() => {
   }, 300)
 
   suffix.value = currentEngine.value.suffix
-  updateHasHomeBackground(store.settings.homeBackground !== '')
-  updateTarget(store.settings.target)
+  updateHasHomeBackground(store.settings.homeBackground.src !== '')
+  updateTarget(store.settings.search.target)
 })
 
 watch(currentEngine, () => {
@@ -71,7 +70,6 @@ function handleSetInputStyle() {
 function handleClearInputStyle() {
   const searchInput = document.querySelector('.search-component') as HTMLInputElement
   const searchIcon = document.querySelector('.icon-search') as HTMLElement
-
   searchInput.style.borderColor = ''
   searchInput.style.boxShadow = ''
   searchIcon.style.color = 'gray'

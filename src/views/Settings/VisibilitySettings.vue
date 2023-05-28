@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Pannel from '../../components/Pannel.vue'
 import { useSettingsStore } from '@/store/settings.store'
-import type { VisibleList } from '@/types'
+import type { TTVisibleElements } from '@/types'
 
 const { t } = useI18n()
 const store = useSettingsStore()
@@ -11,11 +11,11 @@ const homeEngineSwitchDefaultValue = ref(false)
 const homeSettingButtonSwitchDefaultValue = ref(false)
 const homeLangButtonSwitchDefaultValue = ref(false)
 
-function handleChangeItemVisible(item: string): void {
+function handleChangeItemVisible(item: TTVisibleElements): void {
   store.ToggleVisible(item)
 }
 
-function changeVisibility(v: VisibleList) {
+function changeVisibility(v: TTVisibleElements[]) {
   homeEngineSwitchDefaultValue.value = v.includes('homeEngines')
   homeSettingButtonSwitchDefaultValue.value = v.includes('homeSettingButton')
   homeLangButtonSwitchDefaultValue.value = v.includes('homeLangButton')
