@@ -1,5 +1,4 @@
 import type * as TT from '@/types'
-import { useSettingsStore} from '@/store/settings.store'
 
 /**
  * sleep
@@ -20,9 +19,9 @@ export function hexToRgba(hex: string, opacity: number): string {
   const hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
   if (!hexReg.test(hex))
     return hex
-  const red = parseInt(`0x${hex.slice(1, 3)}`)
-  const green = parseInt(`0x${hex.slice(3, 5)}`)
-  const blue = parseInt(`0x${hex.slice(5, 7)}`)
+  const red = Number.parseInt(`0x${hex.slice(1, 3)}`)
+  const green = Number.parseInt(`0x${hex.slice(3, 5)}`)
+  const blue = Number.parseInt(`0x${hex.slice(5, 7)}`)
   const rgb = `rgb(${red},${green},${blue})`
   if (!opacity)
     return rgb
@@ -51,7 +50,7 @@ export function lightenDarkenColor(col: string, amt: number) {
     usePound = true
   }
 
-  const num = parseInt(col, 16)
+  const num = Number.parseInt(col, 16)
   let r = (num >> 16) + amt
 
   if (r > 255)
